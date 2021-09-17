@@ -356,18 +356,6 @@ public class PlayerScript : MonoBehaviour
                 {
                     Debug.Log("Facing the object");
                 }
-
-                /*ICrateBase Crate = (ICrateBase)hitCollider.gameObject.GetComponent(typeof(ICrateBase));
-                if (Crate != null)
-                {
-                    Crate.Break((int)ReturnDirection(gameObject, hitCollider.gameObject), this);
-                }
-                IInteractable Item = (IInteractable)hitCollider.gameObject.GetComponent(typeof(IInteractable));
-                if (Item != null)
-                {
-                    Item.Interacting((int)ReturnDirection(gameObject, hitCollider.gameObject), this);
-                }
-                */
             }
         }
     }
@@ -507,18 +495,11 @@ public class PlayerScript : MonoBehaviour
     //Hit detection method when colliding with an Interface type
     private void OnControllerColliderHit(ControllerColliderHit collision)
     {
-        /*
-        ICrateBase crate = (ICrateBase)collision.gameObject.GetComponent(typeof(ICrateBase));
-        if (crate != null)
+        ICollectable Collectable = (ICollectable)collision.gameObject.GetComponent(typeof(ICollectable));
+        if (Collectable != null)
         {
-            crate.Break((int)ReturnDirection(gameObject, collision.gameObject), this);
+            Collectable.Collect();
         }
-        IInteractable Item = (IInteractable)collision.gameObject.GetComponent(typeof(IInteractable));
-        if (Item != null)
-        {
-            Item.Interacting((int)ReturnDirection(gameObject, collision.gameObject), this);
-        }
-        */
     }
 
     //Converts type of interaction into an integer depending on enum value
