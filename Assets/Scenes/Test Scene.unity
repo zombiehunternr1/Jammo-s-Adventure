@@ -878,6 +878,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1928619506}
+  - component: {fileID: 1928619507}
   m_Layer: 5
   m_Name: Life Holder
   m_TagString: Untagged
@@ -906,6 +907,22 @@ RectTransform:
   m_AnchoredPosition: {x: -50, y: -100}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!111 &1928619507
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928619505}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 86aa92970dadb724785bd6bb5c6de5f5, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 86aa92970dadb724785bd6bb5c6de5f5, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &2093332644
 GameObject:
   m_ObjectHideFlags: 0
