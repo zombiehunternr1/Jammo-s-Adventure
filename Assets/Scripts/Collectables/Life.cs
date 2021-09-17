@@ -4,14 +4,35 @@ using UnityEngine;
 
 public class Life : MonoBehaviour, ICollectable
 {
+    public Transform LifeUI;
+    float Speed = 2;
+    float DistanceToTarget;
+
     public void Collect()
     {
-        EventManager.CollectLife();
+        gameObject.GetComponent<Animator>().SetTrigger("Disable");
+        EventManager.CollectLifeDisplay();
         DestroyObject();
     }
 
     public void DestroyObject()
     {
-        Destroy(gameObject);
+        StartCoroutine(MoveToUI());
+    }
+
+    IEnumerator MoveToUI()
+    {
+        while(transform.position != LifeUI.transform.position)
+        {
+            transform.position = Vector3.Lerp(transform.position, LifeUI.position, Speed * Time.deltaTime);
+            DistanceToTarget = Vector3.Distance(LifeUI.position, transform.position);
+            if (DistanceToTarget < 0.5)
+            {
+                EventManager.CollectLifeUpdate();
+                Destroy(gameObject);
+            }
+            yield return transform.position;
+        }
+        yield return null;
     }
 }

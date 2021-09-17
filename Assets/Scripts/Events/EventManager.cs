@@ -4,15 +4,27 @@ using UnityEngine;
 
 public class EventManager : MonoBehaviour
 {
-    public delegate void CollectedLife();
-    public static event CollectedLife OnCollectedLife;
+    public delegate void CollectedLifeDisplay();
+    public static event CollectedLifeDisplay OnCollectedLifeDisplay;
 
-    public delegate void CollectedBolt();
-    public static event CollectedBolt OnCollectedBolt;
+    public delegate void CollectedBoltDisplay();
+    public static event CollectedBoltDisplay OnCollectedBoltDisplay;
 
-    public static void CollectLife()
-    { if(OnCollectedLife != null){ OnCollectedLife(); } }
+    public delegate void CollectedLifeUpdate();
+    public static event CollectedLifeUpdate OnCollectedLifeUpdate;
 
-    public static void CollectBolt()
-    { if (OnCollectedBolt != null) { OnCollectedBolt(); } }
+    public delegate void CollectedBoltUpdate();
+    public static event CollectedBoltUpdate OnCollectedBoltUpdate;
+
+    public static void CollectLifeDisplay()
+    { if(OnCollectedLifeDisplay != null){ OnCollectedLifeDisplay(); } }
+
+    public static void CollectBoltDisplay()
+    { if (OnCollectedBoltDisplay != null) { OnCollectedBoltDisplay(); } }
+
+    public static void CollectLifeUpdate()
+    { if (OnCollectedLifeUpdate != null) { OnCollectedLifeUpdate(); } }
+
+    public static void CollectBoltUpdate()
+    { if (OnCollectedBoltUpdate != null) { OnCollectedBoltUpdate(); } }
 }

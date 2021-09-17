@@ -22,27 +22,53 @@ public class EventListener : MonoBehaviour
 
     void SubscribeEvents()
     {
-        EventManager.OnCollectedLife += HandleCollectedLife;
-        EventManager.OnCollectedBolt += HandleCollectedBolt;
+        EventManager.OnCollectedLifeDisplay += HandleCollectedLifeDisplay;
+        EventManager.OnCollectedLifeDisplay += HandleCollectedBoltDisplay;
+        EventManager.OnCollectedLifeUpdate += HandleCollectedLifeUpdate;
+        EventManager.OnCollectedBoltUpdate += HandleCollectedBoltUpdate;
     }
 
     void UnSubscribeEvents()
     {
-        EventManager.OnCollectedLife -= HandleCollectedLife;
-        EventManager.OnCollectedBolt -= HandleCollectedBolt;
+        EventManager.OnCollectedLifeDisplay -= HandleCollectedLifeDisplay;
+        EventManager.OnCollectedLifeDisplay -= HandleCollectedBoltDisplay;
+        EventManager.OnCollectedLifeUpdate -= HandleCollectedLifeUpdate;
+        EventManager.OnCollectedBoltUpdate -= HandleCollectedBoltUpdate;
     }
 
-    private void HandleCollectedLife()
+    private void HandleCollectedLifeDisplay()
+    {
+        HUD.SetTrigger("IsDisplayingLifeHUD");
+        StartCoroutine(DisableLifeTrigger());
+    }
+
+    private void HandleCollectedBoltDisplay()
+    {
+        HUD.SetTrigger("IsDisplayingBoltHUD");
+        StartCoroutine(DisableBoltTrigger());
+    }
+
+    private void HandleCollectedLifeUpdate()
     {
         PlayerInfo.Lives++;
         LifeText.text = PlayerInfo.Lives.ToString();
-        HUD.SetTrigger("IsDisplayingLifeHUD");
     }
 
-    private void HandleCollectedBolt()
+    private void HandleCollectedBoltUpdate()
     {
         PlayerInfo.Bolts++;
         BoltText.text = PlayerInfo.Bolts.ToString();
-        HUD.SetTrigger("IsDisplayingBoltHUD");
+    }
+
+    private IEnumerator DisableLifeTrigger()
+    {
+        yield return new WaitForSeconds(1);
+        HUD.ResetTrigger("IsDisplayingLifeHUD");
+    }
+
+    private IEnumerator DisableBoltTrigger()
+    {
+        yield return new WaitForSeconds(1);
+        HUD.ResetTrigger("IsDisplayingBoltHUD");
     }
 }
