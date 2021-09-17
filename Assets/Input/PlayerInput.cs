@@ -51,25 +51,17 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""DeathTest"",
-                    ""type"": ""Button"",
-                    ""id"": ""a2a95a35-f026-483d-bfaf-9b2e567cc27b"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""VictoryTest"",
-                    ""type"": ""Button"",
-                    ""id"": ""2fc6d635-21c6-4a5b-8dcf-df2c95da34f8"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
                     ""name"": ""SpecialAttack"",
                     ""type"": ""Button"",
                     ""id"": ""f39241c5-a9fa-4ada-9cae-a4bdd4e9976f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""HUD"",
+                    ""type"": ""Button"",
+                    ""id"": ""87c833d2-d447-400d-96bd-de50111ae66c"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -210,28 +202,6 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""08946db4-b7db-4e68-ac6b-563c46276ed4"",
-                    ""path"": ""<Keyboard>/b"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""DeathTest"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""572cf0e8-1605-473e-a2f8-b5ca716ba91d"",
-                    ""path"": ""<Keyboard>/v"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""VictoryTest"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""c9218d14-d0d5-4645-a8e9-3e5b9ef61686"",
                     ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
@@ -251,6 +221,28 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""action"": ""SpecialAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3a65e078-97c5-449f-85ef-6cf60dd4d56e"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""HUD"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0d507991-9078-4648-a6d4-02efd625b9dc"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""HUD"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -263,9 +255,8 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         m_CharacterControls_Run = m_CharacterControls.FindAction("Run", throwIfNotFound: true);
         m_CharacterControls_Jump = m_CharacterControls.FindAction("Jump", throwIfNotFound: true);
         m_CharacterControls_Attack = m_CharacterControls.FindAction("Attack", throwIfNotFound: true);
-        m_CharacterControls_DeathTest = m_CharacterControls.FindAction("DeathTest", throwIfNotFound: true);
-        m_CharacterControls_VictoryTest = m_CharacterControls.FindAction("VictoryTest", throwIfNotFound: true);
         m_CharacterControls_SpecialAttack = m_CharacterControls.FindAction("SpecialAttack", throwIfNotFound: true);
+        m_CharacterControls_HUD = m_CharacterControls.FindAction("HUD", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -319,9 +310,8 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     private readonly InputAction m_CharacterControls_Run;
     private readonly InputAction m_CharacterControls_Jump;
     private readonly InputAction m_CharacterControls_Attack;
-    private readonly InputAction m_CharacterControls_DeathTest;
-    private readonly InputAction m_CharacterControls_VictoryTest;
     private readonly InputAction m_CharacterControls_SpecialAttack;
+    private readonly InputAction m_CharacterControls_HUD;
     public struct CharacterControlsActions
     {
         private @PlayerInput m_Wrapper;
@@ -330,9 +320,8 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         public InputAction @Run => m_Wrapper.m_CharacterControls_Run;
         public InputAction @Jump => m_Wrapper.m_CharacterControls_Jump;
         public InputAction @Attack => m_Wrapper.m_CharacterControls_Attack;
-        public InputAction @DeathTest => m_Wrapper.m_CharacterControls_DeathTest;
-        public InputAction @VictoryTest => m_Wrapper.m_CharacterControls_VictoryTest;
         public InputAction @SpecialAttack => m_Wrapper.m_CharacterControls_SpecialAttack;
+        public InputAction @HUD => m_Wrapper.m_CharacterControls_HUD;
         public InputActionMap Get() { return m_Wrapper.m_CharacterControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -354,15 +343,12 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @Attack.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnAttack;
                 @Attack.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnAttack;
                 @Attack.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnAttack;
-                @DeathTest.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnDeathTest;
-                @DeathTest.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnDeathTest;
-                @DeathTest.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnDeathTest;
-                @VictoryTest.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnVictoryTest;
-                @VictoryTest.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnVictoryTest;
-                @VictoryTest.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnVictoryTest;
                 @SpecialAttack.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnSpecialAttack;
                 @SpecialAttack.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnSpecialAttack;
                 @SpecialAttack.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnSpecialAttack;
+                @HUD.started -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnHUD;
+                @HUD.performed -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnHUD;
+                @HUD.canceled -= m_Wrapper.m_CharacterControlsActionsCallbackInterface.OnHUD;
             }
             m_Wrapper.m_CharacterControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -379,15 +365,12 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @Attack.started += instance.OnAttack;
                 @Attack.performed += instance.OnAttack;
                 @Attack.canceled += instance.OnAttack;
-                @DeathTest.started += instance.OnDeathTest;
-                @DeathTest.performed += instance.OnDeathTest;
-                @DeathTest.canceled += instance.OnDeathTest;
-                @VictoryTest.started += instance.OnVictoryTest;
-                @VictoryTest.performed += instance.OnVictoryTest;
-                @VictoryTest.canceled += instance.OnVictoryTest;
                 @SpecialAttack.started += instance.OnSpecialAttack;
                 @SpecialAttack.performed += instance.OnSpecialAttack;
                 @SpecialAttack.canceled += instance.OnSpecialAttack;
+                @HUD.started += instance.OnHUD;
+                @HUD.performed += instance.OnHUD;
+                @HUD.canceled += instance.OnHUD;
             }
         }
     }
@@ -398,8 +381,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         void OnRun(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
-        void OnDeathTest(InputAction.CallbackContext context);
-        void OnVictoryTest(InputAction.CallbackContext context);
         void OnSpecialAttack(InputAction.CallbackContext context);
+        void OnHUD(InputAction.CallbackContext context);
     }
 }

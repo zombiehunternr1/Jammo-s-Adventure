@@ -3536,6 +3536,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AnimController: {fileID: 9100000, guid: a851d886aae1830478087cdd1d32d1c8, type: 2}
   GroundPoundDust: {fileID: 2400109675009593164, guid: d328ed9d41e081b4da83889c677c3fc4, type: 3}
+  HUDAnimator: {fileID: 0}
+  ResetTime: 5
+  CurrentTime: 0
   SlideMultiplier: 5
   GroundMask:
     serializedVersion: 2

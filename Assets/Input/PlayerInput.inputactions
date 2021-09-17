@@ -38,25 +38,17 @@
                     "interactions": ""
                 },
                 {
-                    "name": "DeathTest",
-                    "type": "Button",
-                    "id": "a2a95a35-f026-483d-bfaf-9b2e567cc27b",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "VictoryTest",
-                    "type": "Button",
-                    "id": "2fc6d635-21c6-4a5b-8dcf-df2c95da34f8",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
                     "name": "SpecialAttack",
                     "type": "Button",
                     "id": "f39241c5-a9fa-4ada-9cae-a4bdd4e9976f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "HUD",
+                    "type": "Button",
+                    "id": "87c833d2-d447-400d-96bd-de50111ae66c",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -197,28 +189,6 @@
                 },
                 {
                     "name": "",
-                    "id": "08946db4-b7db-4e68-ac6b-563c46276ed4",
-                    "path": "<Keyboard>/b",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "DeathTest",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "572cf0e8-1605-473e-a2f8-b5ca716ba91d",
-                    "path": "<Keyboard>/v",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "VictoryTest",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "c9218d14-d0d5-4645-a8e9-3e5b9ef61686",
                     "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
@@ -236,6 +206,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "SpecialAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3a65e078-97c5-449f-85ef-6cf60dd4d56e",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HUD",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0d507991-9078-4648-a6d4-02efd625b9dc",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HUD",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

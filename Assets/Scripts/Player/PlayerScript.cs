@@ -10,12 +10,13 @@ public class PlayerScript : MonoBehaviour
     //Player components
     public AnimatorController AnimController;
     public GameObject GroundPoundDust;
+    public Animator HUDAnimator;
     PlayerInput PlayerInput;
     CharacterController CharController;
-    Animator Animator;
+    Animator PlayerAnimator;
     BlendTree LongIdleTree;
 
-    //Animation values
+    //Player animation values
     int IsRunningHash;
     int IsJumpingHash;
     int IsBigJumpHash;
@@ -27,8 +28,12 @@ public class PlayerScript : MonoBehaviour
     int IsBodyslamHash;
     int IsSlideAttackHash;
     int IsRandomHookshotHash;
-    int PlayerDied;
-    int Victory;
+
+    //HUD values
+    bool IsDisplayingHUD;
+    bool IsDisplayHUDPerforming;
+    public float ResetTime;
+    public float CurrentTime;
 
     //General setup values
     int Zero = 0;
@@ -115,7 +120,7 @@ public class PlayerScript : MonoBehaviour
     {
         PlayerInput = new PlayerInput();
         CharController = GetComponent<CharacterController>();
-        Animator = GetComponent<Animator>();
+        PlayerAnimator = GetComponent<Animator>();
         CanMove = true;
     }
 
@@ -132,8 +137,6 @@ public class PlayerScript : MonoBehaviour
         IsBodyslamHash = Animator.StringToHash("IsBodyslam");
         IsSlideAttackHash = Animator.StringToHash("IsSlideAttack");
         IsRandomHookshotHash = Animator.StringToHash("RandomHookshot");
-        PlayerDied = Animator.StringToHash("IsDead");
-        Victory = Animator.StringToHash("IsVictory");
         GetIdleBlendTree();
     }
     private void GetIdleBlendTree()
@@ -159,10 +162,8 @@ public class PlayerScript : MonoBehaviour
         PlayerInput.CharacterControls.SpecialAttack.canceled += OnBodySlam;
         PlayerInput.CharacterControls.SpecialAttack.started += OnSlideAttack;
         PlayerInput.CharacterControls.SpecialAttack.canceled += OnSlideAttack;
-        PlayerInput.CharacterControls.DeathTest.started += OnDeathTest;
-        PlayerInput.CharacterControls.DeathTest.canceled += OnDeathTest;
-        PlayerInput.CharacterControls.VictoryTest.started += OnVictoryTest;
-        PlayerInput.CharacterControls.VictoryTest.canceled += OnVictoryTest;
+        PlayerInput.CharacterControls.HUD.started += OnHUDDisplay;
+        PlayerInput.CharacterControls.HUD.canceled += OnHUDDisplay;
     }
     
     private void JumpVariablesSetup()
@@ -208,18 +209,18 @@ public class PlayerScript : MonoBehaviour
     private void HandleAnimation()
     {
         CheckLongIdle();
-        bool IsRunning = Animator.GetBool(IsRunningHash);
+        bool IsRunning = PlayerAnimator.GetBool(IsRunningHash);
         CurrentPlayerSpeed = CharController.velocity.magnitude;
-        Animator.SetFloat(IsMovingHash, CurrentPlayerSpeed);
+        PlayerAnimator.SetFloat(IsMovingHash, CurrentPlayerSpeed);
         CheckPlayingAttackAnimationStates();
 
         if ((IsMovementPressed && IsRunPressed) && !IsRunning)
         {
-            Animator.SetBool(IsRunningHash, true);
+            PlayerAnimator.SetBool(IsRunningHash, true);
         }
         else if ((!IsMovementPressed || !IsRunPressed) && IsRunning)
         {
-            Animator.SetBool(IsRunningHash, false);
+            PlayerAnimator.SetBool(IsRunningHash, false);
         }
     }
 
@@ -235,24 +236,24 @@ public class PlayerScript : MonoBehaviour
                     IsDancing = true;
                     IdleTimer = Zero;
                     int RandomLongIdleChosen = UnityEngine.Random.Range(Zero, LongIdleTree.children.Length);
-                    Animator.SetFloat(RandomLongIdleHash, RandomLongIdleChosen);
-                    Animator.SetTrigger(IsLongIdleHash);
+                    PlayerAnimator.SetFloat(RandomLongIdleHash, RandomLongIdleChosen);
+                    PlayerAnimator.SetTrigger(IsLongIdleHash);
                 }
             }
-            else if (Animator.GetCurrentAnimatorStateInfo(Zero).normalizedTime > 1f)
+            else if (PlayerAnimator.GetCurrentAnimatorStateInfo(Zero).normalizedTime > 1f)
             {
                 IsDancing = false;
                 IdleTimer = Zero;
-                Animator.ResetTrigger(IsLongIdleHash);
-                Animator.SetTrigger(IsLongIdleHash);
+                PlayerAnimator.ResetTrigger(IsLongIdleHash);
+                PlayerAnimator.SetTrigger(IsLongIdleHash);
             }
         }
         else
         {
             if (IsDancing)
             {
-                Animator.ResetTrigger(IsLongIdleHash);
-                Animator.SetTrigger(IsLongIdleHash);
+                PlayerAnimator.ResetTrigger(IsLongIdleHash);
+                PlayerAnimator.SetTrigger(IsLongIdleHash);
                 IsDancing = false;
                 IdleTimer = Zero;
             }
@@ -262,31 +263,31 @@ public class PlayerScript : MonoBehaviour
 
     private void CheckPlayingAttackAnimationStates()
     {
-        if (Animator.GetCurrentAnimatorStateInfo(Zero).IsName("Small attack") && Animator.GetCurrentAnimatorStateInfo(Zero).normalizedTime > 1f)
+        if (PlayerAnimator.GetCurrentAnimatorStateInfo(Zero).IsName("Small attack") && PlayerAnimator.GetCurrentAnimatorStateInfo(Zero).normalizedTime > 1f)
         {
             IsAttacking = false;
-            Animator.SetBool(IsSmallAttackHash, IsAttacking);
+            PlayerAnimator.SetBool(IsSmallAttackHash, IsAttacking);
         }
-        else if (Animator.GetCurrentAnimatorStateInfo(1).IsName("Big attack Left") && Animator.GetCurrentAnimatorStateInfo(1).normalizedTime > 1f)
+        else if (PlayerAnimator.GetCurrentAnimatorStateInfo(1).IsName("Big attack Left") && PlayerAnimator.GetCurrentAnimatorStateInfo(1).normalizedTime > 1f)
         {
             IsAttacking = false;
-            Animator.SetBool(IsBigAttackHash, IsAttacking);
+            PlayerAnimator.SetBool(IsBigAttackHash, IsAttacking);
         }
-        else if (Animator.GetCurrentAnimatorStateInfo(1).IsName("Big attack Right") && Animator.GetCurrentAnimatorStateInfo(1).normalizedTime > 1f)
+        else if (PlayerAnimator.GetCurrentAnimatorStateInfo(1).IsName("Big attack Right") && PlayerAnimator.GetCurrentAnimatorStateInfo(1).normalizedTime > 1f)
         {
             IsAttacking = false;
-            Animator.SetBool(IsBigAttackHash, IsAttacking);
+            PlayerAnimator.SetBool(IsBigAttackHash, IsAttacking);
         }
-        else if (Animator.GetCurrentAnimatorStateInfo(Zero).IsName("Mid-air attack") && Animator.GetCurrentAnimatorStateInfo(Zero).normalizedTime > 1f)
+        else if (PlayerAnimator.GetCurrentAnimatorStateInfo(Zero).IsName("Mid-air attack") && PlayerAnimator.GetCurrentAnimatorStateInfo(Zero).normalizedTime > 1f)
         {
             IsAttacking = false;
-            Animator.SetBool(IsSmallAttackHash, IsAttacking);
-            Animator.SetBool(IsBigAttackHash, IsAttacking);
+            PlayerAnimator.SetBool(IsSmallAttackHash, IsAttacking);
+            PlayerAnimator.SetBool(IsBigAttackHash, IsAttacking);
         }
-        else if (Animator.GetCurrentAnimatorStateInfo(Zero).IsName("Slide attack") && Animator.GetCurrentAnimatorStateInfo(Zero).normalizedTime > 1f)
+        else if (PlayerAnimator.GetCurrentAnimatorStateInfo(Zero).IsName("Slide attack") && PlayerAnimator.GetCurrentAnimatorStateInfo(Zero).normalizedTime > 1f)
         {
             IsSlideAttackPerforming = false;
-            Animator.SetBool(IsSlideAttackHash, IsSlideAttackPerforming);
+            PlayerAnimator.SetBool(IsSlideAttackHash, IsSlideAttackPerforming);
         }
     }
 
@@ -317,7 +318,7 @@ public class PlayerScript : MonoBehaviour
                 {
                     IsBodyslamPerforming = IsBodyslam;
                     CanMove = false;
-                    Animator.SetBool(IsBodyslamHash, IsBodyslamPerforming);
+                    PlayerAnimator.SetBool(IsBodyslamHash, IsBodyslamPerforming);
                     CharController.Move(Vector3.up * BodySlamHeightMultiplier * Time.fixedDeltaTime);
                     LandingDelay = 0.7f;
                 }
@@ -325,18 +326,18 @@ public class PlayerScript : MonoBehaviour
         }
         if (transform.position == LastPosition && IsAttacking)
         {
-            Animator.SetBool(IsSmallAttackHash, IsAttacking);
+            PlayerAnimator.SetBool(IsSmallAttackHash, IsAttacking);
         }
         else if (transform.position != LastPosition && IsAttacking)
         {
-            Animator.SetLayerWeight(1, 1);
-            Animator.SetInteger(IsRandomHookshotHash, UnityEngine.Random.Range(Zero, 100));
-            Animator.SetBool(IsBigAttackHash, IsAttacking);
+            PlayerAnimator.SetLayerWeight(1, 1);
+            PlayerAnimator.SetInteger(IsRandomHookshotHash, UnityEngine.Random.Range(Zero, 100));
+            PlayerAnimator.SetBool(IsBigAttackHash, IsAttacking);
         }
         else if(IsGrounded() && transform.position != LastPosition && IsSlideAttack && !IsSlideAttackPerforming && !IsBodyslamPerforming)
         {
             IsSlideAttackPerforming = IsSlideAttack;
-            Animator.SetBool(IsSlideAttackHash, IsSlideAttackPerforming);
+            PlayerAnimator.SetBool(IsSlideAttackHash, IsSlideAttackPerforming);
             if (CanMove)
             {
                 CharController.Move(Vector3.forward * SlideMultiplier * Time.fixedDeltaTime);
@@ -378,14 +379,14 @@ public class PlayerScript : MonoBehaviour
         }
         if (IsGrounded() && LandingDelay <= Zero)
         {
-            Animator.SetBool(IsBodyslamHash, IsBodyslamPerforming);
+            PlayerAnimator.SetBool(IsBodyslamHash, IsBodyslamPerforming);
             CheckPlayingAttackAnimationStates();
             if (IsJumpAnimating)
             {
                 IsJumpAnimating = false;
-                Animator.SetBool(IsJumpingHash, IsJumpAnimating);
+                PlayerAnimator.SetBool(IsJumpingHash, IsJumpAnimating);
             }
-            Animator.SetBool(IsJumpingHash, IsJumpAnimating);
+            PlayerAnimator.SetBool(IsJumpingHash, IsJumpAnimating);
             CurrentMovement.y = GroundedGravity;
             CurrentRunMovement.y = GroundedGravity;
             return;
@@ -411,11 +412,11 @@ public class PlayerScript : MonoBehaviour
             NextHeight = transform.position.y;
             if (SetFlipHeight < NextHeight)
             {
-                Animator.SetTrigger(IsBigJumpHash);
+                PlayerAnimator.SetTrigger(IsBigJumpHash);
             }
             else
             {
-                Animator.SetBool(IsJumpingHash, false);
+                PlayerAnimator.SetBool(IsJumpingHash, false);
             }
         }
         else
@@ -467,7 +468,7 @@ public class PlayerScript : MonoBehaviour
     //Different jump types
     private void RegularJump()
     {
-        Animator.SetBool(IsJumpingHash, true);
+        PlayerAnimator.SetBool(IsJumpingHash, true);
         IsJumpAnimating = true;
         IsJumping = true;
         CurrentMovement.y = InitialJumpVelocity * Average;
@@ -476,7 +477,7 @@ public class PlayerScript : MonoBehaviour
 
     private void SmallBounceJump()
     {
-        Animator.SetBool(IsJumpingHash, true);
+        PlayerAnimator.SetBool(IsJumpingHash, true);
         IsJumpAnimating = true;
         IsBounce = false;
         CurrentMovement.y = InitialJumpVelocity * Average * SmallBounce;
@@ -485,11 +486,27 @@ public class PlayerScript : MonoBehaviour
 
     private void BigBounceJump()
     {
-        Animator.SetBool(IsJumpingHash, true);
+        PlayerAnimator.SetBool(IsJumpingHash, true);
         IsJumpAnimating = true;
         IsBounce = false;
         CurrentMovement.y = InitialJumpVelocity * Average * BigBounce;
         CurrentRunMovement.y = InitialJumpVelocity * Average * BigBounce;
+    }
+
+    private IEnumerator DisplayHUD()
+    {
+        if (IsDisplayHUDPerforming)
+        {
+            HUDAnimator.SetBool("IsDisplaying", IsDisplayHUDPerforming);
+            while(CurrentTime < ResetTime)
+            {
+                CurrentTime += Time.deltaTime;
+                yield return CurrentTime;                
+            }
+            CurrentTime = 0;
+            IsDisplayHUDPerforming = false;
+            HUDAnimator.SetBool("IsDisplaying", IsDisplayHUDPerforming);         
+        }
     }
 
     //Hit detection method when colliding with an Interface type
@@ -589,7 +606,7 @@ public class PlayerScript : MonoBehaviour
 
     private void RebindAnimationsEvent()
     {
-        Animator.Rebind();
+        PlayerAnimator.Rebind();
     }
 
     private void DisableMovementEvent()
@@ -655,13 +672,14 @@ public class PlayerScript : MonoBehaviour
         IsSlideAttack = context.ReadValueAsButton();
     }
 
-    private void OnDeathTest(InputAction.CallbackContext context)
+    private void OnHUDDisplay(InputAction.CallbackContext context)
     {
-        Animator.SetTrigger(PlayerDied);
-    }
+        if (!IsDisplayHUDPerforming)
+        {
+            IsDisplayingHUD = context.ReadValueAsButton();
+            IsDisplayHUDPerforming = IsDisplayingHUD;
+            StartCoroutine(DisplayHUD());
+        }
 
-    private void OnVictoryTest(InputAction.CallbackContext context)
-    {
-        Animator.SetTrigger(Victory);
     }
 }
