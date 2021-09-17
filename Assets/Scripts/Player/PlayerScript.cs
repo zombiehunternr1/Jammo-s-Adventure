@@ -497,7 +497,7 @@ public class PlayerScript : MonoBehaviour
     {
         if (IsDisplayHUDPerforming)
         {
-            HUDAnimator.SetBool("IsDisplaying", IsDisplayHUDPerforming);
+            HUDAnimator.SetBool("IsDisplayingHUD", IsDisplayHUDPerforming);
             while(CurrentTime < ResetTime)
             {
                 CurrentTime += Time.deltaTime;
@@ -505,7 +505,7 @@ public class PlayerScript : MonoBehaviour
             }
             CurrentTime = 0;
             IsDisplayHUDPerforming = false;
-            HUDAnimator.SetBool("IsDisplaying", IsDisplayHUDPerforming);         
+            HUDAnimator.SetBool("IsDisplayingHUD", IsDisplayHUDPerforming);         
         }
     }
 
