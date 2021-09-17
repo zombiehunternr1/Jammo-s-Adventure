@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class Life : MonoBehaviour, ICollectable
 {
-    public Transform LifeUI;
+    Transform LifeUI;
     float Speed = 2;
     float DistanceToTarget;
+
+    private void Awake()
+    {
+        LifeUI = (Transform)GameObject.Find("LifeModelPosition").gameObject.GetComponent(typeof(Transform));
+    }
 
     public void Collect()
     {
