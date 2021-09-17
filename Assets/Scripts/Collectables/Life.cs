@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class Life : MonoBehaviour, ICollectable
 {
-    public PlayerInfo PlayerInfo;
     public void Collect()
     {
-        PlayerInfo.Lives++;
+        EventManager.CollectLife();
         DestroyObject();
     }
 
