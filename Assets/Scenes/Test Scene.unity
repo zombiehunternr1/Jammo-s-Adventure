@@ -132,6 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 143772243}
+  - component: {fileID: 143772244}
   m_Layer: 5
   m_Name: Life Object
   m_TagString: Untagged
@@ -159,6 +160,22 @@ RectTransform:
   m_AnchoredPosition: {x: -250, y: -50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!111 &143772244
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143772242}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 86aa92970dadb724785bd6bb5c6de5f5, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 86aa92970dadb724785bd6bb5c6de5f5, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &237187877
 GameObject:
   m_ObjectHideFlags: 0
