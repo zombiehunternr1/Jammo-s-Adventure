@@ -12,6 +12,7 @@ public class EventListener : MonoBehaviour
 
     void OnEnable()
     {
+        SetupUIValues();
         SubscribeEvents();
     }
 
@@ -23,7 +24,7 @@ public class EventListener : MonoBehaviour
     void SubscribeEvents()
     {
         EventManager.OnCollectedLifeDisplay += HandleCollectedLifeDisplay;
-        EventManager.OnCollectedLifeDisplay += HandleCollectedBoltDisplay;
+        EventManager.OnCollectedBoltDisplay += HandleCollectedBoltDisplay;
         EventManager.OnCollectedLifeUpdate += HandleCollectedLifeUpdate;
         EventManager.OnCollectedBoltUpdate += HandleCollectedBoltUpdate;
     }
@@ -31,9 +32,15 @@ public class EventListener : MonoBehaviour
     void UnSubscribeEvents()
     {
         EventManager.OnCollectedLifeDisplay -= HandleCollectedLifeDisplay;
-        EventManager.OnCollectedLifeDisplay -= HandleCollectedBoltDisplay;
+        EventManager.OnCollectedBoltDisplay -= HandleCollectedBoltDisplay;
         EventManager.OnCollectedLifeUpdate -= HandleCollectedLifeUpdate;
         EventManager.OnCollectedBoltUpdate -= HandleCollectedBoltUpdate;
+    }
+
+    private void SetupUIValues()
+    {
+        LifeText.text = PlayerInfo.Lives.ToString();
+        BoltText.text = PlayerInfo.Bolts.ToString();
     }
 
     private void HandleCollectedLifeDisplay()
