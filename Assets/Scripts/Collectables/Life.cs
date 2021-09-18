@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Life : MonoBehaviour, ICollectable
 {
+    Transform SpawnItemsHolder;
     Transform LifeUI;
     float Speed = 2;
     float DistanceToTarget;
@@ -11,6 +12,8 @@ public class Life : MonoBehaviour, ICollectable
     private void Awake()
     {
         LifeUI = (Transform)GameObject.Find("LifeModelPosition").gameObject.GetComponent(typeof(Transform));
+        SpawnItemsHolder = (Transform)GameObject.Find("SpawnedItems").gameObject.GetComponent(typeof(Transform));
+        transform.SetParent(SpawnItemsHolder);
     }
 
     public void Collect()

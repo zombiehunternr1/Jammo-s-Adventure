@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Bolt : MonoBehaviour, ICollectable
 {
+    Transform SpawnItemsHolder;
     Transform BoltUI;
     float Speed = 2;
     float DistanceToTarget;
@@ -11,6 +12,8 @@ public class Bolt : MonoBehaviour, ICollectable
     private void Awake()
     {
         BoltUI = (Transform)GameObject.Find("BoltModelPosition").gameObject.GetComponent(typeof(Transform));
+        SpawnItemsHolder = (Transform)GameObject.Find("SpawnedItems").gameObject.GetComponent(typeof(Transform));
+        transform.SetParent(SpawnItemsHolder);
     }
 
     public void Collect()
