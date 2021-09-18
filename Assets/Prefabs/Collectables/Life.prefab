@@ -708,8 +708,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7064968393602707070}
   - component: {fileID: 2059013982862427395}
-  - component: {fileID: 7518703885407633898}
   - component: {fileID: 623425641}
+  - component: {fileID: 7518703885407633898}
   m_Layer: 0
   m_Name: Life
   m_TagString: Untagged
@@ -751,20 +751,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &7518703885407633898
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7064968393602707068}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92b791dbec62ee94f9aa91aa9c35773f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LifeUI: {fileID: 0}
-  Speed: 10
 --- !u!65 &623425641
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -778,6 +764,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.84514046, y: 0.6717043, z: 0.6469795}
   m_Center: {x: -0.00366354, y: 0.044311404, z: -0.061868995}
+--- !u!114 &7518703885407633898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7064968393602707068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92b791dbec62ee94f9aa91aa9c35773f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7654029887708980780
 GameObject:
   m_ObjectHideFlags: 0
