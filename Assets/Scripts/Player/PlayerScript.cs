@@ -355,7 +355,7 @@ public class PlayerScript : MonoBehaviour
 
                 if (Vector3.Dot(forward, transform.forward) > 0.7f)
                 {
-                    Debug.Log("Facing the object");
+                    //Attack is performed and hit target
                 }
             }
         }
