@@ -602,8 +602,16 @@ public class PlayerScript : MonoBehaviour
     private void SlideAttackEvent()
     {
         hitColliders = Physics.OverlapBox(CharController.bounds.center / 2, SlideAttackHitBox);
+        CharController.center = new Vector3(0, 0.5f, 0);
+        CharController.height = 1;
     }
 
+    private void SlideAttackEndEvent()
+    {
+        CharController.center = new Vector3(0, 1, 0);
+        CharController.height = 2;
+    }
+    
     private void RebindAnimationsEvent()
     {
         PlayerAnimator.Rebind();
