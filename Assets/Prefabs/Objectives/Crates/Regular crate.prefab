@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7514313565971445621}
   - component: {fileID: 8053154239763116256}
+  - component: {fileID: 427038087}
   m_Layer: 6
   m_Name: Regular crate
   m_TagString: Untagged
@@ -45,6 +46,24 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 5.2, y: 5.2, z: 5.2}
   m_Center: {x: 0.01577425, y: 2.5746014, z: 0.07143879}
+--- !u!114 &427038087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7134797802530418127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4b39f798383fd941ae536b219de5648, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BrokenCrate: {fileID: 7878101180624811605, guid: e0aac1a7828dfa3489ad92e0a87ec24e, type: 3}
+  RandomDropRange: 2
+  DropAmount: 5
+  Bolts:
+  - {fileID: 6110259713985371626, guid: fc49f7c849c942440b4dd830a57e8372, type: 3}
+  - {fileID: 5611977435512714711, guid: fe5d57864f419dd4ebe99815e76adb83, type: 3}
 --- !u!1 &9103417569207487533
 GameObject:
   m_ObjectHideFlags: 0
