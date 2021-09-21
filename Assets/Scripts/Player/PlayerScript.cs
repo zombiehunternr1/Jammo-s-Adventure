@@ -104,9 +104,8 @@ public class PlayerScript : MonoBehaviour
 
     //Hit detection
     int SideHitValue;
-    bool Attack;
     Collider[] hitColliders;
-    enum HitPlayerDirection { None, Top, Bottom, Forward, Back, Left, Right, Spin, Invincibility }
+    enum HitPlayerDirection { None, Top, Bottom, Forward, Back, Left, Right, Attack, Bodyslam, Slide }
 
     private void Awake()
     {
@@ -355,7 +354,11 @@ public class PlayerScript : MonoBehaviour
 
                 if (Vector3.Dot(forward, transform.forward) > 0.7f)
                 {
-                    //Attack is performed and hit target
+                    ICrateBase CrateType = (ICrateBase)hitCollider.gameObject.GetComponent(typeof(ICrateBase));
+                    if (CrateType != null)
+                    {
+                        CrateType.Break((int)ReturnDirection(gameObject, hitCollider.gameObject));
+                    }
                 }
             }
         }
@@ -517,21 +520,27 @@ public class PlayerScript : MonoBehaviour
         {
             Collectable.Collect();
         }
+        ICrateBase CrateType = (ICrateBase)collision.gameObject.GetComponent(typeof(ICrateBase));
+        if(CrateType != null)
+        {
+            CrateType.Break((int)ReturnDirection(gameObject, collision.gameObject));
+        }
     }
 
     //Converts type of interaction into an integer depending on enum value
     private HitPlayerDirection ReturnDirection(GameObject Object, GameObject ObjectHit)
     {
         HitPlayerDirection HitDirection = HitPlayerDirection.None;
-        /*
-                if (PlayerManager.IsInvinsible)
-                {
-                    return HitPlayerDirection.Invincibility;
-                }
-        */
-        if (Attack)
+        if (IsBodyslamPerforming)
         {
-            return HitPlayerDirection.Spin;
+            Debug.Log("Bodyslam");
+            return HitPlayerDirection.Bodyslam;
+        }
+
+        if (IsAttacking)
+        {
+            Debug.Log("Punch");
+            return HitPlayerDirection.Attack;
         }
         RaycastHit MyRayHit;
         Vector3 direction = (ObjectHit.transform.position - Object.transform.position).normalized;
