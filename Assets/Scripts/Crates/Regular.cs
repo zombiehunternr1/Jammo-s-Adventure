@@ -10,13 +10,14 @@ public class Regular : MonoBehaviour, ICrateBase
     public List<GameObject> Bolts;
 
     private float YOffset = 0.5f;
+    private Collider[] HitColliders;
 
     public void Break(int Side)
     {
         switch (Side)
         {
             case 1:
-                SpawnBoltTypes();
+                Bounce();
             break;
         }
     }
@@ -39,6 +40,25 @@ public class Regular : MonoBehaviour, ICrateBase
             }
         }
         DisableCrate();
+    }
+
+    private void Bounce() 
+    {
+        HitColliders = Physics.OverlapBox(new Vector3(transform.position.x, transform.position.y + 0.8f, transform.position.z), new Vector3(1.25f, 1, 1.25f));
+
+        foreach(Collider Collider in HitColliders)
+        {
+            PlayerScript Player = Collider.GetComponent<PlayerScript>();
+            if(Player != null)
+            {
+                if (Player.IsFalling)
+                {
+                    Debug.Log("Hallo");
+                    Player.IsBounce = true;
+                    SpawnBoltTypes();
+                }
+            }
+        }
     }
 
     public void DisableCrate()

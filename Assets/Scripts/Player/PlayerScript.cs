@@ -65,7 +65,8 @@ public class PlayerScript : MonoBehaviour
     float BodySlamMultiplier = 5;
     float LandingDelay;
     float Velocity = -1.2f;
-    bool IsFalling;
+    [HideInInspector]
+    public bool IsFalling;
 
     //Player movement
     Vector2 CurrentMovementInput;
@@ -348,7 +349,7 @@ public class PlayerScript : MonoBehaviour
     {
         if (hitColliders != null)
         {
-            foreach (var hitCollider in hitColliders)
+            foreach (Collider hitCollider in hitColliders)
             {
                 Vector3 forward = (hitCollider.transform.position - transform.position).normalized;
 
