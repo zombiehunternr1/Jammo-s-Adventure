@@ -43,7 +43,7 @@ public class CharacterSkinController : MonoBehaviour
         ChangeEyeOffset(EyePosition.Happy);
     }
 
-    void ReturnToNormalEvent()
+    public void ReturnToNormalEvent()
     {
         ChangeMaterialSettings(Normal);
         ChangeEyeOffset(EyePosition.Nomal);

@@ -41,7 +41,7 @@ public class EventManager : MonoBehaviour
     { if (OnPlayerDied != null) OnPlayerDied(); }
 
     public static void UpdateItemContainerList()
-    { if (OnClearItemsContainer != null) OnClearItemsContainer(); }
+    { if (OnClearItemsContainer != null) OnUpdateItemsInContainer(); }
     public static void ClearItemsContainer()
     { if (OnClearItemsContainer != null) OnClearItemsContainer(); } }
    

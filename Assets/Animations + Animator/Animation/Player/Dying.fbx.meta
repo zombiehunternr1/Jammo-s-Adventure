@@ -72,7 +72,7 @@ ModelImporter:
       - time: 0
         functionName: DisableMovementEvent
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 204ec8d6448a01c4991bf9a7bbb6eb7f, type: 3}
+        objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
@@ -80,6 +80,13 @@ ModelImporter:
         functionName: DeathEvent
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: bbb6cae19ece4b848b976432ca8b3cfb, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 1
+        functionName: PlayerDiedEvent
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: f39077ce0ffad4c419bf620715cd3286, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0

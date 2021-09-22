@@ -40,6 +40,7 @@ public class PlayerScript : MonoBehaviour
     int Devider = 2;
     float Average = .5f;
     float CurrentPlayerSpeed;
+    Vector3 PlayerCheckPointPosition;
     [HideInInspector]
     public bool CanMove;
     
@@ -75,6 +76,8 @@ public class PlayerScript : MonoBehaviour
     Vector3 CurrentMovement;
     Vector3 CurrentRunMovement;
     Vector3 LastPosition;
+    Vector3 PositionToLookAt;
+    Quaternion CurrentRotation;
     bool IsMovementPressed;
     bool IsRunPressed;
     float RotationFactorPerFrame = 15;
@@ -124,6 +127,7 @@ public class PlayerScript : MonoBehaviour
         CharController = GetComponent<CharacterController>();
         PlayerAnimator = GetComponent<Animator>();
         CanMove = true;
+        PlayerCheckPointPosition = transform.position + CurrentMovement;
     }
 
     private void AnimatorSetup()
@@ -180,6 +184,11 @@ public class PlayerScript : MonoBehaviour
         return CharController.isGrounded;
     }
 
+    public void ResetPlayerPosition()
+    {
+        transform.position = PlayerCheckPointPosition;
+    }
+
     private void FixedUpdate()
     {
         HandleAnimation();
@@ -189,17 +198,16 @@ public class PlayerScript : MonoBehaviour
             CheckAttackstyle();
             HandleJump();
             CheckIfRunning();
+            HandleGravity();
         }
-        HandleGravity();
     }
 
     private void HandleRotation()
     {
-        Vector3 PositionToLookAt;
         PositionToLookAt.x = CurrentMovement.x;
         PositionToLookAt.y = Zero;
         PositionToLookAt.z = CurrentMovement.z;
-        Quaternion CurrentRotation = transform.rotation;
+        CurrentRotation = transform.rotation;
 
         if (IsMovementPressed)
         {
@@ -632,6 +640,16 @@ public class PlayerScript : MonoBehaviour
     {
         CharController.center = new Vector3(0, 1, 0);
         CharController.height = 2;
+    }
+
+    private void PlayerDiedEvent()
+    {
+        CharController.Move(Vector3.zero);
+        CurrentPlayerSpeed = CharController.velocity.magnitude;
+        CurrentRotation = new Quaternion(Zero, Zero, Zero, Zero);
+        transform.rotation = CurrentRotation;
+        PlayerAnimator.SetFloat("IsMoving", CurrentPlayerSpeed);
+        EventManager.PlayerDied();
     }
     
     private void RebindAnimationsEvent()
