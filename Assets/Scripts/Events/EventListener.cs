@@ -62,13 +62,11 @@ public class EventListener : MonoBehaviour
 
     private void HandleCollectedLifeUpdate()
     {
-        PlayerInfo.Lives++;
-        LifeText.text = PlayerInfo.Lives.ToString();
+        CheckLifeCount();
     }
 
     private void HandleCollectedBoltUpdate()
     {
-        PlayerInfo.Bolts++;
         CheckBoltCount();
     }
 
@@ -81,7 +79,24 @@ public class EventListener : MonoBehaviour
             SpawnedLife = Instantiate(Life, Player.transform.position, Quaternion.identity);
             SpawnedLife.GetComponent<Life>().GoToHover();
         }
+        else
+        {
+            PlayerInfo.Bolts++;
+        }
         BoltText.text = PlayerInfo.Bolts.ToString();
+    }
+
+    private void CheckLifeCount()
+    {
+        if(PlayerInfo.Lives >= 99)
+        {
+            PlayerInfo.Lives = 99;
+        }
+        else
+        {
+            PlayerInfo.Lives++;
+        }
+        LifeText.text = PlayerInfo.Lives.ToString();
     }
 
     private IEnumerator DisableLifeTrigger()
