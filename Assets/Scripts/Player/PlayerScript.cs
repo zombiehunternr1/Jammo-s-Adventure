@@ -48,6 +48,7 @@ public class PlayerScript : MonoBehaviour
     bool IsSlideAttack;
     bool IsSlideAttackPerforming;
     bool IsBodyslamPerforming;
+    bool IsAttackPerforming;
     float BodySlamDistance = 1;
     float BodySlamHeightMultiplier = 5.5f;
     public float SlideMultiplier = 5;
@@ -265,24 +266,24 @@ public class PlayerScript : MonoBehaviour
     {
         if (PlayerAnimator.GetCurrentAnimatorStateInfo(Zero).IsName("Small attack") && PlayerAnimator.GetCurrentAnimatorStateInfo(Zero).normalizedTime > 1f)
         {
-            IsAttacking = false;
-            PlayerAnimator.SetBool(IsSmallAttackHash, IsAttacking);
+            IsAttackPerforming = false;
+            PlayerAnimator.SetBool(IsSmallAttackHash, IsAttackPerforming);
         }
         else if (PlayerAnimator.GetCurrentAnimatorStateInfo(1).IsName("Big attack Left") && PlayerAnimator.GetCurrentAnimatorStateInfo(1).normalizedTime > 1f)
         {
-            IsAttacking = false;
-            PlayerAnimator.SetBool(IsBigAttackHash, IsAttacking);
+            IsAttackPerforming = false;
+            PlayerAnimator.SetBool(IsBigAttackHash, IsAttackPerforming);
         }
         else if (PlayerAnimator.GetCurrentAnimatorStateInfo(1).IsName("Big attack Right") && PlayerAnimator.GetCurrentAnimatorStateInfo(1).normalizedTime > 1f)
         {
-            IsAttacking = false;
-            PlayerAnimator.SetBool(IsBigAttackHash, IsAttacking);
+            IsAttackPerforming = false;
+            PlayerAnimator.SetBool(IsBigAttackHash, IsAttackPerforming);
         }
         else if (PlayerAnimator.GetCurrentAnimatorStateInfo(Zero).IsName("Mid-air attack") && PlayerAnimator.GetCurrentAnimatorStateInfo(Zero).normalizedTime > 1f)
         {
-            IsAttacking = false;
-            PlayerAnimator.SetBool(IsSmallAttackHash, IsAttacking);
-            PlayerAnimator.SetBool(IsBigAttackHash, IsAttacking);
+            IsAttackPerforming = false;
+            PlayerAnimator.SetBool(IsSmallAttackHash, IsAttackPerforming);
+            PlayerAnimator.SetBool(IsBigAttackHash, IsAttackPerforming);
         }
         else if (PlayerAnimator.GetCurrentAnimatorStateInfo(Zero).IsName("Slide attack") && PlayerAnimator.GetCurrentAnimatorStateInfo(Zero).normalizedTime > 1f)
         {
@@ -326,10 +327,12 @@ public class PlayerScript : MonoBehaviour
         }
         if (transform.position == LastPosition && IsAttacking)
         {
+            IsAttackPerforming = IsAttacking;
             PlayerAnimator.SetBool(IsSmallAttackHash, IsAttacking);
         }
         else if (transform.position != LastPosition && IsAttacking)
         {
+            IsAttackPerforming = IsAttacking;
             PlayerAnimator.SetLayerWeight(1, 1);
             PlayerAnimator.SetInteger(IsRandomHookshotHash, UnityEngine.Random.Range(Zero, 100));
             PlayerAnimator.SetBool(IsBigAttackHash, IsAttacking);
@@ -534,15 +537,18 @@ public class PlayerScript : MonoBehaviour
         HitPlayerDirection HitDirection = HitPlayerDirection.None;
         if (IsBodyslamPerforming)
         {
-            Debug.Log("Bodyslam");
             return HitPlayerDirection.Bodyslam;
         }
 
-        if (IsAttacking)
+        else if (IsAttackPerforming)
         {
-            Debug.Log("Punch");
             return HitPlayerDirection.Attack;
         }
+        else if (IsSlideAttackPerforming)
+        {
+            return HitPlayerDirection.Slide;
+        }
+
         RaycastHit MyRayHit;
         Vector3 direction = (ObjectHit.transform.position - Object.transform.position).normalized;
         Ray MyRay = new Ray(Object.transform.position, direction);
