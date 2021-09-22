@@ -24,7 +24,7 @@ public class Regular : MonoBehaviour, ICrateBase
             case 2:
                 SpawnBoltTypes();
             break;
-           //attack
+            //Attack
             case 7:
                 SpawnBoltTypes();
             break;

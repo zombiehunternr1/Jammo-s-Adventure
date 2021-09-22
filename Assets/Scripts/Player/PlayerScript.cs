@@ -48,7 +48,7 @@ public class PlayerScript : MonoBehaviour
     bool IsSlideAttack;
     bool IsSlideAttackPerforming;
     bool IsBodyslamPerforming;
-    bool IsAttackingPerforming;
+    bool IsAttackPerforming;
     float BodySlamDistance = 1;
     float BodySlamHeightMultiplier = 5.5f;
     public float SlideMultiplier = 5;
@@ -266,24 +266,24 @@ public class PlayerScript : MonoBehaviour
     {
         if (PlayerAnimator.GetCurrentAnimatorStateInfo(Zero).IsName("Small attack") && PlayerAnimator.GetCurrentAnimatorStateInfo(Zero).normalizedTime > 1f)
         {
-            IsAttackingPerforming = false;
-            PlayerAnimator.SetBool(IsSmallAttackHash, IsAttackingPerforming);
+            IsAttackPerforming = false;
+            PlayerAnimator.SetBool(IsSmallAttackHash, IsAttackPerforming);
         }
         else if (PlayerAnimator.GetCurrentAnimatorStateInfo(1).IsName("Big attack Left") && PlayerAnimator.GetCurrentAnimatorStateInfo(1).normalizedTime > 1f)
         {
-            IsAttackingPerforming = false;
-            PlayerAnimator.SetBool(IsBigAttackHash, IsAttackingPerforming);
+            IsAttackPerforming = false;
+            PlayerAnimator.SetBool(IsBigAttackHash, IsAttackPerforming);
         }
         else if (PlayerAnimator.GetCurrentAnimatorStateInfo(1).IsName("Big attack Right") && PlayerAnimator.GetCurrentAnimatorStateInfo(1).normalizedTime > 1f)
         {
-            IsAttackingPerforming = false;
-            PlayerAnimator.SetBool(IsBigAttackHash, IsAttackingPerforming);
+            IsAttackPerforming = false;
+            PlayerAnimator.SetBool(IsBigAttackHash, IsAttackPerforming);
         }
         else if (PlayerAnimator.GetCurrentAnimatorStateInfo(Zero).IsName("Mid-air attack") && PlayerAnimator.GetCurrentAnimatorStateInfo(Zero).normalizedTime > 1f)
         {
-            IsAttackingPerforming = false;
-            PlayerAnimator.SetBool(IsSmallAttackHash, IsAttackingPerforming);
-            PlayerAnimator.SetBool(IsBigAttackHash, IsAttackingPerforming);
+            IsAttackPerforming = false;
+            PlayerAnimator.SetBool(IsSmallAttackHash, IsAttackPerforming);
+            PlayerAnimator.SetBool(IsBigAttackHash, IsAttackPerforming);
         }
         else if (PlayerAnimator.GetCurrentAnimatorStateInfo(Zero).IsName("Slide attack") && PlayerAnimator.GetCurrentAnimatorStateInfo(Zero).normalizedTime > 1f)
         {
@@ -327,15 +327,15 @@ public class PlayerScript : MonoBehaviour
         }
         if (transform.position == LastPosition && IsAttacking)
         {
-            IsAttackingPerforming = IsAttacking;
-            PlayerAnimator.SetBool(IsSmallAttackHash, IsAttackingPerforming);
+            IsAttackPerforming = IsAttacking;
+            PlayerAnimator.SetBool(IsSmallAttackHash, IsAttacking);
         }
         else if (transform.position != LastPosition && IsAttacking)
         {
-            IsAttackingPerforming = IsAttacking;
+            IsAttackPerforming = IsAttacking;
             PlayerAnimator.SetLayerWeight(1, 1);
             PlayerAnimator.SetInteger(IsRandomHookshotHash, UnityEngine.Random.Range(Zero, 100));
-            PlayerAnimator.SetBool(IsBigAttackHash, IsAttackingPerforming);
+            PlayerAnimator.SetBool(IsBigAttackHash, IsAttacking);
         }
         else if(IsGrounded() && transform.position != LastPosition && IsSlideAttack && !IsSlideAttackPerforming && !IsBodyslamPerforming)
         {
@@ -362,7 +362,6 @@ public class PlayerScript : MonoBehaviour
                     if (CrateType != null)
                     {
                         CrateType.Break((int)ReturnDirection(gameObject, hitCollider.gameObject));
-                        return;
                     }
                 }
             }
@@ -541,7 +540,7 @@ public class PlayerScript : MonoBehaviour
             return HitPlayerDirection.Bodyslam;
         }
 
-        else if (IsAttackingPerforming)
+        else if (IsAttackPerforming)
         {
             return HitPlayerDirection.Attack;
         }
@@ -549,6 +548,7 @@ public class PlayerScript : MonoBehaviour
         {
             return HitPlayerDirection.Slide;
         }
+
         RaycastHit MyRayHit;
         Vector3 direction = (ObjectHit.transform.position - Object.transform.position).normalized;
         Ray MyRay = new Ray(Object.transform.position, direction);

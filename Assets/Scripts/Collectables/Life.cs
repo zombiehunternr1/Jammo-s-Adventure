@@ -18,9 +18,14 @@ public class Life : MonoBehaviour, ICollectable
 
     public void Collect()
     {
-        gameObject.GetComponent<Animator>().SetTrigger("Disable");
+        GoToHover();
         EventManager.CollectLifeDisplay();
         DestroyObject();
+    }
+
+    public void GoToHover()
+    {
+        gameObject.GetComponent<Animator>().Play("Hovering");
     }
 
     public void DestroyObject()

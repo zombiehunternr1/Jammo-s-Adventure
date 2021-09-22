@@ -9,6 +9,10 @@ public class EventListener : MonoBehaviour
     public Text BoltText;
     public Text LifeText;
     public Animator HUD;
+    public GameObject Life;
+
+    private Transform Player;
+    private GameObject SpawnedLife;
 
     void OnEnable()
     {
@@ -41,6 +45,7 @@ public class EventListener : MonoBehaviour
     {
         LifeText.text = PlayerInfo.Lives.ToString();
         BoltText.text = PlayerInfo.Bolts.ToString();
+        Player = (Transform)GameObject.Find("Player").gameObject.GetComponent(typeof(Transform));
     }
 
     private void HandleCollectedLifeDisplay()
@@ -64,6 +69,18 @@ public class EventListener : MonoBehaviour
     private void HandleCollectedBoltUpdate()
     {
         PlayerInfo.Bolts++;
+        CheckBoltCount();
+    }
+
+    private void CheckBoltCount()
+    {
+        if (PlayerInfo.Bolts > 99)
+        {
+            PlayerInfo.Bolts = 0;
+            HandleCollectedLifeDisplay();
+            SpawnedLife = Instantiate(Life, Player.transform.position, Quaternion.identity);
+            SpawnedLife.GetComponent<Life>().GoToHover();
+        }
         BoltText.text = PlayerInfo.Bolts.ToString();
     }
 
