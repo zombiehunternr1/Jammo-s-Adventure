@@ -40,7 +40,8 @@ public class PlayerScript : MonoBehaviour
     int Devider = 2;
     float Average = .5f;
     float CurrentPlayerSpeed;
-    bool CanMove;
+    [HideInInspector]
+    public bool CanMove;
     
     //Attack settings
     bool IsAttacking;
@@ -187,8 +188,8 @@ public class PlayerScript : MonoBehaviour
             HandleRotation();
             CheckAttackstyle();
             HandleJump();
+            CheckIfRunning();
         }
-        CheckIfRunning();
         HandleGravity();
     }
 
@@ -528,6 +529,11 @@ public class PlayerScript : MonoBehaviour
         if(CrateType != null)
         {
             CrateType.Break((int)ReturnDirection(gameObject, collision.gameObject));
+        }
+        if (collision.gameObject.GetComponent<PlayerDied>())
+        {
+            PlayerDied PlayerDied = collision.gameObject.GetComponent<PlayerDied>();
+            PlayerDied.KillPlayer(this);
         }
     }
 

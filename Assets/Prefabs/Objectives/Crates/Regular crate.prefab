@@ -59,7 +59,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BrokenCrate: {fileID: 7878101180624811605, guid: e0aac1a7828dfa3489ad92e0a87ec24e, type: 3}
-  RandomDropRange: 2
+  BreakableCrateContainer: {fileID: 0}
+  RandomDropRange: 1
   DropAmount: 5
   Bolts:
   - {fileID: 6110259713985371626, guid: fc49f7c849c942440b4dd830a57e8372, type: 3}

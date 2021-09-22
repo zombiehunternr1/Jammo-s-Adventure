@@ -16,8 +16,17 @@ public class EventManager : MonoBehaviour
     public delegate void CollectedBoltUpdate();
     public static event CollectedBoltUpdate OnCollectedBoltUpdate;
 
+    public delegate void PlayerHasDied();
+    public static event PlayerHasDied OnPlayerDied;
+
+    public delegate void UpdateItemsInContainer();
+    public static event UpdateItemsInContainer OnUpdateItemsInContainer;
+
+    public delegate void ClearItemsInContainer();
+    public static event ClearItemsInContainer OnClearItemsContainer;
+
     public static void CollectLifeDisplay()
-    { if(OnCollectedLifeDisplay != null){ OnCollectedLifeDisplay(); } }
+    { if (OnCollectedLifeDisplay != null) { OnCollectedLifeDisplay(); } }
 
     public static void CollectBoltDisplay()
     { if (OnCollectedBoltDisplay != null) { OnCollectedBoltDisplay(); } }
@@ -27,4 +36,12 @@ public class EventManager : MonoBehaviour
 
     public static void CollectBoltUpdate()
     { if (OnCollectedBoltUpdate != null) { OnCollectedBoltUpdate(); } }
-}
+
+    public static void PlayerDied()
+    { if (OnPlayerDied != null) OnPlayerDied(); }
+
+    public static void UpdateItemContainerList()
+    { if (OnClearItemsContainer != null) OnClearItemsContainer(); }
+    public static void ClearItemsContainer()
+    { if (OnClearItemsContainer != null) OnClearItemsContainer(); } }
+   

@@ -31,6 +31,8 @@ public class EventListener : MonoBehaviour
         EventManager.OnCollectedBoltDisplay += HandleCollectedBoltDisplay;
         EventManager.OnCollectedLifeUpdate += HandleCollectedLifeUpdate;
         EventManager.OnCollectedBoltUpdate += HandleCollectedBoltUpdate;
+        EventManager.OnPlayerDied += HandlePlayerDied;
+        EventManager.OnClearItemsContainer += HandleClearItemContainer;
     }
 
     void UnSubscribeEvents()
@@ -39,6 +41,8 @@ public class EventListener : MonoBehaviour
         EventManager.OnCollectedBoltDisplay -= HandleCollectedBoltDisplay;
         EventManager.OnCollectedLifeUpdate -= HandleCollectedLifeUpdate;
         EventManager.OnCollectedBoltUpdate -= HandleCollectedBoltUpdate;
+        EventManager.OnPlayerDied -= HandlePlayerDied;
+        EventManager.OnClearItemsContainer -= HandleClearItemContainer;
     }
 
     private void SetupUIValues()
@@ -97,6 +101,16 @@ public class EventListener : MonoBehaviour
             PlayerInfo.Lives++;
         }
         LifeText.text = PlayerInfo.Lives.ToString();
+    }
+
+    private void HandlePlayerDied()
+    {
+        GameManager.Instance.PlayerDied();
+    }
+
+    private void HandleClearItemContainer()
+    {
+        GameManager.Instance.ClearItemsContainer();
     }
 
     private IEnumerator DisableLifeTrigger()

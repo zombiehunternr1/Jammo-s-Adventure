@@ -8,7 +8,7 @@ public class SetParentTransform : MonoBehaviour
 
     private void Awake()
     {
-        SpawnItemsHolder = (Transform)GameObject.Find("SpawnedItems").gameObject.GetComponent(typeof(Transform));
+        SpawnItemsHolder = GameManager.Instance.BreakableCrateContainer.transform;
         transform.SetParent(SpawnItemsHolder);
     }
 

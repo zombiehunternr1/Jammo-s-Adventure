@@ -10,11 +10,12 @@ public class Bolt : MonoBehaviour, ICollectable
     float DistanceToTarget;
     private bool HasCollided;
 
-    private void Awake()
+    private void Start()
     {
         BoltUI = (Transform)GameObject.Find("BoltModelPosition").gameObject.GetComponent(typeof(Transform));
-        SpawnItemsHolder = (Transform)GameObject.Find("SpawnedItems").gameObject.GetComponent(typeof(Transform));
+        SpawnItemsHolder = GameManager.Instance.SpawnedItemsContainer.transform;
         transform.SetParent(SpawnItemsHolder);
+        GameManager.Instance.UpdateItemContainerList(gameObject);
     }
 
     public void Collect()

@@ -12,6 +12,11 @@ public class Regular : MonoBehaviour, ICrateBase
     private float YOffset = 0.5f;
     private Collider[] HitColliders;
 
+    private void Awake()
+    {
+        transform.parent = GameObject.Find("Breakable Crates").transform;
+    }
+
     public void Break(int Side)
     {
         switch (Side)

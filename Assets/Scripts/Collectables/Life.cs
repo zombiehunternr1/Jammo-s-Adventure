@@ -9,11 +9,12 @@ public class Life : MonoBehaviour, ICollectable
     float Speed = 2;
     float DistanceToTarget;
 
-    private void Awake()
+    private void Start()
     {
         LifeUI = (Transform)GameObject.Find("LifeModelPosition").gameObject.GetComponent(typeof(Transform));
-        SpawnItemsHolder = (Transform)GameObject.Find("SpawnedItems").gameObject.GetComponent(typeof(Transform));
+        SpawnItemsHolder = GameManager.Instance.SpawnedItemsContainer.transform;
         transform.SetParent(SpawnItemsHolder);
+        GameManager.Instance.UpdateItemContainerList(gameObject);
     }
 
     public void Collect()
