@@ -16,8 +16,25 @@ public class Regular : MonoBehaviour, ICrateBase
     {
         switch (Side)
         {
+            //Top
             case 1:
                 Bounce();
+            break;
+            //Bottom
+            case 2:
+                SpawnBoltTypes();
+            break;
+           //attack
+            case 7:
+                SpawnBoltTypes();
+            break;
+            //Bodyslam
+            case 8:
+                SpawnBoltTypes();
+            break;
+            //Slide
+            case 9:
+                SpawnBoltTypes();
             break;
         }
     }
@@ -53,7 +70,6 @@ public class Regular : MonoBehaviour, ICrateBase
             {
                 if (Player.IsFalling)
                 {
-                    Debug.Log("Hallo");
                     Player.IsBounce = true;
                     SpawnBoltTypes();
                 }
