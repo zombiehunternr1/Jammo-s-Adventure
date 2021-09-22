@@ -77,15 +77,15 @@ public class EventListener : MonoBehaviour
         if (PlayerInfo.Bolts > 99)
         {
             PlayerInfo.Bolts = 0;
+            HandleCollectedLifeDisplay();
             SpawnedLife = Instantiate(Life, Player.transform.position, Quaternion.identity);
-            SpawnedLife.GetComponent<Animator>().SetTrigger("SkipSpawning");
+            SpawnedLife.GetComponent<Life>().GoToHover();
         }
         BoltText.text = PlayerInfo.Bolts.ToString();
     }
 
     private IEnumerator DisableLifeTrigger()
     {
-        SpawnedLife.GetComponent<Animator>().ResetTrigger("SkipSpawning");
         yield return new WaitForSeconds(1);
         HUD.ResetTrigger("IsDisplayingLifeHUD");
     }

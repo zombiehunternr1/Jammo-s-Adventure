@@ -8,6 +8,7 @@ public class Bolt : MonoBehaviour, ICollectable
     Transform BoltUI;
     float Speed = 2;
     float DistanceToTarget;
+    private bool HasCollided;
 
     private void Awake()
     {
@@ -18,9 +19,13 @@ public class Bolt : MonoBehaviour, ICollectable
 
     public void Collect()
     {
-        gameObject.GetComponent<Animator>().SetTrigger("Disable");
-        EventManager.CollectBoltDisplay();
-        DestroyObject();
+        if (!HasCollided)
+        {
+            HasCollided = true;
+            gameObject.GetComponent<Animator>().SetTrigger("Disable");
+            EventManager.CollectBoltDisplay();
+            DestroyObject();
+        }
     }
 
     public void DestroyObject()
