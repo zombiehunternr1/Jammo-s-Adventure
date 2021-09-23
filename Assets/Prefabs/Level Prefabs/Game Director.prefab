@@ -74,5 +74,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f39077ce0ffad4c419bf620715cd3286, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GameOverText: {fileID: 0}
+  RetryText: {fileID: 0}
+  QuitText: {fileID: 0}
+  RetryImage: {fileID: 0}
+  QuitImage: {fileID: 0}
   BreakableCrateContainer: {fileID: 0}
   SpawnedItemsContainer: {fileID: 0}

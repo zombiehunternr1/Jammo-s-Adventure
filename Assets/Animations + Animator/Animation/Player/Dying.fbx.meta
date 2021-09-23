@@ -86,7 +86,7 @@ ModelImporter:
       - time: 1
         functionName: PlayerDiedEvent
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: f39077ce0ffad4c419bf620715cd3286, type: 3}
+        objectReferenceParameter: {fileID: 11500000, guid: 60ffcd3ff43ce224c9862c292bd227cc, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
