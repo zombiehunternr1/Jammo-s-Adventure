@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
         }
         if(FadeOutPanel == null)
         {
-            FadeOutPanel = GameObject.Find("FadeOut");
+            FadeOutPanel = GameObject.Find("FadeOutPanel");
         }
         if(Player == null)
         {
