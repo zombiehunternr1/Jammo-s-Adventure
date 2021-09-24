@@ -535,12 +535,7 @@ public class PlayerScript : MonoBehaviour
 
     //Hit detection method when colliding with an Interface type
     private void OnControllerColliderHit(ControllerColliderHit collision)
-    {
-        ICollectable Collectable = (ICollectable)collision.gameObject.GetComponent(typeof(ICollectable));
-        if (Collectable != null)
-        {
-            Collectable.Collect();
-        }
+    {      
         ICrateBase CrateType = (ICrateBase)collision.gameObject.GetComponent(typeof(ICrateBase));
         if(CrateType != null)
         {
@@ -550,6 +545,15 @@ public class PlayerScript : MonoBehaviour
         {
             PlayerDied PlayerDied = collision.gameObject.GetComponent<PlayerDied>();
             PlayerDied.KillPlayer(this);
+        }
+    }
+
+    private void OnTriggerEnter(Collider collider)
+    {
+        ICollectable Collectable = (ICollectable)collider.gameObject.GetComponent(typeof(ICollectable));
+        if (Collectable != null)
+        {
+            Collectable.Collect();
         }
     }
 
