@@ -8,6 +8,7 @@ public class Life : MonoBehaviour, ICollectable
     Transform LifeUI;
     float Speed = 2;
     float DistanceToTarget;
+    bool HasCollided;
 
     private void Start()
     {
@@ -19,9 +20,13 @@ public class Life : MonoBehaviour, ICollectable
 
     public void Collect()
     {
-        GoToHover();
-        EventManager.CollectLifeDisplay();
-        DestroyObject();
+        if (!HasCollided)
+        {
+            HasCollided = true;
+            GoToHover();
+            EventManager.CollectLifeDisplay();
+            DestroyObject();
+        }
     }
 
     public void GoToHover()

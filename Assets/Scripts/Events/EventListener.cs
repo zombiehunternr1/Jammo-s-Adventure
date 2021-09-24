@@ -13,7 +13,6 @@ public class EventListener : MonoBehaviour
 
     private Transform Player;
     private GameObject SpawnedLife;
-    public static bool GameOver;
 
     void OnEnable()
     {
@@ -33,6 +32,7 @@ public class EventListener : MonoBehaviour
         EventManager.OnCollectedLifeUpdate += HandleCollectedLifeUpdate;
         EventManager.OnCollectedBoltUpdate += HandleCollectedBoltUpdate;
         EventManager.OnPlayerDied += HandlePlayerDied;
+        EventManager.OnClearItemsContainer += HandleClearItemContainer;
     }
 
     void UnSubscribeEvents()
@@ -42,6 +42,7 @@ public class EventListener : MonoBehaviour
         EventManager.OnCollectedLifeUpdate -= HandleCollectedLifeUpdate;
         EventManager.OnCollectedBoltUpdate -= HandleCollectedBoltUpdate;
         EventManager.OnPlayerDied -= HandlePlayerDied;
+        EventManager.OnClearItemsContainer -= HandleClearItemContainer;
     }
 
     private void SetupUIValues()
@@ -65,32 +66,33 @@ public class EventListener : MonoBehaviour
 
     private void HandleCollectedLifeUpdate()
     {
-        PlayerInfo.Lives++;
-        LifeText.text = PlayerInfo.Lives.ToString();
-        AddLife();
+        CheckAddLife();
     }
 
     private void HandleCollectedBoltUpdate()
     {
-        PlayerInfo.Bolts++;
         CheckBoltCount();
     }
 
     private void CheckBoltCount()
     {
-        if (PlayerInfo.Bolts > 99)
+        if (PlayerInfo.Bolts >= 99)
         {
             PlayerInfo.Bolts = 0;
             HandleCollectedLifeDisplay();
             SpawnedLife = Instantiate(Life, Player.transform.position, Quaternion.identity);
             SpawnedLife.GetComponent<Life>().GoToHover();
         }
+        else
+        {
+            PlayerInfo.Bolts++;
+        }
         BoltText.text = PlayerInfo.Bolts.ToString();
     }
 
-    private void AddLife()
+    private void CheckAddLife()
     {
-        if (PlayerInfo.Lives >= 99)
+        if(PlayerInfo.Lives >= 99)
         {
             PlayerInfo.Lives = 99;
         }
@@ -101,25 +103,24 @@ public class EventListener : MonoBehaviour
         LifeText.text = PlayerInfo.Lives.ToString();
     }
 
-    private void RemoveLife()
+    private void CheckWithdrawLife()
     {
-        if (PlayerInfo.Lives <= 0)
+        if(PlayerInfo.Lives < 0)
         {
             PlayerInfo.Lives = 0;
-            LifeText.text = PlayerInfo.Lives.ToString();
-            GameOver = true;
+            GameManager.Instance.Gameover = true;
+            GameManager.Instance.PlayerDied();
         }
         else
         {
             PlayerInfo.Lives--;
-            LifeText.text = PlayerInfo.Lives.ToString();
         }
+        LifeText.text = PlayerInfo.Lives.ToString();
     }
 
-    public void HandlePlayerDied()
+    private void HandlePlayerDied()
     {
-        RemoveLife();
-        GameManager.Instance.PlayerDied();
+        CheckWithdrawLife();
     }
 
     private void HandleClearItemContainer()

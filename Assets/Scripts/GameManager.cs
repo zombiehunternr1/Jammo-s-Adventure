@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,11 +6,11 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    public Text GameOverText;
-    public Text RetryText;
-    public Text QuitText;
-    public Image RetryImage;
-    public Image QuitImage;
+    private Text GameoverText;
+    private Image RetryArrow;
+    private Text RetryText;
+    private Image QuitArrow;
+    private Text QuitText;
 
     [HideInInspector]
     public GameObject BreakableCrateContainer;
@@ -22,6 +21,8 @@ public class GameManager : MonoBehaviour
     private float HoldNextFade = 1.5f;
     private float FadeSpeed = 1;
     private bool IsFadingToBlack = true;
+    [HideInInspector]
+    public bool Gameover;
 
     private void OnEnable()
     {
@@ -35,7 +36,7 @@ public class GameManager : MonoBehaviour
 
     private void SetupSceneElements()
     {
-        if (BreakableCrateContainer == null)
+        if(BreakableCrateContainer == null)
         {
             BreakableCrateContainer = GameObject.Find("Breakable Crates");
         }
@@ -43,13 +44,33 @@ public class GameManager : MonoBehaviour
         {
             SpawnedItemsContainer = GameObject.Find("SpawnedItems");
         }
-        if (FadeOutPanel == null)
+        if(FadeOutPanel == null)
         {
             FadeOutPanel = GameObject.Find("FadeOutPanel");
         }
-        if (Player == null)
+        if(Player == null)
         {
             Player = GameObject.Find("Player").GetComponent<PlayerScript>();
+        }
+        if(GameoverText == null)
+        {
+            GameoverText = GameObject.Find("Game Over").GetComponent<Text>();
+        }
+        if(RetryArrow == null)
+        {
+            RetryArrow = GameObject.Find("Retry Arrow").GetComponent<Image>();
+        }
+        if(RetryText == null)
+        {
+            RetryText = GameObject.Find("Retry Text").GetComponent<Text>();
+        }
+        if(QuitArrow == null)
+        {
+            QuitArrow = GameObject.Find("Quit Arrow").GetComponent<Image>();
+        }
+        if(QuitText == null)
+        {
+            QuitText = GameObject.Find("Quit Text").GetComponent<Text>();
         }
     }
 
@@ -81,11 +102,10 @@ public class GameManager : MonoBehaviour
     {
         Image PanelImage = FadeOutPanel.GetComponent<Image>();
         Color ChangePanelColor = PanelImage.color;
-        Color ChangeTextAlphaGameOver = GameOverText.color;
-        Color ChangeTextAlphaRetry = RetryText.color;
-        Color ChangeTextAlphaQuit = QuitText.color;
-        Color ChangeRetryImage = RetryImage.color;
-        Color ChangeQuitImage = QuitImage.color;
+        Color ChangeArrowColor = RetryArrow.color;
+        Color ChangeOptionTextColor = RetryText.color;
+        Color ChangeGameoverTextColor = GameoverText.color;
+
         float FadeAmount;
 
         if (IsFadingToBlack)
@@ -97,55 +117,32 @@ public class GameManager : MonoBehaviour
                 PanelImage.color = ChangePanelColor;
                 yield return null;
             }
-            while (RetryText.color.a > 0 || QuitText.color.a > 0 || RetryImage.color.a > 0 || QuitImage.color.a > 0)
-            {
-                ChangeTextAlphaRetry = RetryText.color;
-                ChangeTextAlphaQuit = QuitText.color;
-                ChangeRetryImage = RetryImage.color;
-                ChangeQuitImage = QuitImage.color;
-                FadeAmount = ChangeTextAlphaRetry.a + (FadeSpeed * Time.deltaTime);
-                ChangeTextAlphaRetry = new Color(ChangeTextAlphaRetry.r, ChangeTextAlphaRetry.g, ChangeTextAlphaRetry.b, FadeAmount);
-                ChangeTextAlphaQuit = new Color(ChangeTextAlphaQuit.r, ChangeTextAlphaQuit.g, ChangeTextAlphaQuit.b, FadeAmount);
-                ChangeRetryImage = new Color(ChangeRetryImage.r, ChangeRetryImage.g, ChangeRetryImage.b, FadeAmount);
-                ChangeQuitImage = new Color(ChangeQuitImage.r, ChangeQuitImage.g, ChangeQuitImage.b, FadeAmount);
-                RetryText.color = ChangeTextAlphaRetry;
-                QuitText.color = ChangeTextAlphaQuit;
-                RetryImage.color = ChangeRetryImage;
-                QuitImage.color = ChangeQuitImage;
-                yield return null;
-            }
             IsFadingToBlack = false;
             yield return new WaitForSeconds(HoldNextFade);
             StartCoroutine(FadeToBlack());
         }
         else
         {
-            if (EventListener.GameOver)
+            if (Gameover)
             {
-                EventListener.GameOver = false;
-                while (GameOverText.color.a < 1)
+                while(GameoverText.color.a < 1)
                 {
-                    ChangeTextAlphaGameOver = GameOverText.color;
-                    FadeAmount = ChangeTextAlphaGameOver.a + (FadeSpeed * Time.deltaTime);
-                    ChangeTextAlphaGameOver = new Color(ChangeTextAlphaGameOver.r, ChangeTextAlphaGameOver.g, ChangeTextAlphaGameOver.b, FadeAmount);
-                    GameOverText.color = ChangeTextAlphaGameOver;
+                    FadeAmount = ChangeGameoverTextColor.a + (FadeSpeed * Time.deltaTime);
+                    ChangeGameoverTextColor = new Color(ChangeGameoverTextColor.r, ChangeGameoverTextColor.g, ChangeGameoverTextColor.b, FadeAmount);
+                    GameoverText.color = ChangeGameoverTextColor;
                     yield return null;
                 }
-                yield return new WaitForSeconds(HoldNextFade);
-                while (RetryText.color.a < 1)
+                yield return new WaitForSeconds(2);
+                while(RetryArrow.color.a < 1)
                 {
-                    ChangeTextAlphaRetry = RetryText.color;
-                    ChangeTextAlphaQuit = QuitText.color;
-                    ChangeRetryImage = RetryImage.color;
-                    FadeAmount = ChangeTextAlphaRetry.a + (FadeSpeed * Time.deltaTime);
-                    ChangeTextAlphaRetry = new Color(ChangeTextAlphaRetry.r, ChangeTextAlphaRetry.g, ChangeTextAlphaRetry.b, FadeAmount);
-                    ChangeTextAlphaQuit = new Color(ChangeTextAlphaQuit.r, ChangeTextAlphaQuit.g, ChangeTextAlphaQuit.b, FadeAmount);
-                    ChangeRetryImage = new Color(ChangeRetryImage.r, ChangeRetryImage.g, ChangeRetryImage.b, FadeAmount);
-                    RetryText.color = ChangeTextAlphaRetry;
-                    QuitText.color = ChangeTextAlphaQuit;
-                    RetryImage.color = ChangeRetryImage;
+                    FadeAmount = ChangeArrowColor.a + (FadeSpeed * Time.deltaTime);
+                    ChangeArrowColor = new Color(ChangeArrowColor.r, ChangeArrowColor.g, ChangeArrowColor.b, FadeAmount);
+                    ChangeOptionTextColor = new Color(ChangeOptionTextColor.r, ChangeOptionTextColor.g, ChangeOptionTextColor.b, FadeAmount);
+                    RetryArrow.color = ChangeArrowColor;
+                    RetryText.color = ChangeOptionTextColor;
+                    QuitText.color = ChangeOptionTextColor;
+                    yield return null;
                 }
-                yield return null;
             }
             else
             {
@@ -156,17 +153,15 @@ public class GameManager : MonoBehaviour
                 {
                     ChangePanelColor = PanelImage.color;
                     FadeAmount = ChangePanelColor.a - (FadeSpeed * Time.deltaTime);
+
                     ChangePanelColor = new Color(ChangePanelColor.r, ChangePanelColor.g, ChangePanelColor.b, FadeAmount);
                     PanelImage.color = ChangePanelColor;
                     yield return null;
                 }
                 Player.CanMove = true;
                 IsFadingToBlack = true;
-                EventManager.CollectLifeDisplay();
-                yield return new WaitForSeconds(1);
-                EventManager.CollectLifeUpdate();
-                StopCoroutine(FadeToBlack());
             }
+            StopCoroutine(FadeToBlack());
         }
     }
 }

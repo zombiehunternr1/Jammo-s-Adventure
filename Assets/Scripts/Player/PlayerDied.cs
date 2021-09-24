@@ -8,5 +8,6 @@ public class PlayerDied : MonoBehaviour
     {
         Player.GetComponent<Animator>().SetTrigger("IsDead");
         Player.CanMove = false;
+        EventManager.PlayerDied();
     }
 }
