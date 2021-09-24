@@ -6,8 +6,7 @@ public class PlayerDied : MonoBehaviour
 {
     public void KillPlayer(PlayerScript Player)
     {
-        Player.GetComponent<Animator>().SetTrigger("IsDead");
         Player.CanMove = false;
-        EventManager.PlayerDied();
+        Player.GetComponent<Animator>().SetTrigger("IsDead");
     }
 }

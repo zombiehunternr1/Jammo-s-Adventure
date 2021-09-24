@@ -1074,6 +1074,10 @@ PrefabInstance:
       propertyPath: m_Color.a
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4683881793808987560, guid: ad88011897359a147a0d6996b7716abd, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad88011897359a147a0d6996b7716abd, type: 3}
 --- !u!224 &822812513 stripped
@@ -2620,6 +2624,14 @@ PrefabInstance:
       propertyPath: HUDAnimator
       value: 
       objectReference: {fileID: 526074895}
+    - target: {fileID: 5917870316687677850, guid: 082498128659b4048bdb8fa5cda6b5b3, type: 3}
+      propertyPath: InputActionMap.m_Id
+      value: 614aeb8c-a0bf-470f-8cfa-fd405bf354b5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917870316687677850, guid: 082498128659b4048bdb8fa5cda6b5b3, type: 3}
+      propertyPath: InputActionMap.m_Name
+      value: Input
+      objectReference: {fileID: 0}
     - target: {fileID: 5917870316687677851, guid: 082498128659b4048bdb8fa5cda6b5b3, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -2664,15 +2676,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5917870316687677853, guid: 082498128659b4048bdb8fa5cda6b5b3, type: 3}
-      propertyPath: m_Height
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5917870316687677853, guid: 082498128659b4048bdb8fa5cda6b5b3, type: 3}
-      propertyPath: m_Center.y
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2617508332585210083, guid: 082498128659b4048bdb8fa5cda6b5b3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 082498128659b4048bdb8fa5cda6b5b3, type: 3}
 --- !u!137 &6077607566663108745
 SkinnedMeshRenderer:

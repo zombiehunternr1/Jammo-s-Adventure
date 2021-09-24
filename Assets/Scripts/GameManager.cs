@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,6 +12,10 @@ public class GameManager : MonoBehaviour
     private Text RetryText;
     private Image QuitArrow;
     private Text QuitText;
+
+    public Vector2 HorizontalNavigate;
+    public Vector2 VerticalNavigate;
+    public bool Confirm;
 
     [HideInInspector]
     public GameObject BreakableCrateContainer;
@@ -98,6 +103,11 @@ public class GameManager : MonoBehaviour
         StartCoroutine(FadeToBlack());
     }
 
+    private void ChangeControlMap()
+    {
+        Debug.Log("I want to change my input map to UI");
+    }
+
     IEnumerator FadeToBlack()
     {
         Image PanelImage = FadeOutPanel.GetComponent<Image>();
@@ -143,6 +153,7 @@ public class GameManager : MonoBehaviour
                     QuitText.color = ChangeOptionTextColor;
                     yield return null;
                 }
+                ChangeControlMap();
             }
             else
             {
@@ -163,5 +174,24 @@ public class GameManager : MonoBehaviour
             }
             StopCoroutine(FadeToBlack());
         }
+    }
+
+    //Player Input
+    private void OnNavigateHorizontal(InputAction.CallbackContext Context)
+    {
+        HorizontalNavigate = Context.ReadValue<Vector2>();
+        Debug.Log(HorizontalNavigate);
+    }
+
+    private void OnNavigateVertical(InputAction.CallbackContext Context)
+    {
+        VerticalNavigate = Context.ReadValue<Vector2>();
+        Debug.Log(VerticalNavigate);
+    }
+
+    private void OnConfirm(InputAction.CallbackContext Context)
+    {
+        Confirm = Context.ReadValueAsButton();
+        Debug.Log(Confirm);
     }
 }

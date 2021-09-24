@@ -92,30 +92,24 @@ public class EventListener : MonoBehaviour
 
     private void CheckAddLife()
     {
-        if(PlayerInfo.Lives >= 99)
+        PlayerInfo.Lives++;
+        if (PlayerInfo.Lives >= 99)
         {
             PlayerInfo.Lives = 99;
-        }
-        else
-        {
-            PlayerInfo.Lives++;
         }
         LifeText.text = PlayerInfo.Lives.ToString();
     }
 
     private void CheckWithdrawLife()
     {
-        if(PlayerInfo.Lives < 0)
+        PlayerInfo.Lives--;
+        if (PlayerInfo.Lives < 0)
         {
             PlayerInfo.Lives = 0;
             GameManager.Instance.Gameover = true;
-            GameManager.Instance.PlayerDied();
-        }
-        else
-        {
-            PlayerInfo.Lives--;
         }
         LifeText.text = PlayerInfo.Lives.ToString();
+        GameManager.Instance.PlayerDied();
     }
 
     private void HandlePlayerDied()

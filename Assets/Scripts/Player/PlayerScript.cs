@@ -40,16 +40,16 @@ public class PlayerScript : MonoBehaviour
     int Devider = 2;
     float Average = .5f;
     float CurrentPlayerSpeed;
-    Vector3 PlayerCheckPointPosition;
-    //[HideInInspector]
+    public Vector3 PlayerCheckPointPosition;
+    [HideInInspector]
     public bool CanMove;
     
     //Attack settings
     bool IsAttacking;
-    public bool IsBodyslam;
+    bool IsBodyslam;
     bool IsSlideAttack;
     bool IsSlideAttackPerforming;
-    public bool IsBodyslamPerforming;
+    bool IsBodyslamPerforming;
     bool IsAttackPerforming;
     float BodySlamDistance = 1;
     float BodySlamHeightMultiplier = 5.5f;
@@ -120,7 +120,6 @@ public class PlayerScript : MonoBehaviour
         PlayerControllerSetup();
         JumpVariablesSetup();
     }
-
     private void InitialSetup()
     {
         PlayerInput = new PlayerInput();
@@ -151,7 +150,6 @@ public class PlayerScript : MonoBehaviour
         AnimatorState StateWithBlendTree = RootStateMachine.states[5].state;
         LongIdleTree = (BlendTree)StateWithBlendTree.motion;
     }
-
     private void PlayerControllerSetup()
     {
         PlayerInput.CharacterControls.Move.started += OnMovementInput;
@@ -171,7 +169,6 @@ public class PlayerScript : MonoBehaviour
         PlayerInput.CharacterControls.HUD.started += OnHUDDisplay;
         PlayerInput.CharacterControls.HUD.canceled += OnHUDDisplay;
     }
-    
     private void JumpVariablesSetup()
     {
         float TimeToApex = MaxJumpTime / Devider;
@@ -657,8 +654,6 @@ public class PlayerScript : MonoBehaviour
     {
         CharController.Move(Vector3.zero);
         CurrentPlayerSpeed = CharController.velocity.magnitude;
-        CurrentRotation = new Quaternion(Zero, Zero, Zero, Zero);
-        transform.rotation = CurrentRotation;
         PlayerAnimator.SetFloat("IsMoving", CurrentPlayerSpeed);
         EventManager.PlayerDied();
     }
@@ -689,11 +684,11 @@ public class PlayerScript : MonoBehaviour
         PlayerInput.CharacterControls.Disable();
     }
 
-    private void OnMovementInput(InputAction.CallbackContext context)
+    private void OnMovementInput(InputAction.CallbackContext Context)
     {
         if (CanMove)
         {
-            CurrentMovementInput = context.ReadValue<Vector2>();
+            CurrentMovementInput = Context.ReadValue<Vector2>();
         }
         else
         {
