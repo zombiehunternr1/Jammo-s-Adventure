@@ -66,7 +66,7 @@ public class EventListener : MonoBehaviour
 
     private void HandleCollectedLifeUpdate()
     {
-        CheckLifeCount();
+        CheckAddLife();
     }
 
     private void HandleCollectedBoltUpdate()
@@ -76,7 +76,7 @@ public class EventListener : MonoBehaviour
 
     private void CheckBoltCount()
     {
-        if (PlayerInfo.Bolts > 99)
+        if (PlayerInfo.Bolts >= 99)
         {
             PlayerInfo.Bolts = 0;
             HandleCollectedLifeDisplay();
@@ -90,7 +90,7 @@ public class EventListener : MonoBehaviour
         BoltText.text = PlayerInfo.Bolts.ToString();
     }
 
-    private void CheckLifeCount()
+    private void CheckAddLife()
     {
         if(PlayerInfo.Lives >= 99)
         {
@@ -103,9 +103,24 @@ public class EventListener : MonoBehaviour
         LifeText.text = PlayerInfo.Lives.ToString();
     }
 
+    private void CheckWithdrawLife()
+    {
+        if(PlayerInfo.Lives < 0)
+        {
+            PlayerInfo.Lives = 0;
+            GameManager.Instance.Gameover = true;
+            GameManager.Instance.PlayerDied();
+        }
+        else
+        {
+            PlayerInfo.Lives--;
+        }
+        LifeText.text = PlayerInfo.Lives.ToString();
+    }
+
     private void HandlePlayerDied()
     {
-        GameManager.Instance.PlayerDied();
+        CheckWithdrawLife();
     }
 
     private void HandleClearItemContainer()

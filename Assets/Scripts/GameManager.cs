@@ -1,11 +1,16 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+
+    private Text GameoverText;
+    private Image RetryArrow;
+    private Text RetryText;
+    private Image QuitArrow;
+    private Text QuitText;
 
     [HideInInspector]
     public GameObject BreakableCrateContainer;
@@ -16,6 +21,8 @@ public class GameManager : MonoBehaviour
     private float HoldNextFade = 1.5f;
     private float FadeSpeed = 1;
     private bool IsFadingToBlack = true;
+    [HideInInspector]
+    public bool Gameover;
 
     private void OnEnable()
     {
@@ -44,6 +51,26 @@ public class GameManager : MonoBehaviour
         if(Player == null)
         {
             Player = GameObject.Find("Player").GetComponent<PlayerScript>();
+        }
+        if(GameoverText == null)
+        {
+            GameoverText = GameObject.Find("Game Over").GetComponent<Text>();
+        }
+        if(RetryArrow == null)
+        {
+            RetryArrow = GameObject.Find("Retry Arrow").GetComponent<Image>();
+        }
+        if(RetryText == null)
+        {
+            RetryText = GameObject.Find("Retry Text").GetComponent<Text>();
+        }
+        if(QuitArrow == null)
+        {
+            QuitArrow = GameObject.Find("Quit Arrow").GetComponent<Image>();
+        }
+        if(QuitText == null)
+        {
+            QuitText = GameObject.Find("Quit Text").GetComponent<Text>();
         }
     }
 
@@ -74,16 +101,20 @@ public class GameManager : MonoBehaviour
     IEnumerator FadeToBlack()
     {
         Image PanelImage = FadeOutPanel.GetComponent<Image>();
-        Color ChangeColor = PanelImage.color;
+        Color ChangePanelColor = PanelImage.color;
+        Color ChangeArrowColor = RetryArrow.color;
+        Color ChangeOptionTextColor = RetryText.color;
+        Color ChangeGameoverTextColor = GameoverText.color;
+
         float FadeAmount;
 
         if (IsFadingToBlack)
         {
             while (PanelImage.color.a < 1)
             {
-                FadeAmount = ChangeColor.a + (FadeSpeed * Time.deltaTime);
-                ChangeColor = new Color(ChangeColor.r, ChangeColor.g, ChangeColor.b, FadeAmount);
-                PanelImage.color = ChangeColor;
+                FadeAmount = ChangePanelColor.a + (FadeSpeed * Time.deltaTime);
+                ChangePanelColor = new Color(ChangePanelColor.r, ChangePanelColor.g, ChangePanelColor.b, FadeAmount);
+                PanelImage.color = ChangePanelColor;
                 yield return null;
             }
             IsFadingToBlack = false;
@@ -92,20 +123,44 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            ClearItemsContainer();
-            ResetPlayer();
-            yield return new WaitForSeconds(HoldNextFade);
-            while (PanelImage.color.a > 0)
+            if (Gameover)
             {
-                ChangeColor = PanelImage.color;
-                FadeAmount = ChangeColor.a - (FadeSpeed * Time.deltaTime);
-
-                ChangeColor = new Color(ChangeColor.r, ChangeColor.g, ChangeColor.b, FadeAmount);
-                PanelImage.color = ChangeColor;
-                yield return null;
+                while(GameoverText.color.a < 1)
+                {
+                    FadeAmount = ChangeGameoverTextColor.a + (FadeSpeed * Time.deltaTime);
+                    ChangeGameoverTextColor = new Color(ChangeGameoverTextColor.r, ChangeGameoverTextColor.g, ChangeGameoverTextColor.b, FadeAmount);
+                    GameoverText.color = ChangeGameoverTextColor;
+                    yield return null;
+                }
+                yield return new WaitForSeconds(2);
+                while(RetryArrow.color.a < 1)
+                {
+                    FadeAmount = ChangeArrowColor.a + (FadeSpeed * Time.deltaTime);
+                    ChangeArrowColor = new Color(ChangeArrowColor.r, ChangeArrowColor.g, ChangeArrowColor.b, FadeAmount);
+                    ChangeOptionTextColor = new Color(ChangeOptionTextColor.r, ChangeOptionTextColor.g, ChangeOptionTextColor.b, FadeAmount);
+                    RetryArrow.color = ChangeArrowColor;
+                    RetryText.color = ChangeOptionTextColor;
+                    QuitText.color = ChangeOptionTextColor;
+                    yield return null;
+                }
             }
-            Player.CanMove = true;
-            IsFadingToBlack = true;
+            else
+            {
+                ClearItemsContainer();
+                ResetPlayer();
+                yield return new WaitForSeconds(HoldNextFade);
+                while (PanelImage.color.a > 0)
+                {
+                    ChangePanelColor = PanelImage.color;
+                    FadeAmount = ChangePanelColor.a - (FadeSpeed * Time.deltaTime);
+
+                    ChangePanelColor = new Color(ChangePanelColor.r, ChangePanelColor.g, ChangePanelColor.b, FadeAmount);
+                    PanelImage.color = ChangePanelColor;
+                    yield return null;
+                }
+                Player.CanMove = true;
+                IsFadingToBlack = true;
+            }
             StopCoroutine(FadeToBlack());
         }
     }
