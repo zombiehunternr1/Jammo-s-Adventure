@@ -41,15 +41,15 @@ public class PlayerScript : MonoBehaviour
     float Average = .5f;
     float CurrentPlayerSpeed;
     Vector3 PlayerCheckPointPosition;
-    [HideInInspector]
+    //[HideInInspector]
     public bool CanMove;
     
     //Attack settings
     bool IsAttacking;
-    bool IsBodyslam;
+    public bool IsBodyslam;
     bool IsSlideAttack;
     bool IsSlideAttackPerforming;
-    bool IsBodyslamPerforming;
+    public bool IsBodyslamPerforming;
     bool IsAttackPerforming;
     float BodySlamDistance = 1;
     float BodySlamHeightMultiplier = 5.5f;
@@ -192,13 +192,20 @@ public class PlayerScript : MonoBehaviour
     private void FixedUpdate()
     {
         HandleAnimation();
+        CheckIfRunning();
+        HandleGravity();
         if (CanMove)
         {
             HandleRotation();
             CheckAttackstyle();
             HandleJump();
-            CheckIfRunning();
-            HandleGravity();
+        }
+        else
+        {
+            float YValue = IsRunPressed ? CurrentRunMovement.y : CurrentMovement.y;
+            Vector3 DownMovement = new Vector3(Zero, YValue, Zero);
+            CurrentMovement = DownMovement;
+            CurrentRunMovement = DownMovement;
         }
     }
 
@@ -305,7 +312,10 @@ public class PlayerScript : MonoBehaviour
     {
         if (IsRunPressed)
         {
-            LastPosition = CharController.transform.position;
+            if (CanMove)
+            {
+                LastPosition = CharController.transform.position;
+            }
             CharController.Move(CurrentRunMovement * Time.deltaTime);
         }
         else
@@ -419,6 +429,7 @@ public class PlayerScript : MonoBehaviour
                 CurrentMovement.y = NextYVelocity;
                 CurrentRunMovement.y = NextYVelocity;
                 NextHeight = transform.position.y;
+                CurrentMovementInput = Vector2.zero;
                 return;
             }
             NewYVelocity = CurrentMovement.y + (Gravity * FallMultiplier * Time.deltaTime);
