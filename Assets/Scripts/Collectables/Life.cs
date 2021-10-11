@@ -7,6 +7,7 @@ public class Life : MonoBehaviour, ICollectable
     Transform SpawnItemsHolder;
     Transform LifeUI;
     float Speed = 2;
+    float SpawnHeight = 1.2f;
     float DistanceToTarget;
     bool HasCollided;
     Rigidbody RB;
@@ -19,7 +20,14 @@ public class Life : MonoBehaviour, ICollectable
         SpawnItemsHolder = GameManager.Instance.SpawnedItemsContainer.transform;
         transform.SetParent(SpawnItemsHolder);
         GameManager.Instance.UpdateItemContainerList(gameObject);
-        StartCoroutine(MoveToGround());
+        if (transform.position.y > SpawnHeight)
+        {
+            StartCoroutine(MoveToGround());
+        }
+        else
+        {
+            Destroy(RB);
+        }
     }
 
     public void Collect()
