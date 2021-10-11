@@ -11,7 +11,6 @@ public class PlayerScript : MonoBehaviour
     public AnimatorController AnimController;
     public GameObject GroundPoundDust;
     public Animator HUDAnimator;
-    PlayerInput PlayerInput;
     CharacterController CharController;
     Animator PlayerAnimator;
     BlendTree LongIdleTree;
@@ -119,12 +118,10 @@ public class PlayerScript : MonoBehaviour
     {
         InitialSetup();
         AnimatorSetup();
-        PlayerControllerSetup();
         JumpVariablesSetup();
     }
     private void InitialSetup()
     {
-        PlayerInput = new PlayerInput();
         CharController = GetComponent<CharacterController>();
         PlayerAnimator = GetComponent<Animator>();
         CanMove = true;
@@ -153,25 +150,7 @@ public class PlayerScript : MonoBehaviour
         AnimatorState StateWithBlendTree = RootStateMachine.states[5].state;
         LongIdleTree = (BlendTree)StateWithBlendTree.motion;
     }
-    private void PlayerControllerSetup()
-    {
-        PlayerInput.CharacterControls.Move.started += OnMovementInput;
-        PlayerInput.CharacterControls.Move.canceled += OnMovementInput;
-        PlayerInput.CharacterControls.Move.performed += OnMovementInput;
-        PlayerInput.CharacterControls.Run.started += OnRun;
-        PlayerInput.CharacterControls.Run.canceled += OnRun;
-        PlayerInput.CharacterControls.Jump.started += OnJump;
-        PlayerInput.CharacterControls.Jump.performed += OnJump;
-        PlayerInput.CharacterControls.Jump.canceled += OnJump;
-        PlayerInput.CharacterControls.Attack.started += OnAttack;
-        PlayerInput.CharacterControls.Attack.canceled += OnAttack;
-        PlayerInput.CharacterControls.SpecialAttack.started += OnBodySlam;
-        PlayerInput.CharacterControls.SpecialAttack.canceled += OnBodySlam;
-        PlayerInput.CharacterControls.SpecialAttack.started += OnSlideAttack;
-        PlayerInput.CharacterControls.SpecialAttack.canceled += OnSlideAttack;
-        PlayerInput.CharacterControls.HUD.started += OnHUDDisplay;
-        PlayerInput.CharacterControls.HUD.canceled += OnHUDDisplay;
-    }
+
     private void JumpVariablesSetup()
     {
         float TimeToApex = MaxJumpTime / Devider;
@@ -699,18 +678,7 @@ public class PlayerScript : MonoBehaviour
         CanMove = true;
     }
 
-    //Player input system
-    private void OnEnable()
-    {
-        PlayerInput.CharacterControls.Enable();
-    }
-
-    private void OnDisable()
-    {
-        PlayerInput.CharacterControls.Disable();
-    }
-
-    private void OnMovementInput(InputAction.CallbackContext Context)
+    public void OnMovementInput(InputAction.CallbackContext Context)
     {
         if (CanMove)
         {
@@ -727,32 +695,32 @@ public class PlayerScript : MonoBehaviour
         IsMovementPressed = CurrentMovementInput.x != Zero || CurrentMovementInput.y != Zero;
     }
 
-    private void OnRun(InputAction.CallbackContext context)
+    public void OnRun(InputAction.CallbackContext context)
     {
         IsRunPressed = context.ReadValueAsButton();
     }
 
-    private void OnJump(InputAction.CallbackContext context)
+    public void OnJump(InputAction.CallbackContext context)
     {
         IsJumpPressed = context.ReadValueAsButton();
     }
 
-    private void OnAttack(InputAction.CallbackContext context)
+    public void OnAttack(InputAction.CallbackContext context)
     {
         IsAttacking = context.ReadValueAsButton();
     }
 
-    private void OnBodySlam(InputAction.CallbackContext context)
+    public void OnBodySlam(InputAction.CallbackContext context)
     {
         IsBodyslam = context.ReadValueAsButton();
     }
 
-    private void OnSlideAttack(InputAction.CallbackContext context)
+    public void OnSlideAttack(InputAction.CallbackContext context)
     {
         IsSlideAttack = context.ReadValueAsButton();
     }
 
-    private void OnHUDDisplay(InputAction.CallbackContext context)
+    public void OnHUDDisplay(InputAction.CallbackContext context)
     {
         if (!IsDisplayHUDPerforming)
         {
@@ -760,6 +728,5 @@ public class PlayerScript : MonoBehaviour
             IsDisplayHUDPerforming = IsDisplayingHUD;
             StartCoroutine(DisplayHUD());
         }
-
     }
 }
