@@ -50,7 +50,7 @@ public class PlayerScript : MonoBehaviour
     bool IsBodyslam;
     bool IsSlideAttack;
     bool IsSlideAttackPerforming;
-    bool IsBodyslamPerforming;
+    public static bool IsBodyslamPerforming;
     bool IsAttackPerforming;
     float BodySlamDistance = 1;
     float BodySlamHeightMultiplier = 5.5f;
@@ -193,9 +193,9 @@ public class PlayerScript : MonoBehaviour
     {
         HandleAnimation();
         HandleGravity();
+        CheckIfRunning();
         if (CanMove)
         {
-            CheckIfRunning();
             HandleRotation();
             CheckAttackstyle();
             HandleJump();
@@ -310,18 +310,25 @@ public class PlayerScript : MonoBehaviour
 
     private void CheckIfRunning()
     {
-        if (IsRunPressed)
+        if (IsBodyslamPerforming)
         {
-            if (CanMove)
-            {
-                LastPosition = CharController.transform.position;
-            }
-            CharController.Move(CurrentRunMovement * Time.deltaTime);
+            LastPosition = CharController.transform.position;
+            CharController.Move(CurrentMovement * Time.deltaTime);          
         }
         else
         {
-            LastPosition = CharController.transform.position;
-            CharController.Move(CurrentMovement * Time.deltaTime);
+            if (CanMove)
+            {
+                if (IsRunPressed)
+                {
+                    CharController.Move(CurrentRunMovement * Time.deltaTime);
+                }
+                else
+                {
+                    CharController.Move(CurrentMovement * Time.deltaTime);
+                }
+                LastPosition = CharController.transform.position;
+            }
         }
     }
 

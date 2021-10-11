@@ -3539,10 +3539,12 @@ MonoBehaviour:
   HUDAnimator: {fileID: 0}
   ResetTime: 5
   CurrentTime: 0
+  CanMove: 0
   SlideMultiplier: 5
   GroundMask:
     serializedVersion: 2
     m_Bits: 65
+  IsFalling: 0
   SetFlipHeight: 1.6
   IsJumpPressed: 0
   IsJumping: 0
