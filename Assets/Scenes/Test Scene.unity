@@ -2558,6 +2558,10 @@ PrefabInstance:
       propertyPath: HUDAnimator
       value: 
       objectReference: {fileID: 526074895}
+    - target: {fileID: 5917870316687677850, guid: 082498128659b4048bdb8fa5cda6b5b3, type: 3}
+      propertyPath: GroundMask.m_Bits
+      value: 65
+      objectReference: {fileID: 0}
     - target: {fileID: 5917870316687677851, guid: 082498128659b4048bdb8fa5cda6b5b3, type: 3}
       propertyPath: m_RootOrder
       value: 2

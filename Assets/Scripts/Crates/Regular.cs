@@ -23,7 +23,7 @@ public class Regular : MonoBehaviour, ICrateBase
         {
             //Top
             case 1:
-                Bounce();
+                Top();
             break;
             //Bottom
             case 2:
@@ -35,12 +35,35 @@ public class Regular : MonoBehaviour, ICrateBase
             break;
             //Bodyslam
             case 8:
-                SpawnBoltTypes();
+                Top();
             break;
             //Slide
             case 9:
                 SpawnBoltTypes();
             break;
+        }
+    }
+
+
+    private void Top()
+    {
+        HitColliders = Physics.OverlapBox(new Vector3(transform.position.x, transform.position.y + 0.8f, transform.position.z), new Vector3(1.25f, 1, 1.25f));
+
+        foreach (Collider Collider in HitColliders)
+        {
+            PlayerScript Player = Collider.GetComponent<PlayerScript>();
+            if (Player != null)
+            {
+                if (Player.IsBodyslamPerforming)
+                {
+                    Player.StartCoroutine(Player.DownwardsForce());
+                    SpawnBoltTypes();
+                }
+                else
+                {
+                    Bounce(Player);
+                }
+            }
         }
     }
 
@@ -64,21 +87,12 @@ public class Regular : MonoBehaviour, ICrateBase
         DisableCrate();
     }
 
-    private void Bounce() 
+    private void Bounce(PlayerScript Player) 
     {
-        HitColliders = Physics.OverlapBox(new Vector3(transform.position.x, transform.position.y + 0.8f, transform.position.z), new Vector3(1.25f, 1, 1.25f));
-
-        foreach(Collider Collider in HitColliders)
+        if (Player.IsFalling)
         {
-            PlayerScript Player = Collider.GetComponent<PlayerScript>();
-            if(Player != null)
-            {
-                if (Player.IsFalling)
-                {
-                    Player.IsBounce = true;
-                    SpawnBoltTypes();
-                }
-            }
+            Player.IsBounce = true;
+            SpawnBoltTypes();
         }
     }
 

@@ -50,7 +50,8 @@ public class PlayerScript : MonoBehaviour
     bool IsBodyslam;
     bool IsSlideAttack;
     bool IsSlideAttackPerforming;
-    public static bool IsBodyslamPerforming;
+    [HideInInspector]
+    public bool IsBodyslamPerforming;
     bool IsAttackPerforming;
     float BodySlamDistance = 1;
     float BodySlamHeightMultiplier = 5.5f;
@@ -525,6 +526,17 @@ public class PlayerScript : MonoBehaviour
         IsBounce = false;
         CurrentMovement.y = InitialJumpVelocity * Average * BigBounce;
         CurrentRunMovement.y = InitialJumpVelocity * Average * BigBounce;
+    }
+    
+    public IEnumerator DownwardsForce()
+    {
+        while (CharController.transform.position.y > 0 && !IsGrounded())
+        {
+            CharController.transform.position = new Vector3(CharController.transform.position.x, CharController.transform.position.y - Average * Time.deltaTime, CharController.transform.position.z);
+            yield return CharController.transform.position;
+        }
+        StopCoroutine(DownwardsForce());
+
     }
 
     private IEnumerator DisplayHUD()
