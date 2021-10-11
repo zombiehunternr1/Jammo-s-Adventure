@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 12154848824423466}
   - component: {fileID: 2475622984362087293}
+  - component: {fileID: 1960143157123876992}
+  - component: {fileID: 8639580014278596056}
   m_Layer: 0
   m_Name: TNT Crate
   m_TagString: Untagged
@@ -45,6 +47,36 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.01, z: 1}
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &1960143157123876992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 819934862810689168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 317f815eb7dcf54448fec2b426bf53da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BrokenCrate: {fileID: 7652551911593466536, guid: 6ab4b91fe19194749bbaa73547162f2c, type: 3}
+  ExplosionEffect: {fileID: 7256894595883887071, guid: 8bc6e0d6a0477f04ba82c3f9f16fe5a2, type: 3}
+--- !u!111 &8639580014278596056
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 819934862810689168}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 4f27cfb68b8347a48b059f3f966bb990, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 4f27cfb68b8347a48b059f3f966bb990, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &8860135473888699652
 GameObject:
   m_ObjectHideFlags: 0

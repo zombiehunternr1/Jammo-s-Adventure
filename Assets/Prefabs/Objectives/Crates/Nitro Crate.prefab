@@ -91,6 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9210102409375900293}
   - component: {fileID: 6746630155962828242}
+  - component: {fileID: 5650035999739505672}
   m_Layer: 0
   m_Name: Nitro Crate
   m_TagString: Untagged
@@ -126,3 +127,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.01, z: 1}
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &5650035999739505672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8402322674761709631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5089b2345e850a41939a7c84e2717a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BrokenCrate: {fileID: 3892158152475469837, guid: cc705656a0ce1054aacc634076d89926, type: 3}
+  ExplosionEffect: {fileID: 6660441922141446290, guid: 31cf7807181110b4d81983551f57bed2, type: 3}

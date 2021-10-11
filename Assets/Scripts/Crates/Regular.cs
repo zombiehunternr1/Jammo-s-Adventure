@@ -41,6 +41,10 @@ public class Regular : MonoBehaviour, ICrateBase
             case 9:
                 SpawnBoltTypes();
             break;
+            //Explosion
+            case 10:
+                DisableCrate();
+            break;
         }
     }
 
