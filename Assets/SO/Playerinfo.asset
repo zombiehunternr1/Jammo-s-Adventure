@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ce7145df3d8b1c45909a5c2200f5d44, type: 3}
   m_Name: Playerinfo
   m_EditorClassIdentifier: 
-  Bolts: 20
-  Lives: 88
+  Bolts: 0
+  Lives: 0

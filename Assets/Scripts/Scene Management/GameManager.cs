@@ -105,7 +105,7 @@ public class GameManager : MonoBehaviour
 
     private void ChangeControlMap()
     {
-        Debug.Log("I want to change my input map to UI");
+
     }
 
     IEnumerator FadeToBlack()

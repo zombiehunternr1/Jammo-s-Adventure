@@ -9,9 +9,9 @@ public class Nitro : MonoBehaviour, ICrateBase
 
     private bool HasExploded;
 
-    private void Awake()
+    private void Start()
     {
-        transform.parent = GameObject.Find("Breakable Crates").transform;
+        transform.parent = GameManager.Instance.BreakableCrateContainer.transform;
     }
 
     public void Break(int Side)

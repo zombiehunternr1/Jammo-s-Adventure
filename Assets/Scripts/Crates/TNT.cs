@@ -10,9 +10,9 @@ public class TNT : MonoBehaviour, ICrateBase
     private bool HasExploded;
     public Animation CountdownAnim;
 
-    private void Awake()
+    private void Start()
     {
-        transform.parent = GameObject.Find("Breakable Crates").transform;
+        transform.parent = GameManager.Instance.BreakableCrateContainer.transform;
         CountdownAnim = GetComponent<Animation>();
     }
 
