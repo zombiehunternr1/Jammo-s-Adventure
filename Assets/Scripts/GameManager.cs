@@ -92,10 +92,10 @@ public class GameManager : MonoBehaviour
     private void ResetPlayer()
     {
         Animator PlayerAnim = Player.GetComponent<Animator>();
-        Player.ResetPlayerPosition();
         Player.GetComponent<CharacterSkinController>().ReturnToNormalEvent();
         PlayerAnim.ResetTrigger("IsDead");
         PlayerAnim.SetTrigger("IsDead");
+        Player.ResetPlayerPosition();
     }
 
     public void PlayerDied()

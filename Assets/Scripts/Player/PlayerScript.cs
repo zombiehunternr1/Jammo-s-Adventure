@@ -40,7 +40,8 @@ public class PlayerScript : MonoBehaviour
     int Devider = 2;
     float Average = .5f;
     float CurrentPlayerSpeed;
-    public Vector3 PlayerCheckPointPosition;
+    Vector3 PlayerCheckPointPosition;
+    Quaternion PlayerOriginalRotation;
     [HideInInspector]
     public bool CanMove;
     
@@ -126,7 +127,8 @@ public class PlayerScript : MonoBehaviour
         CharController = GetComponent<CharacterController>();
         PlayerAnimator = GetComponent<Animator>();
         CanMove = true;
-        PlayerCheckPointPosition = transform.position + CurrentMovement;
+        PlayerCheckPointPosition = transform.position;
+        PlayerOriginalRotation = transform.rotation;
     }
 
     private void AnimatorSetup()
@@ -184,15 +186,16 @@ public class PlayerScript : MonoBehaviour
     public void ResetPlayerPosition()
     {
         transform.position = PlayerCheckPointPosition;
+        transform.rotation = PlayerOriginalRotation;
     }
 
     private void FixedUpdate()
     {
         HandleAnimation();
-        CheckIfRunning();
         HandleGravity();
         if (CanMove)
         {
+            CheckIfRunning();
             HandleRotation();
             CheckAttackstyle();
             HandleJump();
