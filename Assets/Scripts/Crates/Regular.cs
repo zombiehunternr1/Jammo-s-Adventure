@@ -27,7 +27,7 @@ public class Regular : MonoBehaviour, ICrateBase
             break;
             //Bottom
             case 2:
-                SpawnBoltTypes();
+                Bottom();
             break;
             //Attack
             case 7:
@@ -63,6 +63,21 @@ public class Regular : MonoBehaviour, ICrateBase
                 {
                     Bounce(Player);
                 }
+            }
+        }
+    }
+
+    private void Bottom()
+    {
+        HitColliders = Physics.OverlapBox(new Vector3(transform.position.x, transform.position.y + 0.8f, transform.position.z), new Vector3(1.25f, 1, 1.25f));
+
+        foreach (Collider Collider in HitColliders)
+        {
+            PlayerScript Player = Collider.GetComponent<PlayerScript>();
+            if (Player != null)
+            {
+                Player.StartCoroutine(Player.DownwardsForce());
+                SpawnBoltTypes();
             }
         }
     }

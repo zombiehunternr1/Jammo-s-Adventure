@@ -6,16 +6,20 @@ public class Bolt : MonoBehaviour, ICollectable
 {
     Transform SpawnItemsHolder;
     Transform BoltUI;
+    Rigidbody RB;
     float Speed = 2;
     float DistanceToTarget;
-    private bool HasCollided;
+    bool HasCollided;
 
     private void Start()
     {
+        Physics.IgnoreLayerCollision(7, 7);
+        RB = GetComponent<Rigidbody>();
         BoltUI = (Transform)GameObject.Find("BoltModelPosition").gameObject.GetComponent(typeof(Transform));
         SpawnItemsHolder = GameManager.Instance.SpawnedItemsContainer.transform;
         transform.SetParent(SpawnItemsHolder);
         GameManager.Instance.UpdateItemContainerList(gameObject);
+        StartCoroutine(MoveToGround());
     }
 
     public void Collect()
@@ -47,5 +51,19 @@ public class Bolt : MonoBehaviour, ICollectable
             yield return transform.position;
         }
         yield return null;
+    }
+
+    private IEnumerator MoveToGround()
+    {
+        while(transform.position.y != 0.5f)
+        {
+            if (transform.position.y <= 0.5f)
+            {
+                transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
+                Destroy(RB);
+            }
+            yield return null;
+        }
+        StopCoroutine(MoveToGround());
     }
 }

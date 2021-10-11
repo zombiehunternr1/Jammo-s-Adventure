@@ -9,13 +9,17 @@ public class Life : MonoBehaviour, ICollectable
     float Speed = 2;
     float DistanceToTarget;
     bool HasCollided;
+    Rigidbody RB;
 
     private void Start()
     {
+        Physics.IgnoreLayerCollision(7, 7);
+        RB = GetComponent<Rigidbody>();
         LifeUI = (Transform)GameObject.Find("LifeModelPosition").gameObject.GetComponent(typeof(Transform));
         SpawnItemsHolder = GameManager.Instance.SpawnedItemsContainer.transform;
         transform.SetParent(SpawnItemsHolder);
         GameManager.Instance.UpdateItemContainerList(gameObject);
+        StartCoroutine(MoveToGround());
     }
 
     public void Collect()
@@ -53,5 +57,19 @@ public class Life : MonoBehaviour, ICollectable
             yield return transform.position;
         }
         yield return null;
+    }
+
+    private IEnumerator MoveToGround()
+    {
+        while (transform.position.y != 0.5f)
+        {
+            if (transform.position.y <= 0.5f)
+            {
+                transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
+                Destroy(RB);
+            }
+            yield return null;
+        }
+        StopCoroutine(MoveToGround());
     }
 }

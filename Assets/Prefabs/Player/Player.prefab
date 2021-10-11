@@ -3475,6 +3475,7 @@ GameObject:
   - component: {fileID: 5917870316687677852}
   - component: {fileID: 5917870316687677853}
   - component: {fileID: 5917870316687677855}
+  - component: {fileID: 1459047042}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -3540,6 +3541,7 @@ MonoBehaviour:
   ResetTime: 5
   CurrentTime: 0
   CanMove: 0
+  IsBodyslamPerforming: 0
   SlideMultiplier: 5
   GroundMask:
     serializedVersion: 2
@@ -3549,7 +3551,7 @@ MonoBehaviour:
   IsJumpPressed: 0
   IsJumping: 0
   IsBounce: 0
-  IdleDanceMarker: 10
+  IdleDanceMarker: 30
 --- !u!95 &5917870316687677852
 Animator:
   serializedVersion: 3
@@ -3610,6 +3612,19 @@ MonoBehaviour:
   - {r: 2.0000005, g: 0.26178017, b: 0.26178017, a: 1}
   - {r: 2.6701577, g: 2.6701577, b: 2.6701577, a: 1}
   eyeState: 0
+--- !u!65 &1459047042
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5917870316687677848}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1.8, z: 1}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &6050382021561142861
 GameObject:
   m_ObjectHideFlags: 0

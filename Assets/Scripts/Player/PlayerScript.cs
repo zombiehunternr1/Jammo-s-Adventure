@@ -320,6 +320,7 @@ public class PlayerScript : MonoBehaviour
         {
             if (CanMove)
             {
+                LastPosition = CharController.transform.position;
                 if (IsRunPressed)
                 {
                     CharController.Move(CurrentRunMovement * Time.deltaTime);
@@ -328,7 +329,6 @@ public class PlayerScript : MonoBehaviour
                 {
                     CharController.Move(CurrentMovement * Time.deltaTime);
                 }
-                LastPosition = CharController.transform.position;
             }
         }
     }
