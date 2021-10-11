@@ -3539,6 +3539,7 @@ MonoBehaviour:
   AnimController: {fileID: 9100000, guid: a851d886aae1830478087cdd1d32d1c8, type: 2}
   GroundPoundDust: {fileID: 2400109675009593164, guid: d328ed9d41e081b4da83889c677c3fc4, type: 3}
   HUDAnimator: {fileID: 0}
+  PlayerInput: {fileID: 0}
   ResetTime: 5
   CurrentTime: 0
   CanMove: 0
@@ -3760,15 +3761,51 @@ MonoBehaviour:
     m_ActionId: 87c833d2-d447-400d-96bd-de50111ae66c
     m_ActionName: CharacterControls/HUD[/DualShock4GamepadHID/buttonNorth,/DualShock4GamepadHID/leftTrigger]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: OnNavigateHorizontal
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 60d70f7f-bffd-462b-9acc-9adaf70e1e47
     m_ActionName: UI/Horizontal[/DualShock4GamepadHID/dpad/left,/DualShock4GamepadHID/dpad/right,/DualShock4GamepadHID/leftStick]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: OnNavigateVertical
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: ee0e0472-7866-4a8e-b2d6-7578d4c0e905
     m_ActionName: UI/Vertical[/DualShock4GamepadHID/dpad/up,/DualShock4GamepadHID/dpad/down,/DualShock4GamepadHID/leftStick]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: OnConfirm
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: cd542b7f-cc73-4173-977a-47aae8f045fd
     m_ActionName: UI/Confirm[/DualShock4GamepadHID/buttonSouth]
   m_NeverAutoSwitchControlSchemes: 0

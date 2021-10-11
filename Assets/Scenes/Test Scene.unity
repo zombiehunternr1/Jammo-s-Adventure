@@ -1009,6 +1009,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Select Options
       objectReference: {fileID: 0}
+    - target: {fileID: 4683881793594992942, guid: ad88011897359a147a0d6996b7716abd, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4683881793808987560, guid: ad88011897359a147a0d6996b7716abd, type: 3}
       propertyPath: m_Color.a
       value: 0
@@ -1024,6 +1028,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4683881793573362028, guid: ad88011897359a147a0d6996b7716abd, type: 3}
   m_PrefabInstance: {fileID: 822812512}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &961522047 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1899063718324467854, guid: 008936aa3f5dfba419b7b99377a01cab, type: 3}
+  m_PrefabInstance: {fileID: 1899063716910719505}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f39077ce0ffad4c419bf620715cd3286, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -2607,6 +2622,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 103893230, guid: 082498128659b4048bdb8fa5cda6b5b3, type: 3}
+      propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 961522047}
+    - target: {fileID: 103893230, guid: 082498128659b4048bdb8fa5cda6b5b3, type: 3}
+      propertyPath: m_ActionEvents.Array.data[7].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 961522047}
+    - target: {fileID: 103893230, guid: 082498128659b4048bdb8fa5cda6b5b3, type: 3}
+      propertyPath: m_ActionEvents.Array.data[8].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 961522047}
     - target: {fileID: 5917870316687677848, guid: 082498128659b4048bdb8fa5cda6b5b3, type: 3}
       propertyPath: m_Name
       value: Player

@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Playerinfo
   m_EditorClassIdentifier: 
   Bolts: 0
-  Lives: 0
+  Lives: 5

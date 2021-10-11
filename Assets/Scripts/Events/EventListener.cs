@@ -33,6 +33,7 @@ public class EventListener : MonoBehaviour
         EventManager.OnCollectedBoltUpdate += HandleCollectedBoltUpdate;
         EventManager.OnPlayerDied += HandlePlayerDied;
         EventManager.OnClearItemsContainer += HandleClearItemContainer;
+        EventManager.OnResetGameOverPlayer += HandleResetGameOverPlayer;
     }
 
     void UnSubscribeEvents()
@@ -43,6 +44,7 @@ public class EventListener : MonoBehaviour
         EventManager.OnCollectedBoltUpdate -= HandleCollectedBoltUpdate;
         EventManager.OnPlayerDied -= HandlePlayerDied;
         EventManager.OnClearItemsContainer -= HandleClearItemContainer;
+        EventManager.OnResetGameOverPlayer -= HandleResetGameOverPlayer;
     }
 
     private void SetupUIValues()
@@ -72,6 +74,14 @@ public class EventListener : MonoBehaviour
     private void HandleCollectedBoltUpdate()
     {
         CheckBoltCount();
+    }
+    
+    private void HandleResetGameOverPlayer()
+    {
+        PlayerInfo.Lives = 5;
+        GameManager.Instance.Gameover = false;
+        GameManager.Instance.IsResetGame = true;
+        GameManager.Instance.ResetGame();
     }
 
     private void CheckBoltCount()

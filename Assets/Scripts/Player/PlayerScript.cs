@@ -11,6 +11,8 @@ public class PlayerScript : MonoBehaviour
     public AnimatorController AnimController;
     public GameObject GroundPoundDust;
     public Animator HUDAnimator;
+    [HideInInspector]
+    public PlayerInput PlayerInput;
     CharacterController CharController;
     Animator PlayerAnimator;
     BlendTree LongIdleTree;
@@ -40,6 +42,7 @@ public class PlayerScript : MonoBehaviour
     float Average = .5f;
     float CurrentPlayerSpeed;
     Vector3 PlayerCheckPointPosition;
+    Vector3 PlayerSpawnPosition;
     Quaternion PlayerOriginalRotation;
     [HideInInspector]
     public bool CanMove;
@@ -122,6 +125,7 @@ public class PlayerScript : MonoBehaviour
     }
     private void InitialSetup()
     {
+        PlayerInput = GetComponent<PlayerInput>();
         CharController = GetComponent<CharacterController>();
         PlayerAnimator = GetComponent<Animator>();
         CanMove = true;
@@ -163,9 +167,22 @@ public class PlayerScript : MonoBehaviour
         return CharController.isGrounded;
     }
 
-    public void ResetPlayerPosition()
+    public void ResetGameoverPosition()
     {
-        transform.position = PlayerCheckPointPosition;
+        transform.position = PlayerSpawnPosition;
+        transform.rotation = PlayerOriginalRotation;
+    }
+
+    public void ResetCheckpointPosition()
+    {
+        if(PlayerCheckPointPosition != new Vector3(0, 0, 0))
+        {
+            transform.position = PlayerCheckPointPosition;
+        }
+        else
+        {
+            transform.position = PlayerSpawnPosition;
+        }
         transform.rotation = PlayerOriginalRotation;
     }
 

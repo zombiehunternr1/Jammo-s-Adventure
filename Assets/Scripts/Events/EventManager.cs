@@ -25,6 +25,9 @@ public class EventManager : MonoBehaviour
     public delegate void ClearItemsInContainer();
     public static event ClearItemsInContainer OnClearItemsContainer;
 
+    public delegate void ResetGameOverPlayer();
+    public static event ResetGameOverPlayer OnResetGameOverPlayer;
+
     public static void CollectLifeDisplay()
     { if (OnCollectedLifeDisplay != null) { OnCollectedLifeDisplay(); } }
 
@@ -43,5 +46,9 @@ public class EventManager : MonoBehaviour
     public static void UpdateItemContainerList()
     { if (OnClearItemsContainer != null) OnUpdateItemsInContainer(); }
     public static void ClearItemsContainer()
-    { if (OnClearItemsContainer != null) OnClearItemsContainer(); } }
+    { if (OnClearItemsContainer != null) OnClearItemsContainer(); } 
+
+    public static void ResetGameOver()
+    { if (OnResetGameOverPlayer != null) OnResetGameOverPlayer(); }
+}
    

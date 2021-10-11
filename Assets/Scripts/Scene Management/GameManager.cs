@@ -21,13 +21,18 @@ public class GameManager : MonoBehaviour
     public GameObject BreakableCrateContainer;
     [HideInInspector]
     public GameObject SpawnedItemsContainer;
+    [HideInInspector]
+    public bool Gameover;
+    [HideInInspector]
+    public bool IsResetGame;
     private GameObject FadeOutPanel;
     private PlayerScript Player;
     private float HoldNextFade = 1.5f;
     private float FadeSpeed = 1;
     private bool IsFadingToBlack = true;
-    [HideInInspector]
-    public bool Gameover;
+    private bool FirstTime = true;
+
+
 
     private void OnEnable()
     {
@@ -37,6 +42,8 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(this);
         }
         SetupSceneElements();
+        Player.CanMove = false;
+        StartCoroutine(FadeEffect());
     }
 
     private void SetupSceneElements()
@@ -89,26 +96,34 @@ public class GameManager : MonoBehaviour
         SpawnedItemsContainer.GetComponent<ClearSpawnedItems>().DestroyItems();
     }
 
-    private void ResetPlayer()
+    private void ResetTillCheckpoint()
     {
         Animator PlayerAnim = Player.GetComponent<Animator>();
         Player.GetComponent<CharacterSkinController>().ReturnToNormalEvent();
         PlayerAnim.ResetTrigger("IsDead");
         PlayerAnim.SetTrigger("IsDead");
-        Player.ResetPlayerPosition();
+        Player.ResetCheckpointPosition();
+    }
+
+    private void ResetToStartLevel()
+    {
+        Animator PlayerAnim = Player.GetComponent<Animator>();
+        Player.GetComponent<CharacterSkinController>().ReturnToNormalEvent();
+        PlayerAnim.Play("Movement");
+        Player.ResetGameoverPosition();
     }
 
     public void PlayerDied()
     {
-        StartCoroutine(FadeToBlack());
+        StartCoroutine(FadeEffect());
     }
 
-    private void ChangeControlMap()
+    public void ResetGame()
     {
-
+        StartCoroutine(FadeEffect());
     }
 
-    IEnumerator FadeToBlack()
+    IEnumerator FadeEffect()
     {
         Image PanelImage = FadeOutPanel.GetComponent<Image>();
         Color ChangePanelColor = PanelImage.color;
@@ -116,10 +131,17 @@ public class GameManager : MonoBehaviour
         Color ChangeOptionTextColor = RetryText.color;
         Color ChangeGameoverTextColor = GameoverText.color;
 
-        float FadeAmount;
+        float FadeAmount = 1;
 
         if (IsFadingToBlack)
         {
+            if (FirstTime)
+            {
+                ChangePanelColor = new Color(ChangePanelColor.r, ChangePanelColor.g, ChangePanelColor.b, FadeAmount);
+                PanelImage.color = ChangePanelColor;
+                IsFadingToBlack = false;
+                StartCoroutine(FadeEffect());
+            }
             while (PanelImage.color.a < 1)
             {
                 FadeAmount = ChangePanelColor.a + (FadeSpeed * Time.deltaTime);
@@ -129,7 +151,7 @@ public class GameManager : MonoBehaviour
             }
             IsFadingToBlack = false;
             yield return new WaitForSeconds(HoldNextFade);
-            StartCoroutine(FadeToBlack());
+            StartCoroutine(FadeEffect());
         }
         else
         {
@@ -142,7 +164,7 @@ public class GameManager : MonoBehaviour
                     GameoverText.color = ChangeGameoverTextColor;
                     yield return null;
                 }
-                yield return new WaitForSeconds(2);
+                yield return new WaitForSeconds(HoldNextFade);
                 while(RetryArrow.color.a < 1)
                 {
                     FadeAmount = ChangeArrowColor.a + (FadeSpeed * Time.deltaTime);
@@ -150,15 +172,49 @@ public class GameManager : MonoBehaviour
                     ChangeOptionTextColor = new Color(ChangeOptionTextColor.r, ChangeOptionTextColor.g, ChangeOptionTextColor.b, FadeAmount);
                     RetryArrow.color = ChangeArrowColor;
                     RetryText.color = ChangeOptionTextColor;
+                    QuitArrow.color = ChangeArrowColor;
                     QuitText.color = ChangeOptionTextColor;
                     yield return null;
                 }
-                ChangeControlMap();
+                Player.PlayerInput.SwitchCurrentActionMap("UI");
+            }
+            else if (IsResetGame)
+            {
+                IsResetGame = false;
+                ResetToStartLevel();
+                while (GameoverText.color.a > 0 && RetryArrow.color.a > 0)
+                {
+                    FadeAmount = ChangeGameoverTextColor.a - (FadeSpeed * Time.deltaTime);
+                    ChangeGameoverTextColor = new Color(ChangeGameoverTextColor.r, ChangeGameoverTextColor.g, ChangeGameoverTextColor.b, FadeAmount);
+                    ChangeArrowColor = new Color(ChangeArrowColor.r, ChangeArrowColor.g, ChangeArrowColor.b, FadeAmount);
+                    ChangeOptionTextColor = new Color(ChangeOptionTextColor.r, ChangeOptionTextColor.g, ChangeOptionTextColor.b, FadeAmount);
+                    GameoverText.color = ChangeGameoverTextColor;
+                    RetryArrow.color = ChangeArrowColor;
+                    RetryText.color = ChangeOptionTextColor;
+                    QuitArrow.color = ChangeArrowColor;
+                    QuitText.color = ChangeOptionTextColor;
+                    yield return null;
+                }
+                yield return new WaitForSeconds(HoldNextFade);
+                while (PanelImage.color.a > 0)
+                {
+                    ChangePanelColor = PanelImage.color;
+                    FadeAmount = ChangePanelColor.a - (FadeSpeed * Time.deltaTime);
+                    ChangePanelColor = new Color(ChangePanelColor.r, ChangePanelColor.g, ChangePanelColor.b, FadeAmount);
+                    PanelImage.color = ChangePanelColor;
+                    yield return null;
+                }
+                yield return new WaitForSeconds(HoldNextFade);
+                Player.PlayerInput.SwitchCurrentActionMap("CharacterControls");
+                Player.CanMove = true;
             }
             else
             {
-                ClearItemsContainer();
-                ResetPlayer();
+                if (!FirstTime)
+                {
+                    ClearItemsContainer();
+                    ResetTillCheckpoint();
+                }
                 yield return new WaitForSeconds(HoldNextFade);
                 while (PanelImage.color.a > 0)
                 {
@@ -169,29 +225,43 @@ public class GameManager : MonoBehaviour
                     PanelImage.color = ChangePanelColor;
                     yield return null;
                 }
+                FirstTime = false;
                 Player.CanMove = true;
                 IsFadingToBlack = true;
             }
-            StopCoroutine(FadeToBlack());
+            StopCoroutine(FadeEffect());
+        }
+    }
+    public void OnNavigateHorizontal(InputAction.CallbackContext Context)
+    {
+        HorizontalNavigate = Context.ReadValue<Vector2>();
+    }
+
+    public void OnNavigateVertical(InputAction.CallbackContext Context)
+    {
+        VerticalNavigate = Context.ReadValue<Vector2>();
+        if (RetryArrow.enabled)
+        {
+            RetryArrow.enabled = false;
+            QuitArrow.enabled = true;
+        }
+        else if (QuitArrow.enabled)
+        {
+            QuitArrow.enabled = false;
+            RetryArrow.enabled = true;
         }
     }
 
-    //Player Input
-    private void OnNavigateHorizontal(InputAction.CallbackContext Context)
-    {
-        HorizontalNavigate = Context.ReadValue<Vector2>();
-        Debug.Log(HorizontalNavigate);
-    }
-
-    private void OnNavigateVertical(InputAction.CallbackContext Context)
-    {
-        VerticalNavigate = Context.ReadValue<Vector2>();
-        Debug.Log(VerticalNavigate);
-    }
-
-    private void OnConfirm(InputAction.CallbackContext Context)
+    public void OnConfirm(InputAction.CallbackContext Context)
     {
         Confirm = Context.ReadValueAsButton();
-        Debug.Log(Confirm);
+        if (RetryArrow.enabled)
+        {
+            EventManager.ResetGameOver();
+        }
+        else if (QuitArrow.enabled)
+        {
+            Debug.Log("Quit game");
+        }
     }
 }
