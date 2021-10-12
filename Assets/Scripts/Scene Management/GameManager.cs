@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,20 +8,21 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    public Text CrateCount;
     public Text GameoverText;
     public Image RetryArrow;
     public Text RetryText;
     public Image QuitArrow;
     public Text QuitText;
-
-    private Vector2 HorizontalNavigate;
-    private Vector2 VerticalNavigate;
-
     public PlayerScript Player;
-
     public GameObject BreakableCrateContainer;
     public GameObject SpawnedItemsContainer;
     public GameObject FadeOutPanel;
+
+    private List<ICrateBase> TotalBrokenCrates = new List<ICrateBase>();
+    private List<ICrateBase> CurrentlyBrokenCrates = new List<ICrateBase>();
+    private Vector2 HorizontalNavigate;
+    private Vector2 VerticalNavigate;
     private float HoldNextFade = 1.5f;
     private float FadeSpeed = 1;
     private bool IsFadingToBlack = true;
@@ -49,9 +51,25 @@ public class GameManager : MonoBehaviour
         SpawnedItemsContainer.GetComponent<ClearSpawnedItems>().Items.Add(Item);
     }
 
+    public void UpdateCrateCount(ICrateBase Crate)
+    {
+        CurrentlyBrokenCrates.Add(Crate);
+        CrateCount.text = CurrentlyBrokenCrates.Count + "/" + TotalBrokenCrates.Count;
+    }
+
     public void ClearItemsContainer()
     {
         SpawnedItemsContainer.GetComponent<ClearSpawnedItems>().DestroyItems();
+    }
+
+    private void GetTotalCrateCount()
+    {
+        ICrateBase[] TempCrates = BreakableCrateContainer.GetComponentsInChildren<ICrateBase>();
+        foreach (ICrateBase Crate in TempCrates)
+        {
+            TotalBrokenCrates.Add(Crate);
+        }
+        CrateCount.text = CurrentlyBrokenCrates.Count + "/" + TotalBrokenCrates.Count;
     }
 
     private void ResetTillCheckpoint()
@@ -99,6 +117,7 @@ public class GameManager : MonoBehaviour
                 PanelImage.color = ChangePanelColor;
                 IsFadingToBlack = false;
                 yield return new WaitForSeconds(HoldNextFade);
+                GetTotalCrateCount();
                 StartCoroutine(FadeEffect());
             }
             while (PanelImage.color.a < 1)

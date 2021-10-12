@@ -11,6 +11,7 @@ public class Regular : MonoBehaviour, ICrateBase
 
     private float YOffset = 0.5f;
     private Collider[] HitColliders;
+    public static bool IsBroken;
 
     private void Start()
     {
@@ -117,7 +118,12 @@ public class Regular : MonoBehaviour, ICrateBase
 
     public void DisableCrate()
     {
-        gameObject.SetActive(false);
-        Instantiate(BrokenCrate, transform.position, Quaternion.identity);
+        if (!IsBroken)
+        {
+            IsBroken = true;
+            GameManager.Instance.UpdateCrateCount(this);
+            gameObject.SetActive(false);
+            Instantiate(BrokenCrate, transform.position, Quaternion.identity);
+        }
     }
 }

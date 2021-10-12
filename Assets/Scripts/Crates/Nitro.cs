@@ -73,6 +73,7 @@ public class Nitro : MonoBehaviour, ICrateBase
 
     public void DisableCrate()
     {
+        GameManager.Instance.UpdateCrateCount(this);
         gameObject.SetActive(false);
         Instantiate(BrokenCrate, transform.position, Quaternion.identity);
     }

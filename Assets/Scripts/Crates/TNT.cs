@@ -8,7 +8,7 @@ public class TNT : MonoBehaviour, ICrateBase
     public ParticleSystem ExplosionEffect;
 
     private bool HasExploded;
-    public Animation CountdownAnim;
+    private Animation CountdownAnim;
 
     private void Start()
     {
@@ -65,6 +65,7 @@ public class TNT : MonoBehaviour, ICrateBase
 
     public void DisableCrate()
     {
+        GameManager.Instance.UpdateCrateCount(this);
         gameObject.SetActive(false);
         Instantiate(BrokenCrate, transform.position, Quaternion.identity);
     }
