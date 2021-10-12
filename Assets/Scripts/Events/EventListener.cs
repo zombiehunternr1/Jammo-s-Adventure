@@ -11,8 +11,8 @@ public class EventListener : MonoBehaviour
     public Animator HUD;
     public GameObject Life;
 
-    private Transform Player;
     private GameObject SpawnedLife;
+    [SerializeField] private PlayerScript Player;
 
     void OnEnable()
     {
@@ -32,6 +32,7 @@ public class EventListener : MonoBehaviour
         EventManager.OnCollectedLifeUpdate += HandleCollectedLifeUpdate;
         EventManager.OnCollectedBoltUpdate += HandleCollectedBoltUpdate;
         EventManager.OnPlayerDied += HandlePlayerDied;
+        EventManager.OnEnablePlayerMovement += HandlePlayerMovement;
         EventManager.OnClearItemsContainer += HandleClearItemContainer;
         EventManager.OnResetGameOverPlayer += HandleResetGameOverPlayer;
     }
@@ -43,6 +44,7 @@ public class EventListener : MonoBehaviour
         EventManager.OnCollectedLifeUpdate -= HandleCollectedLifeUpdate;
         EventManager.OnCollectedBoltUpdate -= HandleCollectedBoltUpdate;
         EventManager.OnPlayerDied -= HandlePlayerDied;
+        EventManager.OnEnablePlayerMovement -= HandlePlayerMovement;
         EventManager.OnClearItemsContainer -= HandleClearItemContainer;
         EventManager.OnResetGameOverPlayer -= HandleResetGameOverPlayer;
     }
@@ -51,7 +53,6 @@ public class EventListener : MonoBehaviour
     {
         LifeText.text = PlayerInfo.Lives.ToString();
         BoltText.text = PlayerInfo.Bolts.ToString();
-        Player = (Transform)GameObject.Find("Player").gameObject.GetComponent(typeof(Transform));
     }
 
     private void HandleCollectedLifeDisplay()
@@ -79,8 +80,8 @@ public class EventListener : MonoBehaviour
     private void HandleResetGameOverPlayer()
     {
         PlayerInfo.Lives = 5;
-        GameManager.Instance.Gameover = false;
-        GameManager.Instance.IsResetGame = true;
+        GameManager.Booleans.GameOver = false;
+        GameManager.Booleans.IsResetGame = true;
         GameManager.Instance.ResetGame();
     }
 
@@ -116,7 +117,7 @@ public class EventListener : MonoBehaviour
         if (PlayerInfo.Lives < 0)
         {
             PlayerInfo.Lives = 0;
-            GameManager.Instance.Gameover = true;
+            GameManager.Booleans.GameOver = true;
         }
         LifeText.text = PlayerInfo.Lives.ToString();
         GameManager.Instance.PlayerDied();
@@ -125,6 +126,11 @@ public class EventListener : MonoBehaviour
     private void HandlePlayerDied()
     {
         CheckWithdrawLife();
+    }
+
+    private void HandlePlayerMovement()
+    {
+        GameManager.Booleans.CanMove = !GameManager.Booleans.CanMove;
     }
 
     private void HandleClearItemContainer()

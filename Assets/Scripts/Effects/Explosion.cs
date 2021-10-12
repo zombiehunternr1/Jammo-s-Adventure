@@ -29,7 +29,7 @@ public class Explosion : MonoBehaviour
             if (Hit.gameObject.GetComponent<PlayerScript>())
             {
                 PlayerScript Player = Hit.gameObject.GetComponent<PlayerScript>();
-                Player.CanMove = false;
+                EventManager.EnablePlayerMovement();
                 Player.GetComponent<Animator>().SetTrigger("IsDead");
             }
         }

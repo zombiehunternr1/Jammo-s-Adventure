@@ -44,8 +44,6 @@ public class PlayerScript : MonoBehaviour
     Vector3 PlayerCheckPointPosition;
     Vector3 PlayerSpawnPosition;
     Quaternion PlayerOriginalRotation;
-    [HideInInspector]
-    public bool CanMove;
     
     //Attack settings
     bool IsAttacking;
@@ -128,7 +126,6 @@ public class PlayerScript : MonoBehaviour
         PlayerInput = GetComponent<PlayerInput>();
         CharController = GetComponent<CharacterController>();
         PlayerAnimator = GetComponent<Animator>();
-        CanMove = true;
         PlayerCheckPointPosition = transform.position;
         PlayerOriginalRotation = transform.rotation;
     }
@@ -191,7 +188,7 @@ public class PlayerScript : MonoBehaviour
         HandleAnimation();
         HandleGravity();
         CheckIfRunning();
-        if (CanMove)
+        if (GameManager.Booleans.CanMove)
         {
             HandleRotation();
             CheckAttackstyle();
@@ -314,7 +311,7 @@ public class PlayerScript : MonoBehaviour
         }
         else
         {
-            if (CanMove)
+            if (GameManager.Booleans.CanMove)
             {
                 LastPosition = CharController.transform.position;
                 if (IsRunPressed)
@@ -341,7 +338,7 @@ public class PlayerScript : MonoBehaviour
                 if (!IsGrounded() && Distance > BodySlamDistance && IsBodyslam && !IsBodyslamPerforming && !IsSlideAttackPerforming)
                 {
                     IsBodyslamPerforming = IsBodyslam;
-                    CanMove = false;
+                    EventManager.EnablePlayerMovement();
                     PlayerAnimator.SetBool(IsBodyslamHash, IsBodyslamPerforming);
                     CharController.Move(Vector3.up * BodySlamHeightMultiplier * Time.fixedDeltaTime);
                     LandingDelay = 0.7f;
@@ -364,7 +361,7 @@ public class PlayerScript : MonoBehaviour
         {
             IsSlideAttackPerforming = IsSlideAttack;
             PlayerAnimator.SetBool(IsSlideAttackHash, IsSlideAttackPerforming);
-            if (CanMove)
+            if (GameManager.Booleans.CanMove)
             {
                 CharController.Move(Vector3.forward * SlideMultiplier * Time.fixedDeltaTime);
             }
@@ -643,7 +640,7 @@ public class PlayerScript : MonoBehaviour
     IEnumerator ResetMovement()
     {
         yield return new WaitForSeconds(.5f);
-        CanMove = true;
+        EventManager.EnablePlayerMovement();
     }
 
     //Animation events
@@ -687,17 +684,17 @@ public class PlayerScript : MonoBehaviour
 
     private void DisableMovementEvent()
     {
-        CanMove = false;
+        EventManager.EnablePlayerMovement();
     }
 
     private void EnableMovementEvent()
     {
-        CanMove = true;
+        EventManager.EnablePlayerMovement();
     }
 
     public void OnMovementInput(InputAction.CallbackContext Context)
     {
-        if (CanMove)
+        if (GameManager.Booleans.CanMove)
         {
             CurrentMovementInput = Context.ReadValue<Vector2>();
         }

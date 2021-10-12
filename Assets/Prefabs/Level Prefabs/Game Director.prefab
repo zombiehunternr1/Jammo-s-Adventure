@@ -62,6 +62,7 @@ MonoBehaviour:
   LifeText: {fileID: 0}
   HUD: {fileID: 0}
   Life: {fileID: 7064968393602707068, guid: d4ef73622637db14780b68aa2722cd58, type: 3}
+  Player: {fileID: 0}
 --- !u!114 &1899063718324467854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,9 +75,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f39077ce0ffad4c419bf620715cd3286, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HorizontalNavigate: {x: 0, y: 0}
-  VerticalNavigate: {x: 0, y: 0}
-  Confirm: 0
+  GameoverText: {fileID: 0}
+  RetryArrow: {fileID: 0}
+  RetryText: {fileID: 0}
+  QuitArrow: {fileID: 0}
+  QuitText: {fileID: 0}
+  Player: {fileID: 0}
   BreakableCrateContainer: {fileID: 0}
   SpawnedItemsContainer: {fileID: 0}
-  Gameover: 0
+  FadeOutPanel: {fileID: 0}

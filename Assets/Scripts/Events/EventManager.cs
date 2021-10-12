@@ -19,6 +19,9 @@ public class EventManager : MonoBehaviour
     public delegate void PlayerHasDied();
     public static event PlayerHasDied OnPlayerDied;
 
+    public delegate void EnablePlayersMovement();
+    public static event EnablePlayersMovement OnEnablePlayerMovement;
+
     public delegate void UpdateItemsInContainer();
     public static event UpdateItemsInContainer OnUpdateItemsInContainer;
 
@@ -42,6 +45,9 @@ public class EventManager : MonoBehaviour
 
     public static void PlayerDied()
     { if (OnPlayerDied != null) OnPlayerDied(); }
+
+    public static void EnablePlayerMovement()
+    { if (OnEnablePlayerMovement != null) OnEnablePlayerMovement(); }
 
     public static void UpdateItemContainerList()
     { if (OnClearItemsContainer != null) OnUpdateItemsInContainer(); }
