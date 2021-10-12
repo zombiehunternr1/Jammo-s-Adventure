@@ -2012,6 +2012,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4683881793084203201}
     - target: {fileID: 1899063718324467854, guid: 008936aa3f5dfba419b7b99377a01cab, type: 3}
+      propertyPath: CrateCount
+      value: 
+      objectReference: {fileID: 916401343}
+    - target: {fileID: 1899063718324467854, guid: 008936aa3f5dfba419b7b99377a01cab, type: 3}
       propertyPath: RetryArrow
       value: 
       objectReference: {fileID: 4683881794060970696}
