@@ -75,9 +75,13 @@ public class GameManager : MonoBehaviour
     private void ResetTillCheckpoint()
     {
         Animator PlayerAnim = Player.GetComponent<Animator>();
-        Player.GetComponent<CharacterSkinController>().ReturnToNormalEvent();
-        PlayerAnim.ResetTrigger("IsDead");
-        PlayerAnim.SetTrigger("IsDead");
+        if (PlayerAnim.GetCurrentAnimatorStateInfo(0).IsName("Dying"))
+        {
+            Player.GetComponent<CharacterSkinController>().ReturnToNormalEvent();
+            PlayerAnim.ResetTrigger("IsDead");
+            PlayerAnim.SetTrigger("IsDead");
+        }
+        Player.ResetPlayerMovement();
         Player.ResetCheckpointPosition();
     }
 
@@ -85,6 +89,7 @@ public class GameManager : MonoBehaviour
     {
         Animator PlayerAnim = Player.GetComponent<Animator>();
         Player.GetComponent<CharacterSkinController>().ReturnToNormalEvent();
+        Player.ResetPlayerMovement();
         PlayerAnim.Play("Movement");
         Player.ResetGameoverPosition();
     }
@@ -185,6 +190,11 @@ public class GameManager : MonoBehaviour
                     yield return null;
                 }
                 yield return new WaitForSeconds(HoldNextFade);
+                if (Player.HasExploded)
+                {
+                    Player.HasExploded = false;
+                }
+                Player.Model.SetActive(true);
                 Player.PlayerInput.SwitchCurrentActionMap("CharacterControls");
                 EventManager.EnablePlayerMovement();
             }
@@ -195,6 +205,7 @@ public class GameManager : MonoBehaviour
                     ClearItemsContainer();
                     ResetTillCheckpoint();
                 }
+                Player.Model.SetActive(true);
                 yield return new WaitForSeconds(HoldNextFade);
                 while (PanelImage.color.a > 0)
                 {
@@ -204,6 +215,10 @@ public class GameManager : MonoBehaviour
                     ChangePanelColor = new Color(ChangePanelColor.r, ChangePanelColor.g, ChangePanelColor.b, FadeAmount);
                     PanelImage.color = ChangePanelColor;
                     yield return null;
+                }
+                if (Player.HasExploded)
+                {
+                    Player.HasExploded = false;
                 }
                 FirstTime = false;
                 IsFadingToBlack = true;

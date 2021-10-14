@@ -28,9 +28,15 @@ public class Explosion : MonoBehaviour
             }
             if (Hit.gameObject.GetComponent<PlayerScript>())
             {
-                PlayerScript Player = Hit.gameObject.GetComponent<PlayerScript>();
-                EventManager.EnablePlayerMovement();
-                Player.GetComponent<Animator>().SetTrigger("IsDead");
+                PlayerScript Player = Hit.GetComponent<PlayerScript>();
+                if (!Player.HasExploded)
+                {
+                    Player.HasExploded = true;
+                    Instantiate(Player.ExplosionModel, Player.transform.position, Player.transform.rotation);
+                    EventManager.EnablePlayerMovement();
+                    Player.Model.SetActive(false);
+                    StartCoroutine(HoldTransition());
+                }
             }
         }
     }
@@ -39,5 +45,11 @@ public class Explosion : MonoBehaviour
     {
         yield return new WaitForSeconds(.5f);
         HitBox.enabled = false;
+    }
+
+    IEnumerator HoldTransition()
+    {
+        yield return new WaitForSeconds(3f);
+        EventManager.PlayerDied();
     }
 }

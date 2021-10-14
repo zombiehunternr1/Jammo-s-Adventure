@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Life : MonoBehaviour, ICollectable
 {
-    Transform SpawnItemsHolder;
     Transform LifeUI;
     float Speed = 2;
     float SpawnHeight = 1.2f;
@@ -17,8 +16,7 @@ public class Life : MonoBehaviour, ICollectable
         Physics.IgnoreLayerCollision(7, 7);
         RB = GetComponent<Rigidbody>();
         LifeUI = (Transform)GameObject.Find("LifeModelPosition").gameObject.GetComponent(typeof(Transform));
-        SpawnItemsHolder = GameManager.Instance.SpawnedItemsContainer.transform;
-        transform.SetParent(SpawnItemsHolder);
+        transform.parent = GameManager.Instance.SpawnedItemsContainer.transform;
         GameManager.Instance.UpdateItemContainerList(gameObject);
         if (transform.position.y > SpawnHeight)
         {

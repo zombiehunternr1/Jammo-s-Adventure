@@ -22,9 +22,6 @@ public class EventManager : MonoBehaviour
     public delegate void EnablePlayersMovement();
     public static event EnablePlayersMovement OnEnablePlayerMovement;
 
-    public delegate void UpdateItemsInContainer();
-    public static event UpdateItemsInContainer OnUpdateItemsInContainer;
-
     public delegate void ClearItemsInContainer();
     public static event ClearItemsInContainer OnClearItemsContainer;
 
@@ -49,8 +46,6 @@ public class EventManager : MonoBehaviour
     public static void EnablePlayerMovement()
     { if (OnEnablePlayerMovement != null) OnEnablePlayerMovement(); }
 
-    public static void UpdateItemContainerList()
-    { if (OnClearItemsContainer != null) OnUpdateItemsInContainer(); }
     public static void ClearItemsContainer()
     { if (OnClearItemsContainer != null) OnClearItemsContainer(); } 
 

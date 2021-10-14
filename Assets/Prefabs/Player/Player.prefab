@@ -1930,6 +1930,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AnimController: {fileID: 9100000, guid: a851d886aae1830478087cdd1d32d1c8, type: 2}
   GroundPoundDust: {fileID: 2400109675009593164, guid: d328ed9d41e081b4da83889c677c3fc4, type: 3}
+  ExplosionModel: {fileID: 1990322468531612625, guid: f9cb2773b8eaeee41841c0b5d5049df8, type: 3}
   HUDAnimator: {fileID: 0}
   Model: {fileID: 0}
   PlayerInput: {fileID: 0}

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Bolt : MonoBehaviour, ICollectable
 {
-    Transform SpawnItemsHolder;
     Transform BoltUI;
     Rigidbody RB;
     float Speed = 2;
@@ -17,8 +16,7 @@ public class Bolt : MonoBehaviour, ICollectable
         Physics.IgnoreLayerCollision(7, 7);
         RB = GetComponent<Rigidbody>();
         BoltUI = (Transform)GameObject.Find("BoltModelPosition").gameObject.GetComponent(typeof(Transform));
-        SpawnItemsHolder = GameManager.Instance.SpawnedItemsContainer.transform;
-        transform.SetParent(SpawnItemsHolder);
+        transform.parent = GameManager.Instance.SpawnedItemsContainer.transform;
         GameManager.Instance.UpdateItemContainerList(gameObject);
         if(transform.position.y > SpawnHeight)
         {

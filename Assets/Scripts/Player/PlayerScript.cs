@@ -10,6 +10,7 @@ public class PlayerScript : MonoBehaviour
     //Player components
     public AnimatorController AnimController;
     public GameObject GroundPoundDust;
+    public GameObject ExplosionModel;
     public Animator HUDAnimator;
     [HideInInspector]
     public GameObject Model;
@@ -39,6 +40,8 @@ public class PlayerScript : MonoBehaviour
     public float CurrentTime;
 
     //General setup values
+    [HideInInspector]
+    public bool HasExploded;
     int Zero = 0;
     int Devider = 2;
     float Average = .5f;
@@ -391,6 +394,13 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+    public void ResetPlayerMovement()
+    {
+        CharController.Move(Vector3.zero);
+        CurrentPlayerSpeed = CharController.velocity.magnitude;
+        PlayerAnimator.SetFloat("IsMoving", CurrentPlayerSpeed);
+    }
+
     private void HandleGravity()
     {
         IsFalling = CurrentMovement.y < Velocity;
@@ -559,11 +569,6 @@ public class PlayerScript : MonoBehaviour
         {
             CrateType.Break((int)ReturnDirection(gameObject, collision.gameObject));
         }
-        if (collision.gameObject.GetComponent<PlayerDied>())
-        {
-            PlayerDied PlayerDied = collision.gameObject.GetComponent<PlayerDied>();
-            PlayerDied.KillPlayer(this);
-        }
     }
 
     private void OnTriggerEnter(Collider collider)
@@ -674,9 +679,7 @@ public class PlayerScript : MonoBehaviour
 
     private void PlayerDiedEvent()
     {
-        CharController.Move(Vector3.zero);
-        CurrentPlayerSpeed = CharController.velocity.magnitude;
-        PlayerAnimator.SetFloat("IsMoving", CurrentPlayerSpeed);
+        ResetPlayerMovement();
         EventManager.PlayerDied();
     }
     

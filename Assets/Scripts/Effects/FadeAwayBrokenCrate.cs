@@ -9,6 +9,8 @@ public class FadeAwayBrokenCrate : MonoBehaviour
 
     public void Awake()
     {
+        transform.parent = GameManager.Instance.SpawnedItemsContainer.transform;
+        GameManager.Instance.UpdateItemContainerList(gameObject);
         CrateFragment = GetComponent<Renderer>();
         StartCoroutine(FadeOut());
     }
