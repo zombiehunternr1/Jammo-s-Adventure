@@ -12,6 +12,8 @@ public class PlayerScript : MonoBehaviour
     public GameObject GroundPoundDust;
     public Animator HUDAnimator;
     [HideInInspector]
+    public GameObject Model;
+    [HideInInspector]
     public PlayerInput PlayerInput;
     CharacterController CharController;
     Animator PlayerAnimator;
@@ -126,6 +128,7 @@ public class PlayerScript : MonoBehaviour
         PlayerInput = GetComponent<PlayerInput>();
         CharController = GetComponent<CharacterController>();
         PlayerAnimator = GetComponent<Animator>();
+        Model = GetComponentInChildren<Transform>().GetChild(0).gameObject;
         PlayerCheckPointPosition = transform.position;
         PlayerOriginalRotation = transform.rotation;
     }
