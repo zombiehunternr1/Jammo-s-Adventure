@@ -2,12 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Regular : MonoBehaviour, ICrateBase
+public class LifeCrate : MonoBehaviour, ICrateBase
 {
+    public GameObject Life;
     public GameObject BrokenCrate;
-    public int RandomDropRange;
-    public int DropAmount;
-    public List<GameObject> Bolts;
 
     private float YOffset = 0.5f;
     private Collider[] HitColliders;
@@ -26,30 +24,29 @@ public class Regular : MonoBehaviour, ICrateBase
             //Top
             case 1:
                 Top();
-            break;
+                break;
             //Bottom
             case 2:
                 Bottom();
-            break;
+                break;
             //Attack
             case 7:
-                SpawnBoltTypes();
-            break;
+                SpawnLife();
+                break;
             //Bodyslam
             case 8:
                 Top();
-            break;
+                break;
             //Slide
             case 9:
-                SpawnBoltTypes();
-            break;
+                SpawnLife();
+                break;
             //Explosion
             case 10:
                 DisableCrate();
-            break;
+                break;
         }
     }
-
 
     private void Top()
     {
@@ -63,7 +60,7 @@ public class Regular : MonoBehaviour, ICrateBase
                 if (Player.IsBodyslamPerforming)
                 {
                     Player.StartCoroutine(Player.DownwardsForce());
-                    SpawnBoltTypes();
+                    SpawnLife();
                 }
                 else
                 {
@@ -83,37 +80,23 @@ public class Regular : MonoBehaviour, ICrateBase
             if (Player != null)
             {
                 Player.StartCoroutine(Player.DownwardsForce());
-                SpawnBoltTypes();
+                SpawnLife();
             }
         }
     }
 
-    private void SpawnBoltTypes()
+    private void SpawnLife()
     {
-        for(int i = 0; i < DropAmount; i++)
-        {
-            if(i > 0)
-            {
-                var OffsetX = Random.Range(-RandomDropRange, RandomDropRange);
-                var OffsetZ = Random.Range(-RandomDropRange, RandomDropRange);
-                int SelectedItemDrop = Random.Range(0, Bolts.Count);
-                GameObject ItemDrop = Instantiate(Bolts[SelectedItemDrop], new Vector3(transform.position.x + OffsetX, transform.position.y + YOffset, transform.position.z + OffsetZ), Quaternion.identity);
-            }
-            else
-            {
-                int SelectedItemDrop = Random.Range(0, Bolts.Count);
-                GameObject ItemDrop = Instantiate(Bolts[SelectedItemDrop], new Vector3(transform.position.x, transform.position.y + YOffset, transform.position.z), Quaternion.identity);
-            }
-        }
+        Instantiate(Life, new Vector3(transform.position.x, transform.position.y + YOffset, transform.position.z), Quaternion.identity);
         DisableCrate();
     }
 
-    private void Bounce(PlayerScript Player) 
+    private void Bounce(PlayerScript Player)
     {
         if (Player.IsFalling)
         {
             Player.IsBounce = true;
-            SpawnBoltTypes();
+            SpawnLife();
         }
     }
 
