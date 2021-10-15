@@ -3118,6 +3118,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2053339102776651035, guid: c2ac76167cc1ef942b5bfddd872a5244, type: 3}
+      propertyPath: IsLife
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6132927021195896404, guid: c2ac76167cc1ef942b5bfddd872a5244, type: 3}
       propertyPath: m_Name
       value: Question Crate
@@ -3132,11 +3136,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6797998976629406958, guid: c2ac76167cc1ef942b5bfddd872a5244, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.85
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6797998976629406958, guid: c2ac76167cc1ef942b5bfddd872a5244, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.293
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 6797998976629406958, guid: c2ac76167cc1ef942b5bfddd872a5244, type: 3}
       propertyPath: m_LocalRotation.w
