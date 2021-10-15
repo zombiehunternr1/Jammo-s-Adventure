@@ -16,7 +16,6 @@ public class Bolt : MonoBehaviour, ICollectable
         Physics.IgnoreLayerCollision(7, 7);
         RB = GetComponent<Rigidbody>();
         BoltUI = (Transform)GameObject.Find("BoltModelPosition").gameObject.GetComponent(typeof(Transform));
-        transform.parent = GameManager.Instance.SpawnedItemsContainer.transform;
         GameManager.Instance.UpdateItemContainerList(gameObject);
         if(transform.position.y > SpawnHeight)
         {

@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
     public void UpdateItemContainerList(GameObject Item)
     {
         SpawnedItemsContainer.GetComponent<ClearSpawnedItems>().Items.Add(Item);
+        Item.transform.parent = SpawnedItemsContainer.transform;
     }
 
     public void UpdateCrateCount(ICrateBase Crate)

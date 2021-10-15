@@ -16,7 +16,6 @@ public class Life : MonoBehaviour, ICollectable
         Physics.IgnoreLayerCollision(7, 7);
         RB = GetComponent<Rigidbody>();
         LifeUI = (Transform)GameObject.Find("LifeModelPosition").gameObject.GetComponent(typeof(Transform));
-        transform.parent = GameManager.Instance.SpawnedItemsContainer.transform;
         GameManager.Instance.UpdateItemContainerList(gameObject);
         if (transform.position.y > SpawnHeight)
         {
