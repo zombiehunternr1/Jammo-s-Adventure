@@ -399,6 +399,7 @@ public class PlayerScript : MonoBehaviour
         CharController.Move(Vector3.zero);
         CurrentPlayerSpeed = CharController.velocity.magnitude;
         PlayerAnimator.SetFloat("IsMoving", CurrentPlayerSpeed);
+        PlayerAnimator.Play("Idle");
     }
 
     private void HandleGravity()
