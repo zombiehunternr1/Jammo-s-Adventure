@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour
 
     private void GetTotalCrateCount()
     {
+        TotalBrokenCrates = new List<ICrateBase>();
         ICrateBase[] TempCrates = BreakableCrateContainer.GetComponentsInChildren<ICrateBase>();
         foreach (ICrateBase Crate in TempCrates)
         {
@@ -75,6 +76,9 @@ public class GameManager : MonoBehaviour
 
     private void ResetTillCheckpoint()
     {
+        ClearItemsContainer();
+        ResetCrates();
+        GetTotalCrateCount();
         Animator PlayerAnim = Player.GetComponent<Animator>();
         if (PlayerAnim.GetCurrentAnimatorStateInfo(0).IsName("Dying"))
         {
@@ -84,6 +88,17 @@ public class GameManager : MonoBehaviour
         }
         Player.ResetPlayerMovement();
         Player.ResetCheckpointPosition();
+    }
+    private void ResetToStartLevel()
+    {
+        ClearItemsContainer();
+        ResetCrates();
+        GetTotalCrateCount();
+        Player.Model.SetActive(true);
+        IsFadingToBlack = true;
+        Player.GetComponent<CharacterSkinController>().ReturnToNormalEvent();
+        Player.ResetPlayerMovement();
+        Player.ResetGameoverPosition();
     }
 
     private void ResetCrates()
@@ -119,24 +134,11 @@ public class GameManager : MonoBehaviour
                 if (Crate.gameObject.GetComponent<Nitro>())
                 {
                     Crate.gameObject.GetComponent<Nitro>().ResetCrate();
-                                        CurrentlyBrokenCrates.Remove(Crate);
+                    CurrentlyBrokenCrates.Remove(Crate);
                     return;
                 }
             }
         }
-    }
-
-    private void ResetToStartLevel()
-    {
-        ClearItemsContainer();
-        ResetCrates();
-        GetTotalCrateCount();
-        Player.Model.SetActive(true);
-        Animator PlayerAnim = Player.GetComponent<Animator>();
-        Player.GetComponent<CharacterSkinController>().ReturnToNormalEvent();
-        Player.ResetPlayerMovement();
-        PlayerAnim.Play("Movement");
-        Player.ResetGameoverPosition();
     }
 
     public void PlayerDied()
