@@ -25,7 +25,7 @@ public class FadeAwayBrokenCrate : MonoBehaviour
             CrateFragment.material.color = FragmentColor;
             yield return null;
         }
-        gameObject.SetActive(false);
+        Destroy(gameObject);
         StopCoroutine(FadeOut());
     }
 }

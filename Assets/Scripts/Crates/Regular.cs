@@ -2,26 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Questionmark : MonoBehaviour, ICrateBase
+public class Regular : MonoBehaviour, ICrateBase
 {
     public GameObject BrokenCrate;
-    public GameObject Life;
-    public bool IsLife;
-    public int RandomDropRange;
-    public int DropAmount;
     public List<GameObject> Bolts;
 
+    private int RandomDropRange = 1;
+    private int DropAmount = 1;
     private float YOffset = 0.5f;
     private Collider[] HitColliders;
     [HideInInspector]
     public bool IsBroken;
-    private bool HasCollided;
 
     private void Start()
     {
         transform.parent = GameManager.Instance.BreakableCrateContainer.transform;
     }
-
     public void Break(int Side)
     {
         switch (Side)
@@ -29,30 +25,29 @@ public class Questionmark : MonoBehaviour, ICrateBase
             //Top
             case 1:
                 Top();
-            break;
+                break;
             //Bottom
             case 2:
                 Bottom();
-            break;
+                break;
             //Attack
             case 7:
                 SpawnBoltTypes();
-            break;
+                break;
             //Bodyslam
             case 8:
                 Top();
-            break;
+                break;
             //Slide
             case 9:
                 SpawnBoltTypes();
-            break;
+                break;
             //Explosion
             case 10:
                 DisableCrate();
-            break;
+                break;
         }
     }
-
 
     private void Top()
     {
@@ -61,9 +56,8 @@ public class Questionmark : MonoBehaviour, ICrateBase
         foreach (Collider Collider in HitColliders)
         {
             PlayerScript Player = Collider.GetComponent<PlayerScript>();
-            if (Player != null && !HasCollided)
+            if (Player != null)
             {
-                HasCollided = true;
                 if (Player.IsBodyslamPerforming)
                 {
                     Player.StartCoroutine(Player.DownwardsForce());
@@ -78,7 +72,6 @@ public class Questionmark : MonoBehaviour, ICrateBase
             }
         }
     }
-
     private void Bottom()
     {
         HitColliders = Physics.OverlapBox(new Vector3(transform.position.x, transform.position.y + 0.8f, transform.position.z), new Vector3(1.25f, 1, 1.25f));
@@ -97,32 +90,12 @@ public class Questionmark : MonoBehaviour, ICrateBase
 
     private void SpawnBoltTypes()
     {
-        if (IsLife)
-        {
-            Instantiate(Life, new Vector3(transform.position.x, transform.position.y + YOffset, transform.position.z), Quaternion.identity);
-        }
-        else
-        {
-            for (int i = 0; i < DropAmount; i++)
-            {
-                if (i > 0)
-                {
-                    var OffsetX = Random.Range(-RandomDropRange, RandomDropRange);
-                    var OffsetZ = Random.Range(-RandomDropRange, RandomDropRange);
-                    int SelectedItemDrop = Random.Range(0, Bolts.Count);
-                    Instantiate(Bolts[SelectedItemDrop], new Vector3(transform.position.x + OffsetX, transform.position.y + YOffset, transform.position.z + OffsetZ), Quaternion.identity);
-                }
-                else
-                {
-                    int SelectedItemDrop = Random.Range(0, Bolts.Count);
-                    Instantiate(Bolts[SelectedItemDrop], new Vector3(transform.position.x, transform.position.y + YOffset, transform.position.z), Quaternion.identity);
-                }
-            }
-        }
+        int SelectedItemDrop = Random.Range(0, Bolts.Count);
+        Instantiate(Bolts[SelectedItemDrop], new Vector3(transform.position.x, transform.position.y + YOffset, transform.position.z), Quaternion.identity);
         DisableCrate();
     }
 
-    private void Bounce(PlayerScript Player) 
+    private void Bounce(PlayerScript Player)
     {
         if (Player.IsFalling)
         {
@@ -135,8 +108,6 @@ public class Questionmark : MonoBehaviour, ICrateBase
     {
         if (!IsBroken)
         {
-            HasCollided = false;
-            IsLife = false;
             IsBroken = true;
             GameManager.Instance.UpdateCrateCount(this);
             gameObject.SetActive(false);
