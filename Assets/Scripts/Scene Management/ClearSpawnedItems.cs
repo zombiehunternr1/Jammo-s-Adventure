@@ -12,8 +12,8 @@ public class ClearSpawnedItems : MonoBehaviour
         {
             for (int i = 0; i < Items.Count; i++)
             {
-                Destroy(Items[i]);
-                Items.Remove(Items[i]);
+                Destroy(Items[i].gameObject);
+                Items.Remove(Items[i].gameObject);
                 i--;
             }
         }

@@ -53,6 +53,11 @@ public class Questionmark : MonoBehaviour, ICrateBase
         }
     }
 
+    public void ResetCrate()
+    {
+        IsBroken = false;
+        gameObject.SetActive(true);
+    }
 
     private void Top()
     {

@@ -48,6 +48,11 @@ public class Regular : MonoBehaviour, ICrateBase
                 break;
         }
     }
+    public void ResetCrate()
+    {
+        IsBroken = false;
+        gameObject.SetActive(true);
+    }
 
     private void Top()
     {

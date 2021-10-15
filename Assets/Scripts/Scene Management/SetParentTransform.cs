@@ -7,8 +7,7 @@ public class SetParentTransform : MonoBehaviour
     Transform SpawnItemsHolder;
     private void Awake()
     {
-        SpawnItemsHolder = GameManager.Instance.BreakableCrateContainer.transform;
-        transform.SetParent(SpawnItemsHolder);
+        GameManager.Instance.UpdateItemContainerList(gameObject);
     }
 
 }

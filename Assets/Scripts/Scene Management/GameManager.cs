@@ -86,8 +86,52 @@ public class GameManager : MonoBehaviour
         Player.ResetCheckpointPosition();
     }
 
+    private void ResetCrates()
+    {
+        foreach(ICrateBase Crate in CurrentlyBrokenCrates)
+        {
+            if (!Crate.gameObject.activeSelf)
+            {
+                if (Crate.gameObject.GetComponent<Regular>())
+                {
+                    Crate.gameObject.GetComponent<Regular>().ResetCrate();
+                    CurrentlyBrokenCrates.Remove(Crate);
+                    return;
+                }
+                if (Crate.gameObject.GetComponent<Questionmark>())
+                {
+                    Crate.gameObject.GetComponent<Questionmark>().ResetCrate();
+                    CurrentlyBrokenCrates.Remove(Crate);
+                    return;
+                }
+                if (Crate.gameObject.GetComponent<LifeCrate>())
+                {
+                    Crate.gameObject.GetComponent<LifeCrate>().ResetCrate();
+                    CurrentlyBrokenCrates.Remove(Crate);
+                    return;
+                }
+                if (Crate.gameObject.GetComponent<TNT>())
+                {
+                    Crate.gameObject.GetComponent<TNT>().ResetCrate();
+                    CurrentlyBrokenCrates.Remove(Crate);
+                    return;
+                }
+                if (Crate.gameObject.GetComponent<Nitro>())
+                {
+                    Crate.gameObject.GetComponent<Nitro>().ResetCrate();
+                                        CurrentlyBrokenCrates.Remove(Crate);
+                    return;
+                }
+            }
+        }
+    }
+
     private void ResetToStartLevel()
     {
+        ClearItemsContainer();
+        ResetCrates();
+        GetTotalCrateCount();
+        Player.Model.SetActive(true);
         Animator PlayerAnim = Player.GetComponent<Animator>();
         Player.GetComponent<CharacterSkinController>().ReturnToNormalEvent();
         Player.ResetPlayerMovement();
@@ -195,7 +239,6 @@ public class GameManager : MonoBehaviour
                 {
                     Player.HasExploded = false;
                 }
-                Player.Model.SetActive(true);
                 Player.PlayerInput.SwitchCurrentActionMap("CharacterControls");
                 EventManager.EnablePlayerMovement();
             }

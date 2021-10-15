@@ -60,6 +60,11 @@ public class Nitro : MonoBehaviour, ICrateBase
                 break;
         }
     }
+    public void ResetCrate()
+    {
+        HasExploded = false;
+        gameObject.SetActive(true);
+    }
 
     private void Explosion()
     {
