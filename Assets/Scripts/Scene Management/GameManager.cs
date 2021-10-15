@@ -103,39 +103,34 @@ public class GameManager : MonoBehaviour
 
     private void ResetCrates()
     {
-        foreach(ICrateBase Crate in CurrentlyBrokenCrates)
+        for(int i = 0; i < CurrentlyBrokenCrates.Count; i++)
         {
-            if (!Crate.gameObject.activeSelf)
+            if (!CurrentlyBrokenCrates[i].gameObject.activeSelf)
             {
-                if (Crate.gameObject.GetComponent<Regular>())
+                if (CurrentlyBrokenCrates[i].gameObject.GetComponent<Regular>())
                 {
-                    Crate.gameObject.GetComponent<Regular>().ResetCrate();
-                    CurrentlyBrokenCrates.Remove(Crate);
-                    return;
+                    CurrentlyBrokenCrates[i].gameObject.GetComponent<Regular>().ResetCrate();
+                    CurrentlyBrokenCrates.Remove(CurrentlyBrokenCrates[i]);
                 }
-                if (Crate.gameObject.GetComponent<Questionmark>())
+                if (CurrentlyBrokenCrates[i].gameObject.GetComponent<Questionmark>())
                 {
-                    Crate.gameObject.GetComponent<Questionmark>().ResetCrate();
-                    CurrentlyBrokenCrates.Remove(Crate);
-                    return;
+                    CurrentlyBrokenCrates[i].gameObject.GetComponent<Questionmark>().ResetCrate();
+                    CurrentlyBrokenCrates.Remove(CurrentlyBrokenCrates[i]);
                 }
-                if (Crate.gameObject.GetComponent<LifeCrate>())
+                if (CurrentlyBrokenCrates[i].gameObject.GetComponent<LifeCrate>())
                 {
-                    Crate.gameObject.GetComponent<LifeCrate>().ResetCrate();
-                    CurrentlyBrokenCrates.Remove(Crate);
-                    return;
+                    CurrentlyBrokenCrates[i].gameObject.GetComponent<LifeCrate>().ResetCrate();
+                    CurrentlyBrokenCrates.Remove(CurrentlyBrokenCrates[i]);
                 }
-                if (Crate.gameObject.GetComponent<TNT>())
+                if (CurrentlyBrokenCrates[i].gameObject.GetComponent<TNT>())
                 {
-                    Crate.gameObject.GetComponent<TNT>().ResetCrate();
-                    CurrentlyBrokenCrates.Remove(Crate);
-                    return;
+                    CurrentlyBrokenCrates[i].gameObject.GetComponent<TNT>().ResetCrate();
+                    CurrentlyBrokenCrates.Remove(CurrentlyBrokenCrates[i]);
                 }
-                if (Crate.gameObject.GetComponent<Nitro>())
+                if (CurrentlyBrokenCrates[i].gameObject.GetComponent<Nitro>())
                 {
-                    Crate.gameObject.GetComponent<Nitro>().ResetCrate();
-                    CurrentlyBrokenCrates.Remove(Crate);
-                    return;
+                    CurrentlyBrokenCrates[i].gameObject.GetComponent<Nitro>().ResetCrate();
+                    CurrentlyBrokenCrates.Remove(CurrentlyBrokenCrates[i]);
                 }
             }
         }
