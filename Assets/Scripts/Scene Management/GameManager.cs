@@ -78,7 +78,6 @@ public class GameManager : MonoBehaviour
     {
         ClearItemsContainer();
         ResetCrates();
-        GetTotalCrateCount();
         Animator PlayerAnim = Player.GetComponent<Animator>();
         if (PlayerAnim.GetCurrentAnimatorStateInfo(0).IsName("Dying"))
         {
@@ -93,7 +92,6 @@ public class GameManager : MonoBehaviour
     {
         ClearItemsContainer();
         ResetCrates();
-        GetTotalCrateCount();
         Player.Model.SetActive(true);
         IsFadingToBlack = true;
         Player.GetComponent<CharacterSkinController>().ReturnToNormalEvent();
@@ -105,31 +103,10 @@ public class GameManager : MonoBehaviour
     {
         for(int i = 0; i < CurrentlyBrokenCrates.Count; i++)
         {
-            if (!CurrentlyBrokenCrates[i].gameObject.activeSelf)
-            {
-                if (CurrentlyBrokenCrates[i].gameObject.GetComponent<Regular>())
-                {
-                    CurrentlyBrokenCrates[i].gameObject.GetComponent<Regular>().ResetCrate();
-                }
-                if (CurrentlyBrokenCrates[i].gameObject.GetComponent<Questionmark>())
-                {
-                    CurrentlyBrokenCrates[i].gameObject.GetComponent<Questionmark>().ResetCrate();
-                }
-                if (CurrentlyBrokenCrates[i].gameObject.GetComponent<LifeCrate>())
-                {
-                    CurrentlyBrokenCrates[i].gameObject.GetComponent<LifeCrate>().ResetCrate();
-                }
-                if (CurrentlyBrokenCrates[i].gameObject.GetComponent<TNT>())
-                {
-                    CurrentlyBrokenCrates[i].gameObject.GetComponent<TNT>().ResetCrate();
-                }
-                if (CurrentlyBrokenCrates[i].gameObject.GetComponent<Nitro>())
-                {
-                    CurrentlyBrokenCrates[i].gameObject.GetComponent<Nitro>().ResetCrate();
-                }
-                CurrentlyBrokenCrates.Remove(CurrentlyBrokenCrates[i]);
-            }
+            CurrentlyBrokenCrates[i].ResetCrate();
         }
+        CurrentlyBrokenCrates = new List<ICrateBase>();
+        CrateCount.text = CurrentlyBrokenCrates.Count + "/" + TotalBrokenCrates.Count;
     }
 
     public void PlayerDied()
@@ -239,7 +216,6 @@ public class GameManager : MonoBehaviour
             {
                 if (!FirstTime)
                 {
-                    ClearItemsContainer();
                     ResetTillCheckpoint();
                 }
                 Player.Model.SetActive(true);
