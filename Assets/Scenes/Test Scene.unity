@@ -1467,6 +1467,30 @@ RectTransform:
   m_AnchoredPosition: {x: 75, y: -50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1904096463 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 819934862810689168, guid: fad7dd37d6f58524fac8afa5c66f8b70, type: 3}
+  m_PrefabInstance: {fileID: 9084881476853765586}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1904096464
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1904096463}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c5773d2706a762b40927c3eea70ba9a4, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1928619505
 GameObject:
   m_ObjectHideFlags: 0
@@ -3881,10 +3905,6 @@ PrefabInstance:
     - target: {fileID: 819934862810689168, guid: fad7dd37d6f58524fac8afa5c66f8b70, type: 3}
       propertyPath: m_Name
       value: TNT Crate
-      objectReference: {fileID: 0}
-    - target: {fileID: 8639580014278596056, guid: fad7dd37d6f58524fac8afa5c66f8b70, type: 3}
-      propertyPath: m_PlayAutomatically
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fad7dd37d6f58524fac8afa5c66f8b70, type: 3}

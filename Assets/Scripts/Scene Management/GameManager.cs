@@ -110,28 +110,24 @@ public class GameManager : MonoBehaviour
                 if (CurrentlyBrokenCrates[i].gameObject.GetComponent<Regular>())
                 {
                     CurrentlyBrokenCrates[i].gameObject.GetComponent<Regular>().ResetCrate();
-                    CurrentlyBrokenCrates.Remove(CurrentlyBrokenCrates[i]);
                 }
                 if (CurrentlyBrokenCrates[i].gameObject.GetComponent<Questionmark>())
                 {
                     CurrentlyBrokenCrates[i].gameObject.GetComponent<Questionmark>().ResetCrate();
-                    CurrentlyBrokenCrates.Remove(CurrentlyBrokenCrates[i]);
                 }
                 if (CurrentlyBrokenCrates[i].gameObject.GetComponent<LifeCrate>())
                 {
                     CurrentlyBrokenCrates[i].gameObject.GetComponent<LifeCrate>().ResetCrate();
-                    CurrentlyBrokenCrates.Remove(CurrentlyBrokenCrates[i]);
                 }
                 if (CurrentlyBrokenCrates[i].gameObject.GetComponent<TNT>())
                 {
                     CurrentlyBrokenCrates[i].gameObject.GetComponent<TNT>().ResetCrate();
-                    CurrentlyBrokenCrates.Remove(CurrentlyBrokenCrates[i]);
                 }
                 if (CurrentlyBrokenCrates[i].gameObject.GetComponent<Nitro>())
                 {
                     CurrentlyBrokenCrates[i].gameObject.GetComponent<Nitro>().ResetCrate();
-                    CurrentlyBrokenCrates.Remove(CurrentlyBrokenCrates[i]);
                 }
+                CurrentlyBrokenCrates.Remove(CurrentlyBrokenCrates[i]);
             }
         }
     }

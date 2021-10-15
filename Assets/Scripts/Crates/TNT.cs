@@ -8,12 +8,12 @@ public class TNT : MonoBehaviour, ICrateBase
     public ParticleSystem ExplosionEffect;
 
     private bool HasExploded;
-    private Animation CountdownAnim;
+    private Animator TNTAnim;
 
     private void Start()
     {
         transform.parent = GameManager.Instance.BreakableCrateContainer.transform;
-        CountdownAnim = GetComponent<Animation>();
+        TNTAnim = GetComponent<Animator>();
     }
 
     public void Break(int Side)
@@ -50,11 +50,12 @@ public class TNT : MonoBehaviour, ICrateBase
     {
         HasExploded = false;
         gameObject.SetActive(true);
+        TNTAnim.ResetTrigger("Countdown");
     }
 
     private void Countdown()
     {
-        CountdownAnim.Play();
+        TNTAnim.SetTrigger("Countdown");
     }
 
     private void Explosion()
@@ -62,7 +63,6 @@ public class TNT : MonoBehaviour, ICrateBase
         if (!HasExploded)
         {
             HasExploded = true;
-            CountdownAnim.Stop();
             Instantiate(ExplosionEffect, transform.position, Quaternion.identity);
             DisableCrate();
         }
