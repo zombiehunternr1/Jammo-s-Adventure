@@ -86,9 +86,12 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
-                    if (!Crate.gameObject.activeSelf)
+                    if (!CurrentlyBrokenCrates.Contains(Crate))
                     {
-                        CurrentlyBrokenCrates.Add(Crate);
+                        if (!Crate.gameObject.activeSelf)
+                        {
+                            CurrentlyBrokenCrates.Add(Crate);
+                        }
                     }
                 }
             }
