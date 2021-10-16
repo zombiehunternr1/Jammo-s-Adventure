@@ -76,9 +76,12 @@ public class GameManager : MonoBehaviour
             {
                 if (Crate is Checkpoint)
                 {
-                    if (!Crate.gameObject.activeSelf)
+                    if (!CurrentlyBrokenCrates.Contains(Crate))
                     {
-                        CurrentlyBrokenCrates.Add(Crate);
+                        if (!Crate.gameObject.activeSelf)
+                        {
+                            CurrentlyBrokenCrates.Add(Crate);
+                        }
                     }
                 }
                 else
