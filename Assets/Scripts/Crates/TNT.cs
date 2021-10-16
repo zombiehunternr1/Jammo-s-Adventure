@@ -6,9 +6,14 @@ public class TNT : MonoBehaviour, ICrateBase
 {
     public GameObject BrokenCrate;
     public ParticleSystem ExplosionEffect;
+    public Checkpoint CheckPointCrate;
 
     private bool HasExploded;
     private Animator TNTAnim;
+    private Collider[] HitColliders;
+    private bool HasBounced;
+
+    public Checkpoint Checkpoint { get => CheckPointCrate; set => CheckPointCrate = value; }
 
     private void Start()
     {
@@ -22,11 +27,11 @@ public class TNT : MonoBehaviour, ICrateBase
         {
             //Top
             case 1:
-                Countdown();
+                Top();
                 break;
             //Bottom
             case 2:
-                Countdown();
+                Bottom();
                 break;
             //Attack
             case 7:
@@ -46,8 +51,60 @@ public class TNT : MonoBehaviour, ICrateBase
                 break;
         }
     }
+
+    private void Top()
+    {
+        HitColliders = Physics.OverlapBox(new Vector3(transform.position.x, transform.position.y + 0.8f, transform.position.z), new Vector3(1.25f, 1, 1.25f));
+
+        foreach (Collider Collider in HitColliders)
+        {
+            PlayerScript Player = Collider.GetComponent<PlayerScript>();
+            if (Player != null)
+            {
+                if (Player.IsBodyslamPerforming)
+                {
+                    Player.StartCoroutine(Player.DownwardsForce());
+                    Explosion();
+                    break;
+                }
+                else
+                {
+                    Bounce(Player);
+                    break;
+                }
+            }
+        }
+    }
+
+    private void Bottom()
+    {
+        HitColliders = Physics.OverlapBox(new Vector3(transform.position.x, transform.position.y + 0.8f, transform.position.z), new Vector3(1.25f, 1, 1.25f));
+
+        foreach (Collider Collider in HitColliders)
+        {
+            PlayerScript Player = Collider.GetComponent<PlayerScript>();
+            if (Player != null)
+            {
+                Player.StartCoroutine(Player.DownwardsForce());
+                Countdown();
+                break;
+            }
+        }
+    }
+
+    private void Bounce(PlayerScript Player)
+    {
+        if (Player.IsFalling && !HasBounced)
+        {
+            HasBounced = true;
+            Player.IsBounce = true;
+            Countdown();
+        }
+    }
+
     public void ResetCrate()
     {
+        HasBounced = false;
         HasExploded = false;
         gameObject.SetActive(true);
         TNTAnim.ResetTrigger("Countdown");

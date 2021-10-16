@@ -6,11 +6,14 @@ public class LifeCrate : MonoBehaviour, ICrateBase
 {
     public GameObject Life;
     public GameObject BrokenCrate;
+    public Checkpoint CheckPointCrate;
 
     private float YOffset = 0.5f;
     private Collider[] HitColliders;
     [HideInInspector]
     public bool IsBroken;
+
+    public Checkpoint Checkpoint { get => CheckPointCrate; set => CheckPointCrate = value; }
 
     private void Start()
     {

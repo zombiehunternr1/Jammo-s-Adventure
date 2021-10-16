@@ -6,8 +6,11 @@ public class Nitro : MonoBehaviour, ICrateBase
 {
     public GameObject BrokenCrate;
     public ParticleSystem ExplosionEffect;
+    public Checkpoint CheckPointCrate;
 
     private bool HasExploded;
+
+    public Checkpoint Checkpoint { get => CheckPointCrate; set => CheckPointCrate = value; }
 
     private void Start()
     {

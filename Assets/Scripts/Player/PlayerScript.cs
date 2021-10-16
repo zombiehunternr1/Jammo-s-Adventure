@@ -176,6 +176,11 @@ public class PlayerScript : MonoBehaviour
         transform.rotation = PlayerOriginalRotation;
     }
 
+    public void SetCheckPoint(Checkpoint Checkpoint)
+    {
+        PlayerCheckPointPosition = Checkpoint.gameObject.transform.position;
+    }
+
     public void ResetCheckpointPosition()
     {
         if(PlayerCheckPointPosition != new Vector3(0, 0, 0))

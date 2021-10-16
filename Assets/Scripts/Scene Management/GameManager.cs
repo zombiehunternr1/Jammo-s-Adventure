@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
     public void UpdateCrateCount(ICrateBase Crate)
     {
         CurrentlyBrokenCrates.Add(Crate);
-        CrateCount.text = CurrentlyBrokenCrates.Count + "/" + TotalBrokenCrates.Count;
+        GetTotalCrateCount();
     }
 
     public void ClearItemsContainer()
@@ -65,11 +65,30 @@ public class GameManager : MonoBehaviour
 
     private void GetTotalCrateCount()
     {
-        TotalBrokenCrates = new List<ICrateBase>();
-        ICrateBase[] TempCrates = BreakableCrateContainer.GetComponentsInChildren<ICrateBase>();
+        ICrateBase[] TempCrates = BreakableCrateContainer.GetComponentsInChildren<ICrateBase>(true);
         foreach (ICrateBase Crate in TempCrates)
         {
-            TotalBrokenCrates.Add(Crate);
+            if (!TotalBrokenCrates.Contains(Crate))
+            {
+                TotalBrokenCrates.Add(Crate);
+            }
+            if (Crate.Checkpoint != null)
+            {
+                if (Crate is Checkpoint)
+                {
+                    if (!Crate.gameObject.activeSelf)
+                    {
+                        CurrentlyBrokenCrates.Add(Crate);
+                    }
+                }
+                else
+                {
+                    if (!Crate.gameObject.activeSelf)
+                    {
+                        CurrentlyBrokenCrates.Add(Crate);
+                    }
+                }
+            }
         }
         CrateCount.text = CurrentlyBrokenCrates.Count + "/" + TotalBrokenCrates.Count;
     }
@@ -98,15 +117,35 @@ public class GameManager : MonoBehaviour
         Player.ResetPlayerMovement();
         Player.ResetGameoverPosition();
     }
+    public void SetCheckpoint(Checkpoint CheckPointPos)
+    {
+        for (int i = 0; i < CurrentlyBrokenCrates.Count; i++)
+        {
+            CurrentlyBrokenCrates[i].Checkpoint = CheckPointPos;
+            Player.SetCheckPoint(CheckPointPos);
+        }
+    }
 
     private void ResetCrates()
     {
+        List<ICrateBase> TempList = new List<ICrateBase>();
+
         for(int i = 0; i < CurrentlyBrokenCrates.Count; i++)
         {
-            CurrentlyBrokenCrates[i].ResetCrate();
+            if(CurrentlyBrokenCrates[i].Checkpoint == null)
+            {
+                TempList.Add(CurrentlyBrokenCrates[i]);
+            }
         }
         CurrentlyBrokenCrates = new List<ICrateBase>();
-        CrateCount.text = CurrentlyBrokenCrates.Count + "/" + TotalBrokenCrates.Count;
+        CurrentlyBrokenCrates = TempList;
+
+        foreach(ICrateBase Crate in CurrentlyBrokenCrates)
+        {
+            Crate.ResetCrate();
+        }
+        CurrentlyBrokenCrates = new List<ICrateBase>();
+        GetTotalCrateCount();
     }
 
     public void PlayerDied()

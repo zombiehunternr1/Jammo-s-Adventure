@@ -10,12 +10,15 @@ public class Questionmark : MonoBehaviour, ICrateBase
     public int RandomDropRange;
     public int DropAmount;
     public List<GameObject> Bolts;
+    public Checkpoint CheckPointCrate;
 
     private float YOffset = 0.5f;
     private Collider[] HitColliders;
     [HideInInspector]
     public bool IsBroken;
     private bool HasCollided;
+
+    public Checkpoint Checkpoint { get => CheckPointCrate; set => CheckPointCrate = value; }
 
     private void Start()
     {
@@ -140,9 +143,9 @@ public class Questionmark : MonoBehaviour, ICrateBase
     {
         if (!IsBroken)
         {
+            IsBroken = true;
             HasCollided = false;
             IsLife = false;
-            IsBroken = true;
             GameManager.Instance.UpdateCrateCount(this);
             gameObject.SetActive(false);
             Instantiate(BrokenCrate, transform.position, Quaternion.identity);

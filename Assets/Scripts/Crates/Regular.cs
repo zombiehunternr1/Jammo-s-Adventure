@@ -6,6 +6,7 @@ public class Regular : MonoBehaviour, ICrateBase
 {
     public GameObject BrokenCrate;
     public List<GameObject> Bolts;
+    public Checkpoint CheckPointCrate;
 
     private int RandomDropRange = 1;
     private int DropAmount = 1;
@@ -13,6 +14,8 @@ public class Regular : MonoBehaviour, ICrateBase
     private Collider[] HitColliders;
     [HideInInspector]
     public bool IsBroken;
+
+    public Checkpoint Checkpoint { get => CheckPointCrate; set => CheckPointCrate = value; }
 
     private void Start()
     {

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 12154848824423466}
   - component: {fileID: 2475622984362087293}
   - component: {fileID: 1960143157123876992}
+  - component: {fileID: 1904096464}
   m_Layer: 0
   m_Name: TNT Crate
   m_TagString: Untagged
@@ -60,6 +61,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BrokenCrate: {fileID: 7652551911593466536, guid: 6ab4b91fe19194749bbaa73547162f2c, type: 3}
   ExplosionEffect: {fileID: 7256894595883887071, guid: 8bc6e0d6a0477f04ba82c3f9f16fe5a2, type: 3}
+  CheckPointCrate: {fileID: 0}
+--- !u!95 &1904096464
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 819934862810689168}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c5773d2706a762b40927c3eea70ba9a4, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8860135473888699652
 GameObject:
   m_ObjectHideFlags: 0
