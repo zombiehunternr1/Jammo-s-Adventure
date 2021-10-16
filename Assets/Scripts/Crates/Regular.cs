@@ -6,8 +6,8 @@ public class Regular : MonoBehaviour, ICrateBase
 {
     public GameObject BrokenCrate;
     public List<GameObject> Bolts;
-    public Checkpoint CheckPointCrate;
 
+    private Checkpoint CheckPointCrate;
     private int RandomDropRange = 1;
     private int DropAmount = 1;
     private float YOffset = 0.5f;

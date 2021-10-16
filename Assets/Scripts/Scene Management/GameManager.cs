@@ -136,19 +136,30 @@ public class GameManager : MonoBehaviour
     {
         List<ICrateBase> TempList = new List<ICrateBase>();
 
-        for(int i = 0; i < CurrentlyBrokenCrates.Count; i++)
+        if (Booleans.IsResetGame)
         {
-            if(CurrentlyBrokenCrates[i].Checkpoint == null)
+            Booleans.IsResetGame = false;
+            foreach(ICrateBase Crate in TotalBrokenCrates)
             {
-                TempList.Add(CurrentlyBrokenCrates[i]);
+                Crate.ResetCrate();
             }
         }
-        CurrentlyBrokenCrates = new List<ICrateBase>();
-        CurrentlyBrokenCrates = TempList;
-
-        foreach(ICrateBase Crate in CurrentlyBrokenCrates)
+        else
         {
-            Crate.ResetCrate();
+            for (int i = 0; i < CurrentlyBrokenCrates.Count; i++)
+            {
+                if (CurrentlyBrokenCrates[i].Checkpoint == null)
+                {
+                    TempList.Add(CurrentlyBrokenCrates[i]);
+                }
+            }
+            CurrentlyBrokenCrates = new List<ICrateBase>();
+            CurrentlyBrokenCrates = TempList;
+
+            foreach (ICrateBase Crate in CurrentlyBrokenCrates)
+            {
+                Crate.ResetCrate();
+            }
         }
         CurrentlyBrokenCrates = new List<ICrateBase>();
         GetTotalCrateCount();
@@ -225,7 +236,6 @@ public class GameManager : MonoBehaviour
             }
             else if (Booleans.IsResetGame)
             {
-                Booleans.IsResetGame = false;
                 ResetToStartLevel();
                 while (GameoverText.color.a > 0)
                 {

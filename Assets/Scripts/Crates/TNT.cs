@@ -6,8 +6,8 @@ public class TNT : MonoBehaviour, ICrateBase
 {
     public GameObject BrokenCrate;
     public ParticleSystem ExplosionEffect;
-    public Checkpoint CheckPointCrate;
 
+    private Checkpoint CheckPointCrate;
     private bool HasExploded;
     private Animator TNTAnim;
     private Collider[] HitColliders;

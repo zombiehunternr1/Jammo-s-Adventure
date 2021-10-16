@@ -10,8 +10,8 @@ public class Questionmark : MonoBehaviour, ICrateBase
     public int RandomDropRange;
     public int DropAmount;
     public List<GameObject> Bolts;
-    public Checkpoint CheckPointCrate;
 
+    private Checkpoint CheckPointCrate;
     private float YOffset = 0.5f;
     private Collider[] HitColliders;
     private bool IsBroken;

@@ -91,6 +91,6 @@ public class Checkpoint : MonoBehaviour, ICrateBase
 
     public void ResetCrate()
     {
-        throw new System.NotImplementedException();
+        gameObject.SetActive(true);
     }
 }

@@ -6,8 +6,8 @@ public class LifeCrate : MonoBehaviour, ICrateBase
 {
     public GameObject Life;
     public GameObject BrokenCrate;
-    public Checkpoint CheckPointCrate;
 
+    private Checkpoint CheckPointCrate;
     private float YOffset = 0.5f;
     private Collider[] HitColliders;
     private bool IsBroken;
