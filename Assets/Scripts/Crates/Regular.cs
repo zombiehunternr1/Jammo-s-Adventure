@@ -12,8 +12,7 @@ public class Regular : MonoBehaviour, ICrateBase
     private int DropAmount = 1;
     private float YOffset = 0.5f;
     private Collider[] HitColliders;
-    [HideInInspector]
-    public bool IsBroken;
+    private bool IsBroken;
 
     public Checkpoint Checkpoint { get => CheckPointCrate; set => CheckPointCrate = value; }
 

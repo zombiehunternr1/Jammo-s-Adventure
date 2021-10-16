@@ -14,8 +14,7 @@ public class Questionmark : MonoBehaviour, ICrateBase
 
     private float YOffset = 0.5f;
     private Collider[] HitColliders;
-    [HideInInspector]
-    public bool IsBroken;
+    private bool IsBroken;
     private bool HasCollided;
 
     public Checkpoint Checkpoint { get => CheckPointCrate; set => CheckPointCrate = value; }

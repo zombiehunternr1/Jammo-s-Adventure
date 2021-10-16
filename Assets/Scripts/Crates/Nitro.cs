@@ -9,6 +9,7 @@ public class Nitro : MonoBehaviour, ICrateBase
     public Checkpoint CheckPointCrate;
 
     private bool HasExploded;
+    private bool IsBroken;
 
     public Checkpoint Checkpoint { get => CheckPointCrate; set => CheckPointCrate = value; }
 
@@ -66,6 +67,7 @@ public class Nitro : MonoBehaviour, ICrateBase
     public void ResetCrate()
     {
         HasExploded = false;
+        IsBroken = false;
         gameObject.SetActive(true);
     }
 
@@ -81,8 +83,12 @@ public class Nitro : MonoBehaviour, ICrateBase
 
     public void DisableCrate()
     {
-        GameManager.Instance.UpdateCrateCount(this);
-        gameObject.SetActive(false);
-        Instantiate(BrokenCrate, transform.position, Quaternion.identity);
+        if (!IsBroken)
+        {
+            IsBroken = true;
+            GameManager.Instance.UpdateCrateCount(this);
+            gameObject.SetActive(false);
+            Instantiate(BrokenCrate, transform.position, Quaternion.identity);
+        }
     }
 }

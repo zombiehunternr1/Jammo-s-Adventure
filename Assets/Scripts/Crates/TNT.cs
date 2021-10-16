@@ -12,6 +12,7 @@ public class TNT : MonoBehaviour, ICrateBase
     private Animator TNTAnim;
     private Collider[] HitColliders;
     private bool HasBounced;
+    private bool IsBroken;
 
     public Checkpoint Checkpoint { get => CheckPointCrate; set => CheckPointCrate = value; }
 
@@ -106,6 +107,7 @@ public class TNT : MonoBehaviour, ICrateBase
     {
         HasBounced = false;
         HasExploded = false;
+        IsBroken = false;
         gameObject.SetActive(true);
         TNTAnim.ResetTrigger("Countdown");
     }
@@ -127,8 +129,12 @@ public class TNT : MonoBehaviour, ICrateBase
 
     public void DisableCrate()
     {
-        GameManager.Instance.UpdateCrateCount(this);
-        gameObject.SetActive(false);
-        Instantiate(BrokenCrate, transform.position, Quaternion.identity);
+        if (!IsBroken)
+        {
+            IsBroken = true;
+            GameManager.Instance.UpdateCrateCount(this);
+            gameObject.SetActive(false);
+            Instantiate(BrokenCrate, transform.position, Quaternion.identity);
+        }
     }
 }
