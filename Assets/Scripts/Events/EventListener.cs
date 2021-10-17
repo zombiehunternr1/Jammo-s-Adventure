@@ -80,6 +80,7 @@ public class EventListener : MonoBehaviour
     private void HandleResetGameOverPlayer()
     {
         PlayerInfo.Lives = 5;
+        PlayerInfo.Bolts = 0;
         GameManager.Booleans.GameOver = false;
         GameManager.Booleans.IsResetGame = true;
         GameManager.Instance.ResetGame();

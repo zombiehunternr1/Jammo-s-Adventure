@@ -10,13 +10,19 @@ public class Bolt : MonoBehaviour, ICollectable
     float SpawnHeight = 1.2f;
     float DistanceToTarget;
     bool HasCollided;
+    [HideInInspector]
+    public bool IsStatic;
 
     private void Start()
     {
         Physics.IgnoreLayerCollision(7, 7);
         RB = GetComponent<Rigidbody>();
         BoltUI = (Transform)GameObject.Find("BoltModelPosition").gameObject.GetComponent(typeof(Transform));
-        GameManager.Instance.UpdateItemContainerList(gameObject);
+        if (!IsStatic)
+        {
+            GameManager.Instance.UpdateItemContainerList(gameObject);
+        }
+
         if(transform.position.y > SpawnHeight)
         {
             StartCoroutine(MoveToGround());

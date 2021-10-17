@@ -84,4 +84,5 @@ MonoBehaviour:
   Player: {fileID: 0}
   BreakableCrateContainer: {fileID: 0}
   SpawnedItemsContainer: {fileID: 0}
+  StaticItemsContainer: {fileID: 0}
   FadeOutPanel: {fileID: 0}

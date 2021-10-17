@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public PlayerScript Player;
     public GameObject BreakableCrateContainer;
     public GameObject SpawnedItemsContainer;
+    public GameObject StaticItemsContainer;
     public GameObject FadeOutPanel;
 
     private List<ICrateBase> TotalBrokenCrates = new List<ICrateBase>();
@@ -117,6 +118,7 @@ public class GameManager : MonoBehaviour
     {
         ClearItemsContainer();
         ResetCrates();
+        StaticItemsContainer.GetComponent<SpawnStaticItem>().SpawnBoltType();
         Player.Model.SetActive(true);
         IsFadingToBlack = true;
         Player.GetComponent<CharacterSkinController>().ReturnToNormalEvent();
