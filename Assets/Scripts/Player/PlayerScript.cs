@@ -196,9 +196,9 @@ public class PlayerScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-        HandleAnimation();
         HandleGravity();
         CheckIfRunning();
+        HandleAnimation();
         if (GameManager.Booleans.CanMove)
         {
             HandleRotation();
@@ -402,7 +402,7 @@ public class PlayerScript : MonoBehaviour
     public void ResetPlayerMovement()
     {
         CharController.Move(Vector3.zero);
-        CurrentPlayerSpeed = CharController.velocity.magnitude;
+        CurrentPlayerSpeed = Zero;
         PlayerAnimator.SetFloat("IsMoving", CurrentPlayerSpeed);
     }
 
