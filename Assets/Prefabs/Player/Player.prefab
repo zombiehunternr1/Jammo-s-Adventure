@@ -1098,6 +1098,60 @@ Transform:
   m_Father: {fileID: 3986569962051646402}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1590092423328681022
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5751327625400814413}
+  - component: {fileID: 9026083943674531372}
+  - component: {fileID: 5264789057944886369}
+  m_Layer: 2
+  m_Name: Grounded Player
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5751327625400814413
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590092423328681022}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0.2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2726312095156130158}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!33 &9026083943674531372
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590092423328681022}
+  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!64 &5264789057944886369
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590092423328681022}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1598869446707684091
 GameObject:
   m_ObjectHideFlags: 0
@@ -1847,7 +1901,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2726312093558674784}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0021987404, y: 0, z: 0.026936522}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7535717456530123533}
@@ -1888,11 +1942,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2726312095156130158}
-  - component: {fileID: 2726312095156130159}
-  - component: {fileID: 2726312095156130153}
-  - component: {fileID: 2726312095156130152}
+  - component: {fileID: 4735973171957796043}
   - component: {fileID: 2726312095156130154}
-  - component: {fileID: 8644010589681205879}
+  - component: {fileID: 2726312095156130153}
+  - component: {fileID: 8045376765444661765}
+  - component: {fileID: 7498633613168195604}
   - component: {fileID: 8644010588335226907}
   m_Layer: 3
   m_Name: Player
@@ -1913,10 +1967,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2726312093558674785}
+  - {fileID: 5751327625400814413}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2726312095156130159
+--- !u!114 &4735973171957796043
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1925,66 +1980,78 @@ MonoBehaviour:
   m_GameObject: {fileID: 2726312095156130157}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60ffcd3ff43ce224c9862c292bd227cc, type: 3}
+  m_Script: {fileID: 11500000, guid: 91b89b69e6ced744da1632da7d60b90e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AnimController: {fileID: 9100000, guid: a851d886aae1830478087cdd1d32d1c8, type: 2}
-  GroundPoundDust: {fileID: 2400109675009593164, guid: d328ed9d41e081b4da83889c677c3fc4, type: 3}
-  ExplosionModel: {fileID: 2307524359362514868, guid: b09065a4c2b419047857d21cbaaafcb8, type: 3}
-  HUDAnimator: {fileID: 0}
-  Model: {fileID: 0}
-  PlayerInput: {fileID: 0}
-  ResetTime: 5
-  CurrentTime: 0
-  HasExploded: 0
+  Acceleration: 30
+  SprintingAcceleration: 45
+  AirAcceleration: 18
+  Deceleration: 16.5
+  AirDeceleration: 1.1
+  RotateSpeed: 2
+  AirRotateSpeed: 0.4
+  SlideSpeed: 65
+  Gravity: 50
+  MaxSpeed: 9
+  MovingPlatformFriction: 7.7
+  Average: 0.5
+  CurrentAcceleration: 0
+  CurrentDeceleration: 0
+  CurrentRotationSpeed: 0
+  DistanceToTarget: 0
+  CurrentGravity: 0
+  GroundDistance: 1.1
+  GroundLength: 1
+  JumpForce: 16
+  GroundPoundForce: 0.7
+  DoubleJumpForce: 14
+  DoubleJumpHeight: 1
+  SmallBounce: 15
+  BigBounce: 20
+  GroundPoundDistance: 1.5
+  BounceForce: 0
+  StartPunchTime: 0
+  PunchCoolDown: 0
+  GoalPunchTime: 1.5
+  HUDDisplayTime: 0
+  ResetTime: 3
+  Direction: {x: 0, y: 0, z: 0}
+  MoveDirection: {x: 0, y: 0, z: 0}
+  ScreenMovementForward: {x: 0, y: 0, z: 0}
+  ScreenMovementRight: {x: 0, y: 0, z: 0}
+  MovingObjSpeed: {x: 0, y: 0, z: 0}
+  CurrentSpeed: {x: 0, y: 0, z: 0}
+  PlayerSpawnPosition: {x: 0, y: 0, z: 0}
+  PlayerCheckPointPosition: {x: 0, y: 0, z: 0}
+  CanMove: 1
+  IsRunning: 0
+  IsRunPressed: 0
+  IsAttacking: 0
+  IsBodyslam: 0
   IsBodyslamPerforming: 0
-  SlideMultiplier: 5
-  GroundMask:
-    serializedVersion: 2
-    m_Bits: 65
-  IsFalling: 0
-  SetFlipHeight: 1.6
-  IsJumpPressed: 0
-  IsJumping: 0
+  IsSlideAttack: 0
+  IsSlideAttackPerforming: 0
+  IsHoldJump: 0
   IsBounce: 0
-  IdleDanceMarker: 30
---- !u!95 &2726312095156130153
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2726312095156130157}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 7d98064af37c9f84c8ad89c8eda39093, type: 3}
-  m_Controller: {fileID: 9100000, guid: a851d886aae1830478087cdd1d32d1c8, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!143 &2726312095156130152
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2726312095156130157}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.0001
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1, z: 0}
+  ApplyGroundPoundGravity: 0
+  IsSidescroller: 0
+  Grounded: 0
+  HasJumped: 0
+  HasDoubleJumped: 0
+  CanDoubleJump: 0
+  CanPunch: 1
+  SwitchPunch: 0
+  HasExploded: 0
+  IsDisplayingHUD: 0
+  IsDisplayHUDPerforming: 0
+  ExplosionModel: {fileID: 2307524359362514868, guid: b09065a4c2b419047857d21cbaaafcb8, type: 3}
+  PlayerGroundMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  HUDAnimator: {fileID: 0}
+  MainCamera: {fileID: 0}
+  GroundPoundDust: {fileID: 2400109675009593164, guid: d328ed9d41e081b4da83889c677c3fc4, type: 3}
+  PlayerModel: {fileID: 0}
+  playerInput: {fileID: 0}
+  RB: {fileID: 0}
 --- !u!114 &2726312095156130154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2008,19 +2075,55 @@ MonoBehaviour:
   - {r: 2.0000005, g: 0.26178017, b: 0.26178017, a: 1}
   - {r: 2.6701577, g: 2.6701577, b: 2.6701577, a: 1}
   eyeState: 0
---- !u!65 &8644010589681205879
-BoxCollider:
+--- !u!95 &2726312095156130153
+Animator:
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2726312095156130157}
-  m_Material: {fileID: 0}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 7d98064af37c9f84c8ad89c8eda39093, type: 3}
+  m_Controller: {fileID: 9100000, guid: fe5adc10bbfe2c3459db067df6b94c81, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!136 &8045376765444661765
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2726312095156130157}
+  m_Material: {fileID: 13400000, guid: b3a63353c99566941a70e297bf65fd94, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1.8
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!54 &7498633613168195604
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2726312095156130157}
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.8, z: 1}
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!114 &8644010588335226907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2048,9 +2151,9 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2726312095156130159}
-        m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
-        m_MethodName: OnMovementInput
+      - m_Target: {fileID: 4735973171957796043}
+        m_TargetAssemblyTypeName: PlayerScriptRigidbodyController, Assembly-CSharp
+        m_MethodName: OnMove
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2064,8 +2167,8 @@ MonoBehaviour:
     m_ActionName: CharacterControls/Move[/DualShock4GamepadHID/leftStick,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2726312095156130159}
-        m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
+      - m_Target: {fileID: 4735973171957796043}
+        m_TargetAssemblyTypeName: PlayerScriptRigidbodyController, Assembly-CSharp
         m_MethodName: OnRun
         m_Mode: 0
         m_Arguments:
@@ -2080,8 +2183,8 @@ MonoBehaviour:
     m_ActionName: CharacterControls/Run[/Keyboard/leftShift,/DualShock4GamepadHID/leftShoulder]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2726312095156130159}
-        m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
+      - m_Target: {fileID: 4735973171957796043}
+        m_TargetAssemblyTypeName: PlayerScriptRigidbodyController, Assembly-CSharp
         m_MethodName: OnJump
         m_Mode: 0
         m_Arguments:
@@ -2096,8 +2199,8 @@ MonoBehaviour:
     m_ActionName: CharacterControls/Jump[/Keyboard/space,/DualShock4GamepadHID/buttonSouth]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2726312095156130159}
-        m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
+      - m_Target: {fileID: 4735973171957796043}
+        m_TargetAssemblyTypeName: PlayerScriptRigidbodyController, Assembly-CSharp
         m_MethodName: OnAttack
         m_Mode: 0
         m_Arguments:
@@ -2112,8 +2215,8 @@ MonoBehaviour:
     m_ActionName: CharacterControls/Attack[/Keyboard/x,/DualShock4GamepadHID/buttonWest]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2726312095156130159}
-        m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
+      - m_Target: {fileID: 4735973171957796043}
+        m_TargetAssemblyTypeName: PlayerScriptRigidbodyController, Assembly-CSharp
         m_MethodName: OnBodySlam
         m_Mode: 0
         m_Arguments:
@@ -2124,8 +2227,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2726312095156130159}
-        m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
+      - m_Target: {fileID: 4735973171957796043}
+        m_TargetAssemblyTypeName: PlayerScriptRigidbodyController, Assembly-CSharp
         m_MethodName: OnSlideAttack
         m_Mode: 0
         m_Arguments:
@@ -2140,8 +2243,8 @@ MonoBehaviour:
     m_ActionName: CharacterControls/SpecialAttack[/DualShock4GamepadHID/rightShoulder,/DualShock4GamepadHID/buttonEast]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2726312095156130159}
-        m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
+      - m_Target: {fileID: 4735973171957796043}
+        m_TargetAssemblyTypeName: PlayerScriptRigidbodyController, Assembly-CSharp
         m_MethodName: OnHUDDisplay
         m_Mode: 0
         m_Arguments:

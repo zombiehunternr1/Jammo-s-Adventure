@@ -62,7 +62,7 @@ ModelImporter:
       - time: 0.32786885
         functionName: BigAttackEvent
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 60ffcd3ff43ce224c9862c292bd227cc, type: 3}
+        objectReferenceParameter: {fileID: 11500000, guid: 91b89b69e6ced744da1632da7d60b90e, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0

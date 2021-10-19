@@ -66,7 +66,7 @@ public class Checkpoint : MonoBehaviour, ICrateBase
 
     private void Bounce(PlayerScript Player)
     {
-        if (Player.IsFalling)
+        if (Player.Grounded)
         {
             Player.IsBounce = true;
             SetCheckPoint();

@@ -7,11 +7,12 @@ public class TNT : MonoBehaviour, ICrateBase
     public GameObject BrokenCrate;
     public ParticleSystem ExplosionEffect;
 
+    [HideInInspector]
+    public bool HasBounced;
     private Checkpoint CheckPointCrate;
     private bool HasExploded;
     private Animator TNTAnim;
     private Collider[] HitColliders;
-    private bool HasBounced;
     private bool IsBroken;
 
     public Checkpoint Checkpoint { get => CheckPointCrate; set => CheckPointCrate = value; }
@@ -95,9 +96,8 @@ public class TNT : MonoBehaviour, ICrateBase
 
     private void Bounce(PlayerScript Player)
     {
-        if (Player.IsFalling && !HasBounced)
+        if (Player.Grounded && !HasBounced)
         {
-            HasBounced = true;
             Player.IsBounce = true;
             Countdown();
         }

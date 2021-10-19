@@ -34,7 +34,7 @@ public class Explosion : MonoBehaviour
                     Player.HasExploded = true;
                     Instantiate(Player.ExplosionModel, Player.transform.position, Player.transform.rotation);
                     EventManager.EnablePlayerMovement();
-                    Player.Model.SetActive(false);
+                    Player.PlayerModel.SetActive(false);
                     StartCoroutine(HoldTransition());
                 }
             }

@@ -102,6 +102,7 @@ public class GameManager : MonoBehaviour
 
     private void ResetTillCheckpoint()
     {
+        Player.ResetPlayerMovement();
         ClearItemsContainer();
         ResetCrates();
         Animator PlayerAnim = Player.GetComponent<Animator>();
@@ -111,18 +112,17 @@ public class GameManager : MonoBehaviour
             PlayerAnim.ResetTrigger("IsDead");
             PlayerAnim.SetTrigger("IsDead");
         }
-        Player.ResetPlayerMovement();
         Player.ResetCheckpointPosition();
     }
     private void ResetToStartLevel()
     {
+        Player.ResetPlayerMovement();
         ClearItemsContainer();
         ResetCrates();
         StaticItemsContainer.GetComponent<SpawnStaticItem>().SpawnBoltType();
-        Player.Model.SetActive(true);
+        Player.PlayerModel.SetActive(true);
         IsFadingToBlack = true;
         Player.GetComponent<CharacterSkinController>().ReturnToNormalEvent();
-        Player.ResetPlayerMovement();
         Player.ResetGameoverPosition();
     }
     public void SetCheckpoint(Checkpoint CheckPointPos)
@@ -232,7 +232,7 @@ public class GameManager : MonoBehaviour
                     yield return null;
                 }
                 yield return new WaitForSeconds(HoldNextFade);
-                Player.PlayerInput.SwitchCurrentActionMap("UI");
+                Player.playerInput.SwitchCurrentActionMap("UI");
                 Booleans.GameOver = false;
                 StopAllCoroutines();
             }
@@ -266,7 +266,7 @@ public class GameManager : MonoBehaviour
                 {
                     Player.HasExploded = false;
                 }
-                Player.PlayerInput.SwitchCurrentActionMap("CharacterControls");
+                Player.playerInput.SwitchCurrentActionMap("CharacterControls");
                 EventManager.EnablePlayerMovement();
             }
             else
@@ -275,7 +275,7 @@ public class GameManager : MonoBehaviour
                 {
                     ResetTillCheckpoint();
                 }
-                Player.Model.SetActive(true);
+                Player.PlayerModel.SetActive(true);
                 yield return new WaitForSeconds(HoldNextFade);
                 while (PanelImage.color.a > 0)
                 {

@@ -7,167 +7,197 @@ using System;
 
 public class PlayerScript : MonoBehaviour
 {
-    //Player components
-    public AnimatorController AnimController;
-    public GameObject GroundPoundDust;
+    public float    Acceleration = 70f,
+                    SprintingAcceleration = 140.0f,
+                    AirAcceleration = 18f,
+                    Deceleration = 7.6f,
+                    AirDeceleration = 1.1f,
+                    RotateSpeed = 0.7f,
+                    AirRotateSpeed = 0.4f,
+                    SlideSpeed = 35.0f,
+                    Gravity = 150.0f,
+                    MaxSpeed = 9.0f,
+                    MovingPlatformFriction = 7.7f,
+                    Average = .5f,
+                    CurrentAcceleration,
+                    CurrentDeceleration,
+                    CurrentRotationSpeed,
+                    DistanceToTarget,
+                    CurrentGravity,
+                    GroundDistance = 1.1f,
+                    GroundLength,
+                    JumpForce = 8.0f,
+                    GroundPoundForce = 0.1f,
+                    DoubleJumpForce = 8.0f,
+                    DoubleJumpHeight = 1f,
+                    SmallBounce = 1.2f,
+                    BigBounce = 1.5f,
+                    GroundPoundDistance = 3f,
+                    BounceForce,
+                    StartPunchTime = 0,
+                    PunchCoolDown = 0,
+                    GoalPunchTime = 1.5f,
+                    HUDDisplayTime,
+                    ResetTime = 3f;
+
+    public Vector3  Direction,
+                    MoveDirection,
+                    ScreenMovementForward,
+                    ScreenMovementRight,
+                    MovingObjSpeed,
+                    CurrentSpeed,
+                    PlayerSpawnPosition,
+                    PlayerCheckPointPosition;
+
+    public bool     CanMove,
+                    IsRunning,
+                    IsRunPressed,
+                    IsAttacking,
+                    IsBodyslam,
+                    IsBodyslamPerforming,
+                    IsSlideAttack,
+                    IsSlideAttackPerforming,
+                    IsHoldJump,
+                    IsBounce,
+                    ApplyGroundPoundGravity = false,
+                    IsSidescroller = false,
+                    Grounded,
+                    HasJumped = false,
+                    HasDoubleJumped = false,
+                    CanDoubleJump = false,
+                    CanPunch = true,
+                    SwitchPunch,
+                    HasExploded,
+                    IsDisplayingHUD,
+                    IsDisplayHUDPerforming;
+
+    private Quaternion ScreenMovementSpace;
+    private Quaternion PlayerOriginalRotation;
+
+    [Header("Components")]
     public GameObject ExplosionModel;
+    public Mesh PlayerGroundMesh;
     public Animator HUDAnimator;
+    public Transform MainCamera;
+    public GameObject GroundPoundDust;
     [HideInInspector]
-    public GameObject Model;
+    public GameObject PlayerModel;
     [HideInInspector]
-    public PlayerInput PlayerInput;
-    CharacterController CharController;
-    Animator PlayerAnimator;
+    public PlayerInput playerInput;
+    [HideInInspector]
+    public Rigidbody RB;
+    private Collider Cap;
+    private Animator playerAnimator;
     BlendTree LongIdleTree;
-
-    //Player animation values
-    int IsRunningHash;
-    int IsJumpingHash;
-    int IsBigJumpHash;
-    int IsMovingHash;
-    int IsSmallAttackHash;
-    int IsBigAttackHash;
-    int IsLongIdleHash;
-    int RandomLongIdleHash;
-    int IsBodyslamHash;
-    int IsSlideAttackHash;
-    int IsRandomHookshotHash;
-
-    //HUD values
-    bool IsDisplayingHUD;
-    bool IsDisplayHUDPerforming;
-    public float ResetTime;
-    public float CurrentTime;
-
-    //General setup values
-    [HideInInspector]
-    public bool HasExploded;
-    int Zero = 0;
-    int Devider = 2;
-    float Average = .5f;
-    float CurrentPlayerSpeed;
-    Vector3 PlayerCheckPointPosition;
-    Vector3 PlayerSpawnPosition;
-    Quaternion PlayerOriginalRotation;
-    
-    //Attack settings
-    bool IsAttacking;
-    bool IsBodyslam;
-    bool IsSlideAttack;
-    bool IsSlideAttackPerforming;
-    [HideInInspector]
-    public bool IsBodyslamPerforming;
-    bool IsAttackPerforming;
-    float BodySlamDistance = 1;
-    float BodySlamHeightMultiplier = 5.5f;
-    public float SlideMultiplier = 5;
-    Vector3 SmallHitBox = new Vector3(2, 0.5f, 2);
-    Vector3 BigHitBox = new Vector3(2, 2f, 2);
-    Vector3 GroundPoundHitBox = new Vector3(2.5f, 0.1f, 2.5f);
-    Vector3 SlideAttackHitBox = new Vector3(1f, 0.5f, 1f);
-
-    //Gravity settings
-    [SerializeField]
-    LayerMask GroundMask;
-    float GroundedGravity = -.05f;
-    float Gravity;
-    float FallMultiplier = 2;
-    float BodySlamMultiplier = 5;
-    float LandingDelay;
-    float Velocity = -1.2f;
-    [HideInInspector]
-    public bool IsFalling;
 
     //Player movement
     Vector2 CurrentMovementInput;
     Vector3 CurrentMovement;
-    Vector3 CurrentRunMovement;
-    Vector3 LastPosition;
-    Vector3 PositionToLookAt;
-    Quaternion CurrentRotation;
-    bool IsMovementPressed;
-    bool IsRunPressed;
-    float RotationFactorPerFrame = 15;
-    float WalkMultiplier = 2.5f;
-    float RunMultiplier = 3.5f;
 
-    //Player jumping
-    public float SetFlipHeight;
-    [HideInInspector]
-    public bool IsJumpPressed = false;
-    bool IsJumpAnimating = false;
-    float InitialJumpVelocity;
-    float NextHeight;
-    float MinJumpHeight = 2;
-    float ConstantJumpForce;
-    float ConstantJumpForceTarget = 7.5f;
-    float ConstantJumpForceDecrease = 5;
-    float MaxJumpTime = 0.75f;
-    float SmallBounce = 1.2f;
-    float BigBounce = 1.5f;
-    [HideInInspector]
-    public bool IsJumping = false;
-    [HideInInspector]
-    public bool IsBounce = false;
-
-    //Idle dancing
-    public float IdleDanceMarker;
-    private float IdleTimer;
-    private bool IsDancing;
+    //Attack settings
+    Vector3 SmallHitBox = new Vector3(2, 0.5f, 2);
+    Vector3 BigHitBox = new Vector3(2, 2f, 2);
+    Vector3 GroundPoundHitBox = new Vector3(2.5f, 0.1f, 2.5f);
+    Vector3 SlideAttackHitBox = new Vector3(1f, 0.5f, 1f);
 
     //Hit detection
     int SideHitValue;
     Collider[] hitColliders;
     enum HitPlayerDirection { None, Top, Bottom, Forward, Back, Left, Right, Attack, Bodyslam, Slide }
 
-    private void Awake()
+    private void Start()
     {
-        InitialSetup();
-        AnimatorSetup();
-        JumpVariablesSetup();
-    }
-    private void InitialSetup()
-    {
-        PlayerInput = GetComponent<PlayerInput>();
-        CharController = GetComponent<CharacterController>();
-        PlayerAnimator = GetComponent<Animator>();
-        Model = GetComponentInChildren<Transform>().GetChild(0).gameObject;
-        PlayerCheckPointPosition = transform.position;
+        PlayerModel = GetComponentInChildren<Transform>().GetChild(0).gameObject;
+        playerAnimator = GetComponent<Animator>();
+        RB = GetComponent<Rigidbody>();
+        Cap = GetComponent<Collider>();
+        playerInput = GetComponent<PlayerInput>();
+        PlayerSpawnPosition = transform.position;
         PlayerOriginalRotation = transform.rotation;
     }
 
-    private void AnimatorSetup()
+    private void Update()
     {
-        IsRunningHash = Animator.StringToHash("IsRunning");
-        IsJumpingHash = Animator.StringToHash("IsJumping");
-        IsBigJumpHash = Animator.StringToHash("IsBigJump");
-        IsMovingHash = Animator.StringToHash("IsMoving");
-        IsSmallAttackHash = Animator.StringToHash("IsSmallAttack");
-        IsBigAttackHash = Animator.StringToHash("IsBigAttack");
-        IsLongIdleHash = Animator.StringToHash("IsLongIdle");
-        RandomLongIdleHash = Animator.StringToHash("LongIdleAnimPicked");
-        IsBodyslamHash = Animator.StringToHash("IsBodyslam");
-        IsSlideAttackHash = Animator.StringToHash("IsSlideAttack");
-        IsRandomHookshotHash = Animator.StringToHash("RandomHookshot");
-        GetIdleBlendTree();
-    }
-    private void GetIdleBlendTree()
-    {
-        AnimatorStateMachine RootStateMachine = AnimController.layers[Zero].stateMachine;
-        AnimatorState StateWithBlendTree = RootStateMachine.states[5].state;
-        LongIdleTree = (BlendTree)StateWithBlendTree.motion;
+        CurrentGravity = ApplyGroundPoundGravity ? Gravity / 8 : Gravity;
+
+        if (IsRunning && !IsSlideAttackPerforming)
+        {
+            CurrentAcceleration = (Grounded) ? SprintingAcceleration : AirAcceleration;
+        }
+        else
+        {
+            if (IsSlideAttackPerforming)
+            {
+                CurrentAcceleration = (Grounded) ? SlideSpeed : AirAcceleration;
+            }
+            else
+            {
+                CurrentAcceleration = (Grounded) ? Acceleration : AirAcceleration;
+            }
+        }
+        CurrentDeceleration = (Grounded) ? Deceleration : AirDeceleration;
+        CurrentRotationSpeed = (Grounded) ? RotateSpeed : AirRotateSpeed;
+
+        ScreenMovementSpace = Quaternion.Euler(0, MainCamera.eulerAngles.y, 0);
+        ScreenMovementForward = ScreenMovementSpace * Vector3.forward;
+        ScreenMovementRight = ScreenMovementSpace * Vector3.right;
+
+        float H = CurrentMovementInput.x;
+        float V = CurrentMovementInput.y;
+
+        if (!IsSidescroller)
+        {
+            if (IsSlideAttackPerforming)
+            {
+                Direction = transform.forward;
+            }
+            else
+            {
+                Direction = (ScreenMovementForward * V) + (ScreenMovementRight * H);
+            }
+        }
+        else
+        {
+            Direction = Vector3.right * H;
+        }
+        if (IsSlideAttackPerforming)
+        {
+            hitColliders = Physics.OverlapBox(Cap.bounds.center / 2, SlideAttackHitBox);
+            CheckAttackHit();
+        }
+        MoveDirection = transform.position + Direction;
+        HandleMovementAnimation();
     }
 
-    private void JumpVariablesSetup()
+    private void FixedUpdate()
     {
-        float TimeToApex = MaxJumpTime / Devider;
-        Gravity = (-Devider * MinJumpHeight) / Mathf.Pow(TimeToApex, Devider);
-        InitialJumpVelocity = (Devider * MinJumpHeight) / TimeToApex;
-    }
+        Grounded = IsGrounded();
+        if (HasJumped)
+        {
+            Jump(JumpForce);
+        }
 
-    private bool IsGrounded()
-    {
-        return CharController.isGrounded;
+        if (HasDoubleJumped)
+        {
+            DoubleJump(JumpForce);
+        }
+
+        if (CanMove)
+        {
+            MoveTo(MoveDirection, CurrentAcceleration, 0.4f, true);
+        }
+        if (RotateSpeed != 0 && Direction.magnitude != 0)
+        {
+            if (CanMove && !IsSlideAttackPerforming)
+            {
+                RotateToDirection(MoveDirection, CurrentRotationSpeed * 5, true);
+            }
+        }
+        ManageSpeed(CurrentDeceleration, MaxSpeed + MovingObjSpeed.magnitude, true);
+        if (!IsBodyslamPerforming)
+        {
+            RB.AddForce(new Vector3(0, -CurrentGravity, 0), ForceMode.Force);
+        }
     }
 
     public void ResetGameoverPosition()
@@ -183,7 +213,7 @@ public class PlayerScript : MonoBehaviour
 
     public void ResetCheckpointPosition()
     {
-        if(PlayerCheckPointPosition != new Vector3(0, 0, 0))
+        if (PlayerCheckPointPosition != new Vector3(0, 0, 0))
         {
             transform.position = PlayerCheckPointPosition;
         }
@@ -194,188 +224,137 @@ public class PlayerScript : MonoBehaviour
         transform.rotation = PlayerOriginalRotation;
     }
 
-    private void FixedUpdate()
+    private bool IsGrounded()
     {
-        HandleGravity();
-        CheckIfRunning();
-        HandleAnimation();
-        if (GameManager.Booleans.CanMove)
+        RaycastHit? Hit = GetGroundHit();
+        if(Hit != null)
         {
-            HandleRotation();
-            CheckAttackstyle();
-            HandleJump();
-        }
-        else
-        {
-            float YValue = IsRunPressed ? CurrentRunMovement.y : CurrentMovement.y;
-            Vector3 DownMovement = new Vector3(Zero, YValue, Zero);
-            CurrentMovement = DownMovement;
-            CurrentRunMovement = DownMovement;
-        }
-    }
-
-    private void HandleRotation()
-    {
-        PositionToLookAt.x = CurrentMovement.x;
-        PositionToLookAt.y = Zero;
-        PositionToLookAt.z = CurrentMovement.z;
-        CurrentRotation = transform.rotation;
-
-        if (IsMovementPressed)
-        {
-            Quaternion TargetRotation = Quaternion.LookRotation(PositionToLookAt);
-            transform.rotation = Quaternion.Slerp(CurrentRotation, TargetRotation, RotationFactorPerFrame * Time.deltaTime);
-        }
-    }
-
-    private void HandleAnimation()
-    {
-        CheckLongIdle();
-        bool IsRunning = PlayerAnimator.GetBool(IsRunningHash);
-        CurrentPlayerSpeed = CharController.velocity.magnitude;
-        PlayerAnimator.SetFloat(IsMovingHash, CurrentPlayerSpeed);
-        CheckPlayingAttackAnimationStates();
-
-        if ((IsMovementPressed && IsRunPressed) && !IsRunning)
-        {
-            PlayerAnimator.SetBool(IsRunningHash, true);
-        }
-        else if ((!IsMovementPressed || !IsRunPressed) && IsRunning)
-        {
-            PlayerAnimator.SetBool(IsRunningHash, false);
-        }
-    }
-
-    private void CheckLongIdle()
-    {
-        if (transform.position == LastPosition && !IsAttacking)
-        {
-            if (!IsDancing)
+            if (IsBodyslamPerforming)
             {
-                IdleTimer += Time.deltaTime;
-                if (IdleTimer >= IdleDanceMarker)
+                Instantiate(GroundPoundDust, new Vector3(transform.position.x, Hit.Value.point.y, transform.position.z), transform.rotation);
+                hitColliders = Physics.OverlapBox(Hit.Value.point, GroundPoundHitBox);
+                foreach(Collider Col in hitColliders)
                 {
-                    IsDancing = true;
-                    IdleTimer = Zero;
-                    int RandomLongIdleChosen = UnityEngine.Random.Range(Zero, LongIdleTree.children.Length);
-                    PlayerAnimator.SetFloat(RandomLongIdleHash, RandomLongIdleChosen);
-                    PlayerAnimator.SetTrigger(IsLongIdleHash);
+                    ICrateBase CrateType = (ICrateBase)Col.gameObject.transform.GetComponent(typeof(ICrateBase));
+                    if (CrateType != null)
+                    {
+                        CrateType.Break((int)ReturnDirection(gameObject, Col.gameObject));
+                    }
                 }
-            }
-            else if (PlayerAnimator.GetCurrentAnimatorStateInfo(Zero).normalizedTime > 1f)
-            {
-                IsDancing = false;
-                IdleTimer = Zero;
-                PlayerAnimator.ResetTrigger(IsLongIdleHash);
-                PlayerAnimator.SetTrigger(IsLongIdleHash);
+                GroundPoundEnd();
             }
         }
-        else
-        {
-            if (IsDancing)
-            {
-                PlayerAnimator.ResetTrigger(IsLongIdleHash);
-                PlayerAnimator.SetTrigger(IsLongIdleHash);
-                IsDancing = false;
-                IdleTimer = Zero;
-            }
-            IdleTimer = Zero;
-        }
+        return Hit != null;
+    }
+    public void ResetPlayerMovement()
+    {
+        RB.velocity = Vector3.zero;
+        CurrentMovementInput = Vector2.zero;
+        RB.MovePosition(Vector3.zero);
+        IsSlideAttackPerforming = false;
+        DistanceToTarget = 0;
+        playerAnimator.SetFloat("IsMoving", 0);
+        playerAnimator.SetBool("IsRunning", false);
+        playerAnimator.Rebind();
     }
 
-    private void CheckPlayingAttackAnimationStates()
+    private void HandleMovementAnimation()
     {
-        if (PlayerAnimator.GetCurrentAnimatorStateInfo(Zero).IsName("Small attack") && PlayerAnimator.GetCurrentAnimatorStateInfo(Zero).normalizedTime > 1f)
-        {
-            IsAttackPerforming = false;
-            PlayerAnimator.SetBool(IsSmallAttackHash, IsAttackPerforming);
-        }
-        else if (PlayerAnimator.GetCurrentAnimatorStateInfo(1).IsName("Big attack Left") && PlayerAnimator.GetCurrentAnimatorStateInfo(1).normalizedTime > 1f)
-        {
-            IsAttackPerforming = false;
-            PlayerAnimator.SetBool(IsBigAttackHash, IsAttackPerforming);
-        }
-        else if (PlayerAnimator.GetCurrentAnimatorStateInfo(1).IsName("Big attack Right") && PlayerAnimator.GetCurrentAnimatorStateInfo(1).normalizedTime > 1f)
-        {
-            IsAttackPerforming = false;
-            PlayerAnimator.SetBool(IsBigAttackHash, IsAttackPerforming);
-        }
-        else if (PlayerAnimator.GetCurrentAnimatorStateInfo(Zero).IsName("Mid-air attack") && PlayerAnimator.GetCurrentAnimatorStateInfo(Zero).normalizedTime > 1f)
-        {
-            IsAttackPerforming = false;
-            PlayerAnimator.SetBool(IsSmallAttackHash, IsAttackPerforming);
-            PlayerAnimator.SetBool(IsBigAttackHash, IsAttackPerforming);
-        }
-        else if (PlayerAnimator.GetCurrentAnimatorStateInfo(Zero).IsName("Slide attack") && PlayerAnimator.GetCurrentAnimatorStateInfo(Zero).normalizedTime > 1f)
-        {
-            IsSlideAttackPerforming = false;
-            PlayerAnimator.SetBool(IsSlideAttackHash, IsSlideAttackPerforming);
-        }
+        playerAnimator.SetFloat("IsMoving", DistanceToTarget);
+        playerAnimator.SetBool("IsGrounded", Grounded);
     }
 
-    private void CheckIfRunning()
+    private float DistanceToGround()
     {
-        if (IsBodyslamPerforming)
+        RaycastHit hit;
+        if (Physics.Raycast(Cap.bounds.center, Vector3.down, out hit, 200))
         {
-            LastPosition = CharController.transform.position;
-            CharController.Move(CurrentMovement * Time.deltaTime);          
-        }
-        else
-        {
-            if (GameManager.Booleans.CanMove)
+            if (hit.transform)
             {
-                LastPosition = CharController.transform.position;
-                if (IsRunPressed)
+                var distance = Vector3.Distance(Cap.bounds.center, hit.point);
+                return distance;
+            }
+        }
+        return 0;
+    }
+
+    #region Player Actions
+
+    public void Jump(float jumpForce)
+    {
+        RB.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        playerAnimator.Play("Jump");
+        HasJumped = false;
+        CanDoubleJump = true;
+    }
+
+    public void DoubleJump(float jumpForce)
+    {
+        RB.velocity = Vector3.zero;
+        RB.AddForce(Vector3.up * DoubleJumpForce, ForceMode.Impulse);
+        playerAnimator.Play("Flip");
+        HasDoubleJumped = false;
+        CanDoubleJump = false;
+    }
+    private void GroundPoundStart()
+    {
+        IsBodyslamPerforming = true;
+        ApplyGroundPoundGravity = true;
+        RB.velocity = Vector3.zero;
+        CanMove = false;
+        playerAnimator.Play("Groundpound");
+        StartCoroutine(DelayFalling(0.2f));
+    }
+
+    private void GroundPoundEnd()
+    {
+        //CameraShake.Instance.DoShake();
+        IsBodyslamPerforming = false;
+        ApplyGroundPoundGravity = false;
+        StartCoroutine(EnableMovement(0.3f));
+    }
+
+    #endregion
+
+    #region Player Collision methods
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        ICrateBase CrateType = (ICrateBase)collision.gameObject.GetComponent(typeof(ICrateBase));
+        if(CrateType != null)
+        {
+            int Direction = (int)ReturnDirection(gameObject, collision.collider.gameObject);
+            CrateType.Break(Direction);
+            if(Direction == 1)
+            {
+                if(CrateType is TNT)
                 {
-                    CharController.Move(CurrentRunMovement * Time.deltaTime);
+                    TNT Tnt = collision.gameObject.GetComponent<TNT>();
+                    if (!Tnt.HasBounced && !IsBodyslamPerforming)
+                    {
+                        float Bounceforce = IsHoldJump ? BigBounce : SmallBounce;
+                        Jump(Bounceforce);
+                        Tnt.HasBounced = true;
+                    }
                 }
                 else
                 {
-                    CharController.Move(CurrentMovement * Time.deltaTime);
+                    if (!IsBodyslamPerforming)
+                    {
+                        float Bounceforce = IsHoldJump ? BigBounce : SmallBounce;
+                        Jump(Bounceforce);
+                    }
                 }
             }
         }
     }
 
-    private void CheckAttackstyle()
+    private void OnTriggerEnter(Collider collider)
     {
-        RaycastHit Hit;
-        if (Physics.Raycast(transform.position, -Vector3.up, out Hit, 20))
+        ICollectable Collectable = (ICollectable)collider.gameObject.GetComponent(typeof(ICollectable));
+        if (Collectable != null)
         {
-            if (Hit.transform)
-            {
-                var Distance = Vector3.Distance(transform.position, Hit.point);
-
-                if (!IsGrounded() && Distance > BodySlamDistance && IsBodyslam && !IsBodyslamPerforming && !IsSlideAttackPerforming)
-                {
-                    IsBodyslamPerforming = IsBodyslam;
-                    EventManager.EnablePlayerMovement();
-                    PlayerAnimator.SetBool(IsBodyslamHash, IsBodyslamPerforming);
-                    CharController.Move(Vector3.up * BodySlamHeightMultiplier * Time.fixedDeltaTime);
-                    LandingDelay = 0.7f;
-                }
-            }
-        }
-        if (transform.position == LastPosition && IsAttacking)
-        {
-            IsAttackPerforming = IsAttacking;
-            PlayerAnimator.SetBool(IsSmallAttackHash, IsAttacking);
-        }
-        else if (transform.position != LastPosition && IsAttacking)
-        {
-            IsAttackPerforming = IsAttacking;
-            PlayerAnimator.SetLayerWeight(1, 1);
-            PlayerAnimator.SetInteger(IsRandomHookshotHash, UnityEngine.Random.Range(Zero, 100));
-            PlayerAnimator.SetBool(IsBigAttackHash, IsAttacking);
-        }
-        else if(IsGrounded() && transform.position != LastPosition && IsSlideAttack && !IsSlideAttackPerforming && !IsBodyslamPerforming)
-        {
-            IsSlideAttackPerforming = IsSlideAttack;
-            PlayerAnimator.SetBool(IsSlideAttackHash, IsSlideAttackPerforming);
-            if (GameManager.Booleans.CanMove)
-            {
-                CharController.Move(Vector3.forward * SlideMultiplier * Time.fixedDeltaTime);
-            }
+            Collectable.Collect();
         }
     }
 
@@ -399,190 +378,25 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    public void ResetPlayerMovement()
-    {
-        CharController.Move(Vector3.zero);
-        CurrentPlayerSpeed = Zero;
-        PlayerAnimator.SetFloat("IsMoving", CurrentPlayerSpeed);
-    }
+    #endregion
 
-    private void HandleGravity()
-    {
-        IsFalling = CurrentMovement.y < Velocity;
-        if(LandingDelay > Zero)
-        {
-            LandingDelay -= Time.deltaTime;
-        }
-        if(IsGrounded() && IsBodyslamPerforming)
-        {
-            IsBodyslamPerforming = false;
+    #region Hit Detection Converter
 
-            Instantiate(GroundPoundDust, transform.position, transform.rotation);
-            hitColliders = Physics.OverlapBox(CharController.bounds.center, GroundPoundHitBox);
-            CheckAttackHit();
-            StartCoroutine("ResetMovement");
-        }
-        if (IsGrounded() && LandingDelay <= Zero)
+    //Detects if hitting an object or not
+    public RaycastHit? GetGroundHit()
+    {
+        foreach (var x in PlayerGroundMesh.vertices)
         {
-            PlayerAnimator.SetBool(IsBodyslamHash, IsBodyslamPerforming);
-            CheckPlayingAttackAnimationStates();
-            if (IsJumpAnimating)
+            RaycastHit hit;
+            var point = transform.TransformPoint(x);
+            Debug.DrawRay(point, Vector3.down * GroundLength, Color.blue);
+            if (Physics.Raycast(point, Vector3.down, out hit, GroundLength))
             {
-                IsJumpAnimating = false;
-                PlayerAnimator.SetBool(IsJumpingHash, IsJumpAnimating);
-            }
-            PlayerAnimator.SetBool(IsJumpingHash, IsJumpAnimating);
-            CurrentMovement.y = GroundedGravity;
-            CurrentRunMovement.y = GroundedGravity;
-            return;
-        }
-        if (IsFalling)
-        {
-            float PreviousYVelocity = CurrentMovement.y;
-            float NewYVelocity;
-            float NextYVelocity;
-            if (IsBodyslamPerforming)
-            {
-                NewYVelocity = CurrentMovement.y + (Gravity * BodySlamMultiplier * Time.deltaTime);
-                NextYVelocity = (PreviousYVelocity + NewYVelocity) * Average;
-                CurrentMovement.y = NextYVelocity;
-                CurrentRunMovement.y = NextYVelocity;
-                NextHeight = transform.position.y;
-                CurrentMovementInput = Vector2.zero;
-                return;
-            }
-            NewYVelocity = CurrentMovement.y + (Gravity * FallMultiplier * Time.deltaTime);
-            NextYVelocity = (PreviousYVelocity + NewYVelocity) * Average;
-            CurrentMovement.y = NextYVelocity;
-            CurrentRunMovement.y = NextYVelocity;
-            NextHeight = transform.position.y;
-            if (SetFlipHeight < NextHeight)
-            {
-                PlayerAnimator.SetTrigger(IsBigJumpHash);
-            }
-            else
-            {
-                PlayerAnimator.SetBool(IsJumpingHash, false);
+                if (hit.transform)
+                    return hit;
             }
         }
-        else
-        {
-            float PreviousYVelocity = CurrentMovement.y;
-            float NewYVelocity = CurrentMovement.y + (Gravity * Time.deltaTime);
-            float NextYVelocity = (PreviousYVelocity + NewYVelocity) * Average;
-            CurrentMovement.y = NextYVelocity;
-            CurrentRunMovement.y = NextYVelocity;
-        }
-    }
-
-    public void HandleJump()
-    {
-        if (!IsJumping && IsGrounded() && IsJumpPressed)
-        {
-            LandingDelay = 0.2f;
-            RegularJump();
-        }
-        else if(IsBounce && IsGrounded() && !IsJumpPressed)
-        {
-            LandingDelay = 0.2f;
-            SmallBounceJump();
-        }
-        else if (IsBounce && IsGrounded() && IsJumpPressed)
-        {
-            LandingDelay = 0.2f;
-            BigBounceJump();
-        }
-        else if (!IsJumpPressed && IsJumping && IsGrounded())
-        {
-            IsJumping = false;
-        }
-        if (IsJumpPressed)
-        {
-            CurrentMovement.y += ConstantJumpForce * Time.deltaTime;
-            CurrentRunMovement.y += ConstantJumpForce * Time.deltaTime;
-            if(ConstantJumpForce > 0)
-            {
-                ConstantJumpForce -= ConstantJumpForceDecrease * Time.deltaTime;
-            }
-        }
-        else if(IsGrounded())
-        {
-            ConstantJumpForce = ConstantJumpForceTarget;
-        }
-    }
-
-    //Different jump types
-    private void RegularJump()
-    {
-        PlayerAnimator.SetBool(IsJumpingHash, true);
-        IsJumpAnimating = true;
-        IsJumping = true;
-        CurrentMovement.y = InitialJumpVelocity * Average;
-        CurrentRunMovement.y = InitialJumpVelocity * Average;
-    }
-
-    private void SmallBounceJump()
-    {
-        PlayerAnimator.SetBool(IsJumpingHash, true);
-        IsJumpAnimating = true;
-        IsBounce = false;
-        CurrentMovement.y = InitialJumpVelocity * Average * SmallBounce;
-        CurrentRunMovement.y = InitialJumpVelocity * Average * SmallBounce;
-    }
-
-    private void BigBounceJump()
-    {
-        PlayerAnimator.SetBool(IsJumpingHash, true);
-        IsJumpAnimating = true;
-        IsBounce = false;
-        CurrentMovement.y = InitialJumpVelocity * Average * BigBounce;
-        CurrentRunMovement.y = InitialJumpVelocity * Average * BigBounce;
-    }
-    
-    public IEnumerator DownwardsForce()
-    {
-        while (CharController.transform.position.y > 0 && !IsGrounded())
-        {
-            CharController.transform.position = new Vector3(CharController.transform.position.x, CharController.transform.position.y - Average * Time.deltaTime, CharController.transform.position.z);
-            yield return CharController.transform.position;
-        }
-        StopCoroutine(DownwardsForce());
-
-    }
-
-    private IEnumerator DisplayHUD()
-    {
-        if (IsDisplayHUDPerforming)
-        {
-            HUDAnimator.SetBool("IsDisplayingHUD", IsDisplayHUDPerforming);
-            while(CurrentTime < ResetTime)
-            {
-                CurrentTime += Time.deltaTime;
-                yield return CurrentTime;                
-            }
-            CurrentTime = 0;
-            IsDisplayHUDPerforming = false;
-            HUDAnimator.SetBool("IsDisplayingHUD", IsDisplayHUDPerforming);         
-        }
-    }
-
-    //Hit detection method when colliding with an Interface type
-    private void OnControllerColliderHit(ControllerColliderHit collision)
-    {      
-        ICrateBase CrateType = (ICrateBase)collision.gameObject.GetComponent(typeof(ICrateBase));
-        if(CrateType != null)
-        {
-            CrateType.Break((int)ReturnDirection(gameObject, collision.gameObject));
-        }
-    }
-
-    private void OnTriggerEnter(Collider collider)
-    {
-        ICollectable Collectable = (ICollectable)collider.gameObject.GetComponent(typeof(ICollectable));
-        if (Collectable != null)
-        {
-            Collectable.Collect();
-        }
+        return null;
     }
 
     //Converts type of interaction into an integer depending on enum value
@@ -594,7 +408,7 @@ public class PlayerScript : MonoBehaviour
             return HitPlayerDirection.Bodyslam;
         }
 
-        else if (IsAttackPerforming)
+        else if (!CanPunch)
         {
             return HitPlayerDirection.Attack;
         }
@@ -648,110 +462,301 @@ public class PlayerScript : MonoBehaviour
         }
         return HitDirection;
     }
+    #endregion
 
-    //Coroutines
-    IEnumerator ResetMovement()
+    #region Coroutines
+
+    public IEnumerator DownwardsForce()
     {
-        yield return new WaitForSeconds(.5f);
-        EventManager.EnablePlayerMovement();
+        while (transform.position.y > 0 && !IsGrounded())
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y - Average * Time.deltaTime, transform.position.z);
+            yield return transform.position; 
+        }
+        StopCoroutine(DownwardsForce());
     }
 
-    //Animation events
+    IEnumerator DelayFalling(float time)
+    {
+        yield return new WaitForSeconds(time);
+        RB.AddForce(Vector3.down * JumpForce * GroundPoundForce, ForceMode.Impulse);
+    }
+
+    IEnumerator EnableMovement(float time)
+    {
+        yield return new WaitForSeconds(time);
+        CanMove = true;
+    }
+    IEnumerator PunchTime()
+    {
+        if (PunchCoolDown == StartPunchTime)
+        {
+            while (PunchCoolDown < GoalPunchTime)
+            {
+                PunchCoolDown += Time.deltaTime;
+                if (PunchCoolDown >= 0.7f)
+                {
+                    CanPunch = true;
+                }
+                yield return null;
+            }
+            PunchCoolDown = StartPunchTime;
+            StopCoroutine(PunchTime());
+        }
+        else
+        {
+            SwitchPunch = !SwitchPunch;
+            PunchCoolDown = StartPunchTime;
+        }
+    }
+
+    IEnumerator DisplayHUD()
+    {
+        if (IsDisplayHUDPerforming)
+        {
+            HUDAnimator.SetBool("IsDisplayingHUD", IsDisplayHUDPerforming);
+            while (HUDDisplayTime < ResetTime)
+            {
+                HUDDisplayTime += Time.deltaTime;
+                yield return HUDDisplayTime;
+            }
+            HUDDisplayTime = 0;
+            IsDisplayHUDPerforming = false;
+            HUDAnimator.SetBool("IsDisplayingHUD", IsDisplayHUDPerforming);
+        }
+    }
+    #endregion
+
+    #region Animation Events
     private void SmallAttackEvent()
     {
-        hitColliders = Physics.OverlapBox(CharController.bounds.center / 2, SmallHitBox);
+        hitColliders = Physics.OverlapBox(Cap.bounds.center / 2, SmallHitBox);
         CheckAttackHit();
     }
 
     private void BigAttackEvent()
     {
-        hitColliders = Physics.OverlapBox(CharController.bounds.center, BigHitBox);
+        hitColliders = Physics.OverlapBox(Cap.bounds.center, BigHitBox);
         CheckAttackHit();
     }
 
     private void SlideAttackEvent()
     {
-        hitColliders = Physics.OverlapBox(CharController.bounds.center / 2, SlideAttackHitBox);
-        CharController.center = new Vector3(0, 0.5f, 0);
-        CharController.height = 1;
+        Cap.GetComponent<CapsuleCollider>().center = new Vector3(0, 0.5f, 0);
+        Cap.GetComponent<CapsuleCollider>().height = 0.9f;
     }
 
     private void SlideAttackEndEvent()
     {
-        CharController.center = new Vector3(0, 1, 0);
-        CharController.height = 2;
+        IsSlideAttackPerforming = false;
+        Cap.GetComponent<CapsuleCollider>().center = new Vector3(0, 0.9f, 0);
+        Cap.GetComponent<CapsuleCollider>().height = 1.8f;
     }
+    #endregion
 
-    private void PlayerDiedEvent()
-    {
-        ResetPlayerMovement();
-        EventManager.PlayerDied();
-    }
-    
-    private void RebindAnimationsEvent()
-    {
-        PlayerAnimator.Rebind();
-    }
+    #region RigidBody Controls
 
-    private void DisableMovementEvent()
+    #region (boolean) MoveTo(Vector3 Destination, float Acceleration, float StoppingDistance, bool IgnoreY)
+    public bool MoveTo(Vector3 Destination, float Acceleration, float StoppingDistance, bool IgnoreY)
     {
-        EventManager.EnablePlayerMovement();
-    }
+        Vector3 RelativePosition = (Destination - transform.position);
+        if (IgnoreY)
+        { RelativePosition.y = 0; }
 
-    private void EnableMovementEvent()
-    {
-        EventManager.EnablePlayerMovement();
-    }
-
-    public void OnMovementInput(InputAction.CallbackContext Context)
-    {
-        if (GameManager.Booleans.CanMove)
+        DistanceToTarget = RelativePosition.magnitude;
+        if (DistanceToTarget <= StoppingDistance)
+        { return true; }
+        else
         {
-            CurrentMovementInput = Context.ReadValue<Vector2>();
+            RB.AddForce(RelativePosition.normalized * Acceleration * Time.deltaTime, ForceMode.VelocityChange);
+            return false;
+        }
+    }
+    #endregion //Move To Position.
+
+    #region RotateToVelocity(float TurnSpeed, bool IgnoreY)
+    public void RotateToVelocity(float TurnSpeed, bool IgnoreY)
+    {
+        Vector3 Direction;
+        if (IgnoreY)
+            Direction = new Vector3(RB.velocity.x, 0f, RB.velocity.z);
+        else
+            Direction = RB.velocity;
+
+        if (Direction.magnitude > 0.1)
+        {
+            Quaternion dir = Quaternion.LookRotation(Direction);
+            Quaternion Slerp = Quaternion.Slerp(transform.rotation, dir, Direction.magnitude * TurnSpeed * Time.deltaTime);
+            RB.MoveRotation(Slerp);
+        }
+    }
+    #endregion //Rotate Towards Velocity Direction.
+
+    #region RotateToDirection(Vector3 LookDirection, float TurnSpeed, bool IgnoreY)
+    public void RotateToDirection(Vector3 LookDirection, float TurnSpeed, bool IgnoreY)
+    {
+        Vector3 CharacterPosition = transform.position;
+        if (IgnoreY)
+        {
+            CharacterPosition.y = 0;
+            LookDirection.y = 0;
+        }
+
+        Vector3 NewDirection = LookDirection - CharacterPosition;
+        Quaternion Direction = Quaternion.LookRotation(NewDirection);
+        Quaternion Slerp = Quaternion.Slerp(transform.rotation, Direction, TurnSpeed * Time.deltaTime);
+        RB.MoveRotation(Slerp);
+    }
+    #endregion //Rotate Towards Said Direction.
+
+    #region ManageSpeed(float Deceleration, float MaxSpeed, bool IgnoreY)
+    public void ManageSpeed(float Deceleration, float MaxSpeed, bool IgnoreY)
+    {
+        CurrentSpeed = RB.velocity;
+        if (IgnoreY)
+            CurrentSpeed.y = 0;
+
+        if (CurrentSpeed.magnitude > 0)
+        {
+            RB.AddForce((CurrentSpeed * -1) * Deceleration * Time.deltaTime, ForceMode.VelocityChange);
+            if (RB.velocity.magnitude > MaxSpeed)
+                RB.AddForce((CurrentSpeed * -1) * Deceleration * Time.deltaTime, ForceMode.VelocityChange);
+        }
+    }
+    #endregion //Manage Our Speed.
+
+    #endregion
+
+    #region InputSystem
+
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        if (GameManager.Booleans.CanMove && !IsSlideAttackPerforming)
+        {
+            CurrentMovementInput = context.ReadValue<Vector2>();
+            CurrentMovement = new Vector3(CurrentMovementInput.x, 0, CurrentMovementInput.y);
         }
         else
         {
-            CurrentMovementInput = Vector2.zero;
+            if (IsSlideAttackPerforming)
+            {
+                CurrentMovement = CurrentSpeed * SlideSpeed;
+            }
+            else
+            {
+                CurrentMovement = Vector3.zero;
+                RB.velocity = Vector3.zero;
+            }
         }
-        CurrentMovement.x = CurrentMovementInput.x * WalkMultiplier;
-        CurrentMovement.z = CurrentMovementInput.y * WalkMultiplier;
-        CurrentRunMovement.x = CurrentMovementInput.x * RunMultiplier;
-        CurrentRunMovement.z = CurrentMovementInput.y * RunMultiplier;
-        IsMovementPressed = CurrentMovementInput.x != Zero || CurrentMovementInput.y != Zero;
     }
-
     public void OnRun(InputAction.CallbackContext context)
     {
-        IsRunPressed = context.ReadValueAsButton();
+        if (GameManager.Booleans.CanMove)
+        {
+            IsRunPressed = context.ReadValueAsButton();
+            IsRunning = IsRunPressed;
+            playerAnimator.SetBool("IsRunning", IsRunning);
+        }
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        IsJumpPressed = context.ReadValueAsButton();
+        SlideAttackEndEvent();
+        if (GameManager.Booleans.CanMove)
+        {
+            if (context.ReadValueAsButton() == true)
+            {
+                IsHoldJump = true;
+                if (!HasJumped)
+                {
+                    if (Grounded)
+                    {
+                        HasJumped = true;
+                    }
+                }
+                var distance = DistanceToGround();
+                if (CanDoubleJump && !HasDoubleJumped && distance > DoubleJumpHeight)
+                    HasDoubleJumped = true;
+            }
+            else
+            {
+                IsHoldJump = false;
+            }
+        }  
     }
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        IsAttacking = context.ReadValueAsButton();
+        if (GameManager.Booleans.CanMove)
+        {
+            if (IsAttacking = context.ReadValueAsButton() == true)
+            {
+                if (Grounded)
+                {
+                    if (DistanceToTarget == 0)
+                    {
+                        playerAnimator.Play("Small attack");
+                    }
+                    else
+                    {
+                        if (CanPunch)
+                        {
+                            CanPunch = false;
+                            StartCoroutine(PunchTime());
+                            playerAnimator.SetBool("SwitchPunch", SwitchPunch);
+                            playerAnimator.Play("Big attack");
+                        }
+                    }
+                }
+                else
+                {
+                    playerAnimator.Play("Mid-air attack");
+                }
+            }
+        }
     }
 
     public void OnBodySlam(InputAction.CallbackContext context)
     {
         IsBodyslam = context.ReadValueAsButton();
+        if (IsBodyslam && !Grounded)
+        {
+            if (!IsBodyslamPerforming)
+            {
+                var distance = DistanceToGround();
+                if (distance >= GroundPoundDistance)
+                {
+                    GroundPoundStart();
+                }
+            }
+        }
     }
 
     public void OnSlideAttack(InputAction.CallbackContext context)
     {
-        IsSlideAttack = context.ReadValueAsButton();
+        if (GameManager.Booleans.CanMove)
+        {
+            IsSlideAttack = context.ReadValueAsButton();
+            if (IsSlideAttack && Grounded && DistanceToTarget != 0)
+            {
+                playerAnimator.Play("Slide");
+                IsSlideAttack = true;
+                IsSlideAttackPerforming = IsSlideAttack;
+            }
+        }
     }
 
     public void OnHUDDisplay(InputAction.CallbackContext context)
     {
-        if (!IsDisplayHUDPerforming)
+        if (GameManager.Booleans.CanMove)
         {
-            IsDisplayingHUD = context.ReadValueAsButton();
-            IsDisplayHUDPerforming = IsDisplayingHUD;
-            StartCoroutine(DisplayHUD());
+            if (!IsDisplayHUDPerforming)
+            {
+                IsDisplayingHUD = context.ReadValueAsButton();
+                IsDisplayHUDPerforming = IsDisplayingHUD;
+                StartCoroutine(DisplayHUD());
+            }
         }
     }
+    #endregion
 }
