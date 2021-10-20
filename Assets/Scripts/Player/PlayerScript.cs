@@ -73,7 +73,7 @@ public class PlayerScript : MonoBehaviour
                     IsDisplayHUDPerforming,
                     IsDancing;
 
-    public float IdleTimer;
+    private float IdleTimer;
     private Quaternion ScreenMovementSpace;
     private Quaternion PlayerOriginalRotation;
 
