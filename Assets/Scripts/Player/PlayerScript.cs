@@ -38,7 +38,8 @@ public class PlayerScript : MonoBehaviour
                     PunchCoolDown = 0,
                     GoalPunchTime = 1.5f,
                     HUDDisplayTime,
-                    ResetTime = 3f;
+                    ResetTime = 3f,
+                    IdleDanceMarker = 10f;
 
     public Vector3  Direction,
                     MoveDirection,
@@ -69,8 +70,10 @@ public class PlayerScript : MonoBehaviour
                     SwitchPunch,
                     HasExploded,
                     IsDisplayingHUD,
-                    IsDisplayHUDPerforming;
+                    IsDisplayHUDPerforming,
+                    IsDancing;
 
+    public float IdleTimer;
     private Quaternion ScreenMovementSpace;
     private Quaternion PlayerOriginalRotation;
 
@@ -78,6 +81,7 @@ public class PlayerScript : MonoBehaviour
     public GameObject ExplosionModel;
     public Mesh PlayerGroundMesh;
     public Animator HUDAnimator;
+    public AnimatorController AnimController;
     public Transform MainCamera;
     public GameObject GroundPoundDust;
     [HideInInspector]
@@ -86,9 +90,12 @@ public class PlayerScript : MonoBehaviour
     public PlayerInput playerInput;
     [HideInInspector]
     public Rigidbody RB;
+    [HideInInspector]
+    public CharacterSkinController SkinController;
+    [HideInInspector]
+    public Animator playerAnimator;
     private Collider Cap;
-    private Animator playerAnimator;
-    BlendTree LongIdleTree;
+    private BlendTree LongIdleTree;
 
     //Player movement
     Vector2 CurrentMovementInput;
@@ -111,9 +118,13 @@ public class PlayerScript : MonoBehaviour
         playerAnimator = GetComponent<Animator>();
         RB = GetComponent<Rigidbody>();
         Cap = GetComponent<Collider>();
+        SkinController = GetComponent<CharacterSkinController>();
         playerInput = GetComponent<PlayerInput>();
         PlayerSpawnPosition = transform.position;
         PlayerOriginalRotation = transform.rotation;
+        AnimatorStateMachine RootStateMachine = AnimController.layers[0].stateMachine;
+        AnimatorState StateWithBlendTree = RootStateMachine.states[RootStateMachine.states.Length -1].state;
+        LongIdleTree = (BlendTree)StateWithBlendTree.motion;
     }
 
     private void Update()
@@ -262,6 +273,47 @@ public class PlayerScript : MonoBehaviour
     {
         playerAnimator.SetFloat("IsMoving", DistanceToTarget);
         playerAnimator.SetBool("IsGrounded", Grounded);
+        if (GameManager.Booleans.CanMove)
+        {
+            CheckLongIdle();
+        }
+    }
+
+    private void CheckLongIdle()
+    {
+        if (Direction == Vector3.zero && !IsAttacking)
+        {
+            if (!IsDancing)
+            {
+                IdleTimer += Time.deltaTime;
+                if (IdleTimer >= IdleDanceMarker)
+                {
+                    IsDancing = true;
+                    IdleTimer = 0;
+                    int RandomLongIdleChosen = UnityEngine.Random.Range(0, LongIdleTree.children.Length);
+                    playerAnimator.SetFloat("RandomLongIdle", RandomLongIdleChosen);
+                    playerAnimator.Play("Long Idles");
+                }
+            }
+            else if (playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1f)
+            {
+                IsDancing = false;
+                IdleTimer = 0;
+                playerAnimator.Play("Movement");
+                SkinController.ReturnToNormalEvent();
+            }
+        }
+        else
+        {
+            if (IsDancing)
+            {
+                IsDancing = false;
+                IdleTimer = 0;
+                playerAnimator.Play("Movement");
+                SkinController.ReturnToNormalEvent();
+            }
+            IdleTimer = 0;
+        }
     }
 
     private float DistanceToGround()

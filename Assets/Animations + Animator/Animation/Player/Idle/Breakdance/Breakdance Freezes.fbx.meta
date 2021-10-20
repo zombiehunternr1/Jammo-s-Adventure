@@ -42,7 +42,7 @@ ModelImporter:
       lastFrame: 201
       wrapMode: 0
       orientationOffsetY: 0
-      level: 0
+      level: -0.5
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
@@ -58,7 +58,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0
+        functionName: HappyIdleDancingEvent
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: bbb6cae19ece4b848b976432ca8b3cfb, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

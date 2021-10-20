@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     private float FadeSpeed = 1;
     private bool IsFadingToBlack = true;
     private bool FirstTime = true;
+    private SpawnStaticItem StaticItems;
 
     public static class Booleans
     {
@@ -43,6 +44,10 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(this);
+        }
+        if(StaticItems == null)
+        {
+            StaticItems = StaticItemsContainer.GetComponent<SpawnStaticItem>();
         }
         StartCoroutine(FadeEffect());
     }
@@ -105,12 +110,9 @@ public class GameManager : MonoBehaviour
         Player.ResetPlayerMovement();
         ClearItemsContainer();
         ResetCrates();
-        Animator PlayerAnim = Player.GetComponent<Animator>();
-        if (PlayerAnim.GetCurrentAnimatorStateInfo(0).IsName("Dying"))
+        if (Player.playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Dying"))
         {
-            Player.GetComponent<CharacterSkinController>().ReturnToNormalEvent();
-            PlayerAnim.ResetTrigger("IsDead");
-            PlayerAnim.SetTrigger("IsDead");
+            Player.SkinController.ReturnToNormalEvent();
         }
         Player.ResetCheckpointPosition();
     }
@@ -119,10 +121,10 @@ public class GameManager : MonoBehaviour
         Player.ResetPlayerMovement();
         ClearItemsContainer();
         ResetCrates();
-        StaticItemsContainer.GetComponent<SpawnStaticItem>().SpawnBoltType();
+        StaticItems.SpawnBoltType();
         Player.PlayerModel.SetActive(true);
         IsFadingToBlack = true;
-        Player.GetComponent<CharacterSkinController>().ReturnToNormalEvent();
+        Player.SkinController.ReturnToNormalEvent();
         Player.ResetGameoverPosition();
     }
     public void SetCheckpoint(Checkpoint CheckPointPos)

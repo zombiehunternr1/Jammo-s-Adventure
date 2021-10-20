@@ -2015,6 +2015,7 @@ MonoBehaviour:
   GoalPunchTime: 1.5
   HUDDisplayTime: 0
   ResetTime: 3
+  IdleDanceMarker: 10
   Direction: {x: 0, y: 0, z: 0}
   MoveDirection: {x: 0, y: 0, z: 0}
   ScreenMovementForward: {x: 0, y: 0, z: 0}
@@ -2044,14 +2045,19 @@ MonoBehaviour:
   HasExploded: 0
   IsDisplayingHUD: 0
   IsDisplayHUDPerforming: 0
+  IsDancing: 0
+  IdleTimer: 0
   ExplosionModel: {fileID: 2307524359362514868, guid: b09065a4c2b419047857d21cbaaafcb8, type: 3}
   PlayerGroundMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
   HUDAnimator: {fileID: 0}
+  AnimController: {fileID: 9100000, guid: fe5adc10bbfe2c3459db067df6b94c81, type: 2}
   MainCamera: {fileID: 0}
   GroundPoundDust: {fileID: 2400109675009593164, guid: d328ed9d41e081b4da83889c677c3fc4, type: 3}
   PlayerModel: {fileID: 0}
   playerInput: {fileID: 0}
   RB: {fileID: 0}
+  SkinController: {fileID: 0}
+  playerAnimator: {fileID: 0}
 --- !u!114 &2726312095156130154
 MonoBehaviour:
   m_ObjectHideFlags: 0
