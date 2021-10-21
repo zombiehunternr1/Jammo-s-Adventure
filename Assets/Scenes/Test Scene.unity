@@ -2543,6 +2543,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 954532287998140250, guid: 5b45f6aeabd0bea4f8ad3a9500e1928c, type: 3}
+      propertyPath: Level
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3486678761033427662, guid: 5b45f6aeabd0bea4f8ad3a9500e1928c, type: 3}
       propertyPath: m_Name
       value: Artifact
@@ -2553,15 +2557,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3486678761033427663, guid: 5b45f6aeabd0bea4f8ad3a9500e1928c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.18
+      value: -6.582
       objectReference: {fileID: 0}
     - target: {fileID: 3486678761033427663, guid: 5b45f6aeabd0bea4f8ad3a9500e1928c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.12
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3486678761033427663, guid: 5b45f6aeabd0bea4f8ad3a9500e1928c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.04
+      value: -1.845
       objectReference: {fileID: 0}
     - target: {fileID: 3486678761033427663, guid: 5b45f6aeabd0bea4f8ad3a9500e1928c, type: 3}
       propertyPath: m_LocalRotation.w
