@@ -30,16 +30,11 @@ public class ArtifactSpawner : MonoBehaviour
         {
             if (Level == ArtifactsCollected.Artifacts[i].Level)
             {
-                Disable();
+                gameObject.SetActive(false);
                 return;
             }
         }
         SetupArtifact();
-    }
-
-    private void Disable()
-    {
-        gameObject.SetActive(false);
     }
 
     private void SetupArtifact()
