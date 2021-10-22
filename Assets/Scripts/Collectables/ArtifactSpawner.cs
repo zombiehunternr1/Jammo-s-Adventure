@@ -8,7 +8,7 @@ public class ArtifactSpawner : MonoBehaviour
     public ArtifactsCollected ArtifactsCollected, TotalArtifacts;
     public int Level;
 
-    public List<Transform> Shards;
+    private List<Transform> Shards;
 
     private void Awake()
     {
