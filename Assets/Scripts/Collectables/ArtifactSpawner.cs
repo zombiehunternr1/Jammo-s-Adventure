@@ -69,4 +69,20 @@ public class ArtifactSpawner : MonoBehaviour
         }
         */
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<PlayerScript>())
+        {
+            for (int i = 0; i < TotalArtifacts.Artifacts.Count; i++)
+            {
+                if (Level == TotalArtifacts.Artifacts[i].Level)
+                {
+                    ArtifactsCollected.Artifacts.Add(TotalArtifacts.Artifacts[i]);
+                    EventManager.CollectShardUpdate();
+                    gameObject.SetActive(false);
+                }
+            }
+        }
+    }
 }

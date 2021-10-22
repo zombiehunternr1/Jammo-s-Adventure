@@ -2,15 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class EventListener : MonoBehaviour
 {
     public PlayerInfo PlayerInfo;
+    public ArtifactsCollected CollectedShards, TotalShards;
     public Text BoltText;
     public Text LifeText;
     public Animator HUD;
     public GameObject Life;
+    public GameObject ArtifactShards;
 
+    private List<Transform> Shards;
     private GameObject SpawnedLife;
     [SerializeField] private PlayerScript Player;
 
@@ -29,6 +33,7 @@ public class EventListener : MonoBehaviour
     {
         EventManager.OnCollectedLifeDisplay += HandleCollectedLifeDisplay;
         EventManager.OnCollectedBoltDisplay += HandleCollectedBoltDisplay;
+        EventManager.OnCollectedShardUpdate += HandleCollectedShardDisplay;
         EventManager.OnCollectedLifeUpdate += HandleCollectedLifeUpdate;
         EventManager.OnCollectedBoltUpdate += HandleCollectedBoltUpdate;
         EventManager.OnPlayerDied += HandlePlayerDied;
@@ -41,6 +46,7 @@ public class EventListener : MonoBehaviour
     {
         EventManager.OnCollectedLifeDisplay -= HandleCollectedLifeDisplay;
         EventManager.OnCollectedBoltDisplay -= HandleCollectedBoltDisplay;
+        EventManager.OnCollectedShardUpdate -= HandleCollectedShardDisplay;
         EventManager.OnCollectedLifeUpdate -= HandleCollectedLifeUpdate;
         EventManager.OnCollectedBoltUpdate -= HandleCollectedBoltUpdate;
         EventManager.OnPlayerDied -= HandlePlayerDied;
@@ -53,6 +59,16 @@ public class EventListener : MonoBehaviour
     {
         LifeText.text = PlayerInfo.Lives.ToString();
         BoltText.text = PlayerInfo.Bolts.ToString();
+        Shards = new List<Transform>();
+        Transform[] Children = ArtifactShards.GetComponentsInChildren<Transform>();
+        for (int i = 1; i < Children.Length; i++)
+        {
+            Shards.Add(Children[i]);
+        }
+        foreach(Transform Shard in Shards)
+        {
+            Shard.GetComponent<Renderer>().enabled = false;
+        }
     }
 
     private void HandleCollectedLifeDisplay()
@@ -65,6 +81,24 @@ public class EventListener : MonoBehaviour
     {
         HUD.SetTrigger("IsDisplayingBoltHUD");
         StartCoroutine(DisableBoltTrigger());
+    }
+
+    private void HandleCollectedShardDisplay()
+    {
+        HUD.SetTrigger("IsDisplayingShardHUD");
+        for(int i = 0; i < CollectedShards.Artifacts.Count; i++)
+        {
+            for(int j = 0; j < TotalShards.Artifacts.Count; j++)
+            {
+                if (CollectedShards.Artifacts[i].Level == TotalShards.Artifacts[j].Level)
+                {
+                    Shards[Convert.ToInt32(CollectedShards.Artifacts[i].ActiveShardSelected)].GetComponent<Renderer>().enabled = true;
+                }
+            }
+
+        }
+
+        StartCoroutine(DisableShardTrigger());
     }
 
     private void HandleCollectedLifeUpdate()
@@ -149,5 +183,12 @@ public class EventListener : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
         HUD.ResetTrigger("IsDisplayingBoltHUD");
+    }
+
+    private IEnumerator DisableShardTrigger()
+    {
+        yield return new WaitForSeconds(5);
+        HUD.ResetTrigger("IsDisplayingShardHUD");
+        HUD.SetTrigger("IsDisplayingShardHUD");
     }
 }

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3486678761033427663}
   - component: {fileID: 954532287998140250}
+  - component: {fileID: 848877202384037509}
   m_Layer: 0
   m_Name: Artifact
   m_TagString: Untagged
@@ -48,6 +49,19 @@ MonoBehaviour:
   TotalArtifacts: {fileID: 11400000, guid: 084a75191a68ece428aaa00043d8368d, type: 2}
   Level: 1
   Shards: []
+--- !u!65 &848877202384037509
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3486678761033427662}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &3911792326105825405
 GameObject:
   m_ObjectHideFlags: 0
