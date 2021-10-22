@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Artifact 2
   m_EditorClassIdentifier: 
   Level: 2
-  ActiveShardSelected: 0
+  ActiveShardSelected: 4
   ArtifactColor: {r: 0, g: 4.237095, b: 0, a: 0}
