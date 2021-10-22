@@ -290,9 +290,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0884dceb0d4308c4eb8bc763c8f8deae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DisableLaser: 0
+  speed: 0.05
+  BarrierCol: {fileID: 86777218095748765}
   m_templateMaterial: {fileID: 2100000, guid: 974b33ccbd786464a825203eb88b8dab, type: 2}
   m_doNotOverwriteTemplateMaterialProperties: 0
-  m_startPos: {x: 0, y: 3, z: 0}
+  m_startPos: {x: 0, y: 0, z: 0}
   m_endPos: {x: 0, y: 0, z: 0}
   m_lineColor: {r: 1, g: 0.108383924, b: 0, a: 1}
   m_lineWidth: 1
@@ -308,5 +311,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 3.157182, z: 0.5}
-  m_Center: {x: 0, y: 1.5275902, z: 0}
+  m_Size: {x: 0.5, y: 3.2, z: 0.5}
+  m_Center: {x: 0, y: 1.5, z: 0}

@@ -95,10 +95,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0884dceb0d4308c4eb8bc763c8f8deae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 2
+  BarrierCol: {fileID: 8556459504904843285}
   m_templateMaterial: {fileID: 2100000, guid: 974b33ccbd786464a825203eb88b8dab, type: 2}
   m_doNotOverwriteTemplateMaterialProperties: 0
-  m_startPos: {x: 0, y: 3, z: 0}
-  m_endPos: {x: 0, y: 0, z: 0}
+  m_startPos: {x: 0, y: 0, z: 0}
+  m_endPos: {x: 0, y: 3, z: 0}
   m_lineColor: {r: 1, g: 0.108383924, b: 0, a: 1}
   m_lineWidth: 1
   m_lightSaberFactor: 0.8
@@ -113,8 +115,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 3.157182, z: 0.5}
-  m_Center: {x: 0, y: 1.5275902, z: 0}
+  m_Size: {x: 0.5, y: 3.2, z: 0.5}
+  m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!1 &8556459503179485897
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,10 +293,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0884dceb0d4308c4eb8bc763c8f8deae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 2
+  BarrierCol: {fileID: 8556459503248572902}
   m_templateMaterial: {fileID: 2100000, guid: 974b33ccbd786464a825203eb88b8dab, type: 2}
   m_doNotOverwriteTemplateMaterialProperties: 0
-  m_startPos: {x: 0, y: 3, z: 0}
-  m_endPos: {x: 0, y: 0, z: 0}
+  m_startPos: {x: 0, y: 0, z: 0}
+  m_endPos: {x: 0, y: 3, z: 0}
   m_lineColor: {r: 1, g: 0.108383924, b: 0, a: 1}
   m_lineWidth: 1
   m_lightSaberFactor: 0.8
@@ -309,8 +313,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 3.157182, z: 0.5}
-  m_Center: {x: 0, y: 1.5275902, z: 0}
+  m_Size: {x: 0.5, y: 3.2, z: 0.5}
+  m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!1 &8556459503515790858
 GameObject:
   m_ObjectHideFlags: 0
@@ -434,6 +438,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8556459503638134708}
+  - component: {fileID: 900890484632451499}
   m_Layer: 0
   m_Name: Laser Barrier
   m_TagString: Untagged
@@ -459,6 +464,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &900890484632451499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8556459503638134711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bda2465f134e3c944bfb8098daec5678, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8556459503667568722
 GameObject:
   m_ObjectHideFlags: 0
@@ -635,10 +652,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0884dceb0d4308c4eb8bc763c8f8deae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 2
+  BarrierCol: {fileID: 8556459503706521503}
   m_templateMaterial: {fileID: 2100000, guid: 974b33ccbd786464a825203eb88b8dab, type: 2}
   m_doNotOverwriteTemplateMaterialProperties: 0
-  m_startPos: {x: 0, y: 3, z: 0}
-  m_endPos: {x: 0, y: 0, z: 0}
+  m_startPos: {x: 0, y: 0, z: 0}
+  m_endPos: {x: 0, y: 3, z: 0}
   m_lineColor: {r: 1, g: 0.108383924, b: 0, a: 1}
   m_lineWidth: 1
   m_lightSaberFactor: 0.8
@@ -653,8 +672,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 3.157182, z: 0.5}
-  m_Center: {x: 0, y: 1.5275902, z: 0}
+  m_Size: {x: 0.5, y: 3.2, z: 0.5}
+  m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!1 &8556459503706916751
 GameObject:
   m_ObjectHideFlags: 0
@@ -1221,10 +1240,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0884dceb0d4308c4eb8bc763c8f8deae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 2
+  BarrierCol: {fileID: 8556459504958389048}
   m_templateMaterial: {fileID: 2100000, guid: 974b33ccbd786464a825203eb88b8dab, type: 2}
   m_doNotOverwriteTemplateMaterialProperties: 0
-  m_startPos: {x: 0, y: 3, z: 0}
-  m_endPos: {x: 0, y: 0, z: 0}
+  m_startPos: {x: 0, y: 0, z: 0}
+  m_endPos: {x: 0, y: 3, z: 0}
   m_lineColor: {r: 1, g: 0.108383924, b: 0, a: 1}
   m_lineWidth: 1
   m_lightSaberFactor: 0.8
@@ -1239,8 +1260,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 3.157182, z: 0.5}
-  m_Center: {x: 0, y: 1.5275902, z: 0}
+  m_Size: {x: 0.5, y: 3.2, z: 0.5}
+  m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!1 &8556459505026958592
 GameObject:
   m_ObjectHideFlags: 0

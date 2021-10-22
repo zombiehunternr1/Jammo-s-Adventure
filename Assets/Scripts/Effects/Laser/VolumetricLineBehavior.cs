@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 namespace VolumetricLines
 {
@@ -30,6 +31,9 @@ namespace VolumetricLines
 	{
 		// Used to compute the average value of all the Vector3's components:
 		static readonly Vector3 Average = new Vector3(1f/3f, 1f/3f, 1f/3f);
+
+		public float speed = 2f;
+		public BoxCollider BarrierCol;
 
 		#region private variables
 		/// <summary>
@@ -381,15 +385,6 @@ namespace VolumetricLines
 			}
 			DestroyMaterial();
 		}
-		
-		void Update()
-		{
-			if (transform.hasChanged)
-			{
-				UpdateLineScale();
-				UpdateBounds();
-			}
-		}
 
 		void OnValidate()
 		{
@@ -400,6 +395,7 @@ namespace VolumetricLines
 			}
 			CreateMaterial();
 			SetAllMaterialProperties();
+			UpdateLineScale();
 			UpdateBounds();
 		}
 	
@@ -407,6 +403,32 @@ namespace VolumetricLines
 		{
 			Gizmos.color = Color.green;
 			Gizmos.DrawLine(gameObject.transform.TransformPoint(m_startPos), gameObject.transform.TransformPoint(m_endPos));
+		}
+
+		public IEnumerator DisableLaser()
+        {
+			while (m_startPos.y! <= m_endPos.y)
+			{
+				m_startPos.y += speed * Time.deltaTime;
+				BarrierCol.center = new Vector3(BarrierCol.center.x, BarrierCol.center.y + speed * Time.deltaTime, BarrierCol.center.z);
+				BarrierCol.size = new Vector3(BarrierCol.size.x, BarrierCol.size.y - speed * Time.deltaTime, BarrierCol.size.z);
+				OnValidate();
+				yield return m_startPos;
+			}
+			m_startPos = m_endPos;
+			BarrierCol.center = new Vector3(BarrierCol.center.x, 0, BarrierCol.center.z);
+			BarrierCol.size = new Vector3(BarrierCol.size.x, 0, BarrierCol.size.z);
+			yield return new WaitForSeconds(.1f);
+			StopAllCoroutines();
+		}
+		public void EnableLaser()
+        {
+			gameObject.GetComponent<Renderer>().enabled = false;
+			m_startPos.y = 0;
+			BarrierCol.center = new Vector3(BarrierCol.center.x, 1.5f, BarrierCol.center.z);
+			BarrierCol.size = new Vector3(BarrierCol.size.x, 3.2f, BarrierCol.size.z);
+			gameObject.GetComponent<Renderer>().enabled = true;
+			OnValidate();
 		}
 		#endregion
 	}
