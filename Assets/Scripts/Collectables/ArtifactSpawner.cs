@@ -55,6 +55,7 @@ public class ArtifactSpawner : MonoBehaviour
             {
                 Shards[Convert.ToInt32(TotalArtifacts.Artifacts[i].ActiveShardSelected)].GetComponent<Renderer>().enabled = true;
                 Shards[Convert.ToInt32(TotalArtifacts.Artifacts[i].ActiveShardSelected)].transform.position = new Vector3(transform.position.x, 1, transform.position.z);
+                Shards[Convert.ToInt32(TotalArtifacts.Artifacts[i].ActiveShardSelected)].GetComponent<Renderer>().material.SetColor("_EmissionColor", TotalArtifacts.Artifacts[i].ArtifactColor);
                 return;
             }
         }

@@ -93,6 +93,7 @@ public class EventListener : MonoBehaviour
                 if (CollectedShards.Artifacts[i].Level == TotalShards.Artifacts[j].Level)
                 {
                     Shards[Convert.ToInt32(CollectedShards.Artifacts[i].ActiveShardSelected)].GetComponent<Renderer>().enabled = true;
+                    Shards[Convert.ToInt32(CollectedShards.Artifacts[i].ActiveShardSelected)].GetComponent<Renderer>().material.SetColor("_EmissionColor", CollectedShards.Artifacts[i].ArtifactColor);
                 }
             }
 
