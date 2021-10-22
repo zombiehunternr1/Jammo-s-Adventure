@@ -3,12 +3,14 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    public Text CrateCount;
+    public TextMeshPro CrateCountProText;
+    public Text CrateCountText;
     public Text GameoverText;
     public Image RetryArrow;
     public Text RetryText;
@@ -102,7 +104,8 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-        CrateCount.text = CurrentlyBrokenCrates.Count + "/" + TotalBrokenCrates.Count;
+        CrateCountText.text = CurrentlyBrokenCrates.Count + "/" + TotalBrokenCrates.Count;
+        CrateCountProText.text = CurrentlyBrokenCrates.Count + "/" + TotalBrokenCrates.Count;
     }
 
     private void ResetTillCheckpoint()

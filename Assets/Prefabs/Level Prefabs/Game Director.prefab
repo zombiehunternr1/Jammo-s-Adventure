@@ -1178,7 +1178,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f39077ce0ffad4c419bf620715cd3286, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CrateCount: {fileID: 916401343}
+  CrateCountProText: {fileID: 0}
+  CrateCountText: {fileID: 916401343}
   GameoverText: {fileID: 392149321}
   RetryArrow: {fileID: 4683881794060970696}
   RetryText: {fileID: 4683881793084203201}
