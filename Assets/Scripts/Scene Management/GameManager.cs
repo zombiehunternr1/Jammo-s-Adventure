@@ -105,7 +105,7 @@ public class GameManager : MonoBehaviour
             }
         }
         CrateCountText.text = CurrentlyBrokenCrates.Count + "/" + TotalBrokenCrates.Count;
-        CrateCountProText.text = CurrentlyBrokenCrates.Count + "/" + TotalBrokenCrates.Count;
+        CrateCountProText.text = CurrentlyBrokenCrates.Count + " / " + TotalBrokenCrates.Count;
     }
 
     private void ResetTillCheckpoint()
