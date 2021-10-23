@@ -5,7 +5,7 @@ using UnityEngine;
 public class Life : MonoBehaviour, ICollectable
 {
     Transform LifeUI;
-    float Speed = 2;
+    float Speed = 2.5f;
     float SpawnHeight = 1.2f;
     float DistanceToTarget;
     bool HasCollided;

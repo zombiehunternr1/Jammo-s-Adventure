@@ -27,14 +27,17 @@ public class PlayerCamera : MonoBehaviour
     //run our camera functions each frame
     void LateUpdate()
     {
-        AdjustCamera();
-        if (target)
+        if (GameManager.Booleans.CameraMove)
         {
-            SmoothFollow();
-            if (rotateDamping > 0)
-                SmoothLookAt();
-            else
-                transform.LookAt(target.position);
+            AdjustCamera();
+            if (target)
+            {
+                SmoothFollow();
+                if (rotateDamping > 0)
+                    SmoothLookAt();
+                else
+                    transform.LookAt(target.position);
+            }
         }
     }
 

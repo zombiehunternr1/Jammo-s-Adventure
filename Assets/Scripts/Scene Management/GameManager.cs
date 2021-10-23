@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour
         public static bool IsResetGame { get; set; }
 
         public static bool CanMove { get; set; }
+
+        public static bool CameraMove { get; set; }
     }
 
     private void OnEnable()
@@ -280,6 +282,7 @@ public class GameManager : MonoBehaviour
                 {
                     ResetTillCheckpoint();
                 }
+                Booleans.CameraMove = true;
                 Player.PlayerModel.SetActive(true);
                 yield return new WaitForSeconds(HoldNextFade);
                 while (PanelImage.color.a > 0)

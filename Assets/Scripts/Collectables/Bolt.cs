@@ -6,7 +6,7 @@ public class Bolt : MonoBehaviour, ICollectable
 {
     Transform BoltUI;
     Rigidbody RB;
-    float Speed = 2;
+    float Speed = 2.5f;
     float SpawnHeight = 1.2f;
     float DistanceToTarget;
     bool HasCollided;
@@ -54,7 +54,7 @@ public class Bolt : MonoBehaviour, ICollectable
         {
             transform.position = Vector3.Lerp(transform.position, BoltUI.position, Speed * Time.deltaTime);
             DistanceToTarget = Vector3.Distance(BoltUI.position, transform.position);
-            if (DistanceToTarget < 0.5)
+            if (DistanceToTarget < 1)
             {
                 EventManager.CollectBoltUpdate();
                 Destroy(gameObject);

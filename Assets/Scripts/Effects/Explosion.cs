@@ -49,6 +49,7 @@ public class Explosion : MonoBehaviour
 
     IEnumerator HoldTransition()
     {
+        GameManager.Booleans.CameraMove = false;
         yield return new WaitForSeconds(3f);
         EventManager.PlayerDied();
     }
