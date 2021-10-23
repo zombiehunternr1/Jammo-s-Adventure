@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public Image QuitArrow;
     public Text QuitText;
     public PlayerScript Player;
+    public BarrierManager BarrierManager;
     public GameObject BreakableCrateContainer;
     public GameObject SpawnedItemsContainer;
     public GameObject StaticItemsContainer;
@@ -172,6 +173,10 @@ public class GameManager : MonoBehaviour
         }
         CurrentlyBrokenCrates = new List<ICrateBase>();
         GetTotalCrateCount();
+        if (!CheckCrateTotal())
+        {
+            BarrierManager.EnableLasers();
+        }
     }
 
     public void PlayerDied()
