@@ -184,6 +184,11 @@ public class GameManager : MonoBehaviour
         StartCoroutine(FadeEffect());
     }
 
+    public bool CheckCrateTotal()
+    {
+        return CurrentlyBrokenCrates.Count == TotalBrokenCrates.Count ? true : false;
+    }
+
     IEnumerator FadeEffect()
     {
         Image PanelImage = FadeOutPanel.GetComponent<Image>();
@@ -301,10 +306,14 @@ public class GameManager : MonoBehaviour
                 FirstTime = false;
                 IsFadingToBlack = true;
                 EventManager.EnablePlayerMovement();
+                Player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+                Player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
                 StopAllCoroutines();
             }
         }
     }
+
+    #region Inputsystem
     public void OnNavigateHorizontal(InputAction.CallbackContext Context)
     {
         HorizontalNavigate = Context.ReadValue<Vector2>();
@@ -336,4 +345,5 @@ public class GameManager : MonoBehaviour
             Debug.Log("Quit game");
         }
     }
+    #endregion
 }

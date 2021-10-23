@@ -29,4 +29,16 @@ public class BarrierManager : MonoBehaviour
             Beam.StartCoroutine(Beam.DisableLaser());
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<PlayerScript>())
+        {
+            if (GameManager.Instance.CheckCrateTotal())
+            {
+                DisableLasers();
+            }
+        }
+    }
+
 }

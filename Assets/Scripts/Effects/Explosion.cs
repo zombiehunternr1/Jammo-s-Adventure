@@ -32,6 +32,7 @@ public class Explosion : MonoBehaviour
                 if (!Player.HasExploded)
                 {
                     Player.HasExploded = true;
+                    Player.RB.constraints = RigidbodyConstraints.FreezeAll;
                     Instantiate(Player.ExplosionModel, Player.transform.position, Player.transform.rotation);
                     EventManager.EnablePlayerMovement();
                     Player.PlayerModel.SetActive(false);
