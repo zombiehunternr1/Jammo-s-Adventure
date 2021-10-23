@@ -90,7 +90,7 @@ AnimationClip:
         value: 250
         inSlope: 0
         outSlope: 0
-        tangentMode: 34
+        tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
@@ -99,7 +99,7 @@ AnimationClip:
         value: 250
         inSlope: 0
         outSlope: 0
-        tangentMode: 34
+        tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
@@ -107,7 +107,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_AnchoredPosition.x
-    path: Boit Count Text
+    path: Bolt Count Text
     classID: 224
     script: {fileID: 0}
   - curve:
@@ -116,27 +116,18 @@ AnimationClip:
       - serializedVersion: 3
         time: 0
         value: -15
-        inSlope: 10
-        outSlope: 10
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 1
-        value: -5
         inSlope: 0
         outSlope: 0
-        tangentMode: 34
+        tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 2
         value: -15
-        inSlope: -10
-        outSlope: -10
-        tangentMode: 34
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
@@ -144,7 +135,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_AnchoredPosition.y
-    path: Boit Count Text
+    path: Bolt Count Text
     classID: 224
     script: {fileID: 0}
   m_PPtrCurves: []
@@ -250,7 +241,7 @@ AnimationClip:
         value: 250
         inSlope: 0
         outSlope: 0
-        tangentMode: 34
+        tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
@@ -259,7 +250,7 @@ AnimationClip:
         value: 250
         inSlope: 0
         outSlope: 0
-        tangentMode: 34
+        tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
@@ -267,7 +258,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_AnchoredPosition.x
-    path: Boit Count Text
+    path: Bolt Count Text
     classID: 224
     script: {fileID: 0}
   - curve:
@@ -276,27 +267,18 @@ AnimationClip:
       - serializedVersion: 3
         time: 0
         value: -15
-        inSlope: 10
-        outSlope: 10
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 1
-        value: -5
         inSlope: 0
         outSlope: 0
-        tangentMode: 34
+        tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 2
         value: -15
-        inSlope: -10
-        outSlope: -10
-        tangentMode: 34
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
@@ -304,7 +286,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_AnchoredPosition.y
-    path: Boit Count Text
+    path: Bolt Count Text
     classID: 224
     script: {fileID: 0}
   m_EulerEditorCurves: []

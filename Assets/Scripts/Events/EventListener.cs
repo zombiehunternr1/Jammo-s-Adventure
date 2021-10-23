@@ -73,19 +73,20 @@ public class EventListener : MonoBehaviour
 
     private void HandleCollectedLifeDisplay()
     {
-        HUD.SetTrigger("IsDisplayingLifeHUD");
-        StartCoroutine(DisableLifeTrigger());
+        HUD.IsInTransition(0);
+        HUD.CrossFade("Display Life HUD", 0.25f);
     }
 
     private void HandleCollectedBoltDisplay()
     {
-        HUD.SetTrigger("IsDisplayingBoltHUD");
-        StartCoroutine(DisableBoltTrigger());
+        HUD.IsInTransition(0);
+        HUD.CrossFade("Display Bolt HUD", 0.25f);
     }
 
     private void HandleCollectedShardDisplay()
     {
-        HUD.SetTrigger("IsDisplayingShardHUD");
+        HUD.IsInTransition(0);
+        HUD.CrossFade("Display Shard HUD", 0.25f);
         for(int i = 0; i < CollectedShards.Artifacts.Count; i++)
         {
             for(int j = 0; j < TotalShards.Artifacts.Count; j++)
@@ -98,8 +99,6 @@ public class EventListener : MonoBehaviour
             }
 
         }
-
-        StartCoroutine(DisableShardTrigger());
     }
 
     private void HandleCollectedLifeUpdate()
@@ -172,24 +171,5 @@ public class EventListener : MonoBehaviour
     private void HandleClearItemContainer()
     {
         GameManager.Instance.ClearItemsContainer();
-    }
-
-    private IEnumerator DisableLifeTrigger()
-    {
-        yield return new WaitForSeconds(1);
-        HUD.ResetTrigger("IsDisplayingLifeHUD");
-    }
-
-    private IEnumerator DisableBoltTrigger()
-    {
-        yield return new WaitForSeconds(1);
-        HUD.ResetTrigger("IsDisplayingBoltHUD");
-    }
-
-    private IEnumerator DisableShardTrigger()
-    {
-        yield return new WaitForSeconds(5);
-        HUD.ResetTrigger("IsDisplayingShardHUD");
-        HUD.SetTrigger("IsDisplayingShardHUD");
     }
 }

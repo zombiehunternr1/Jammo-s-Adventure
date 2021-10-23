@@ -540,29 +540,6 @@ public class PlayerScript : MonoBehaviour
         yield return new WaitForSeconds(time);
         CanMove = true;
     }
-    IEnumerator PunchTime()
-    {
-        if (PunchCoolDown == StartPunchTime)
-        {
-            while (PunchCoolDown < GoalPunchTime)
-            {
-                PunchCoolDown += Time.deltaTime;
-                if (PunchCoolDown >= 0.7f)
-                {
-                    CanPunch = true;
-                }
-                yield return null;
-            }
-            PunchCoolDown = StartPunchTime;
-            StopCoroutine(PunchTime());
-        }
-        else
-        {
-            SwitchPunch = !SwitchPunch;
-            PunchCoolDown = StartPunchTime;
-        }
-    }
-
     IEnumerator DisplayHUD()
     {
         if (IsDisplayHUDPerforming)
@@ -591,6 +568,12 @@ public class PlayerScript : MonoBehaviour
     {
         hitColliders = Physics.OverlapBox(Cap.bounds.center, BigHitBox);
         CheckAttackHit();
+    }
+
+    private void ResetPunchEvent()
+    {
+        CanPunch = true;
+        playerAnimator.SetInteger("Swap Punch", 0);
     }
 
     private void SlideAttackEvent()
@@ -759,9 +742,10 @@ public class PlayerScript : MonoBehaviour
                         if (CanPunch)
                         {
                             CanPunch = false;
-                            StartCoroutine(PunchTime());
-                            playerAnimator.SetBool("SwitchPunch", SwitchPunch);
-                            playerAnimator.Play("Big attack");
+                            int Result = new System.Random().Next(1, 100);
+                            int Value = (Result > 50) ? 1 : 2;
+                            playerAnimator.SetInteger("Swap Punch", Value);
+                            playerAnimator.Play("Attack");
                         }
                     }
                 }

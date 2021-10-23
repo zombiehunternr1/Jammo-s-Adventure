@@ -66,6 +66,13 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.99375004
+        functionName: ResetPunchEvent
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 91b89b69e6ced744da1632da7d60b90e, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
