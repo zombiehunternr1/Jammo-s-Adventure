@@ -48,6 +48,7 @@ public class PlayerScript : MonoBehaviour
                     MovingObjSpeed,
                     CurrentSpeed,
                     PlayerSpawnPosition,
+                    Offset,
                     PlayerCheckPointPosition;
 
     public bool     CanMove,
@@ -170,6 +171,7 @@ public class PlayerScript : MonoBehaviour
         else
         {
             Direction = Vector3.right * H;
+            MainCamera.position = transform.position + Offset;
         }
         if (IsSlideAttackPerforming)
         {

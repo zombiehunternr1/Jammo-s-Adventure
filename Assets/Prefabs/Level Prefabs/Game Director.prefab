@@ -215,7 +215,6 @@ GameObject:
   - component: {fileID: 526074899}
   - component: {fileID: 526074898}
   - component: {fileID: 526074897}
-  - component: {fileID: 526074896}
   - component: {fileID: 526074895}
   m_Layer: 5
   m_Name: HUD
@@ -291,23 +290,6 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 0
---- !u!114 &526074896
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 526074894}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!95 &526074895
 Animator:
   serializedVersion: 3
@@ -825,7 +807,7 @@ GameObject:
   m_Component:
   - component: {fileID: 225674136458350595}
   - component: {fileID: 2484282722747825296}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: ear_joint_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -967,7 +949,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3433802082274182931}
   - component: {fileID: 3729850589817192661}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: ears_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1201,7 +1183,7 @@ GameObject:
   - component: {fileID: 6534872434845981917}
   - component: {fileID: 1714900933527323769}
   - component: {fileID: 8187644432515282650}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Toon_Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1312,7 +1294,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1546102206442541654}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Player head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1430,7 +1412,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1967061601876998692}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: mixamorig:HeadTop_End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1978,7 +1960,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7454359656534175031}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: mixamorig:RightEar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2009,7 +1991,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8044179043882877656}
   - component: {fileID: 6077607566663108745}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: head_main_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2152,7 +2134,7 @@ GameObject:
   - component: {fileID: 8257890275701819429}
   - component: {fileID: 6946928533308782197}
   - component: {fileID: 5466850385028154697}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: pCylinder1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2394,7 +2376,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1023101672211335426}
   - component: {fileID: 190021621402041721}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: head_eyes_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2694,7 +2676,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5773415297112347554}
   - component: {fileID: 7183801130680382384}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: head_screen_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2970,7 +2952,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7362911166964721148}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: toon_create_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3001,7 +2983,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8751587744884241569}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: mixamorig:Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3034,7 +3016,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3568401694262365145}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: mixamorig:LeftEar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3065,7 +3047,7 @@ GameObject:
   m_Component:
   - component: {fileID: 596075908674308107}
   - component: {fileID: 3211640147247490379}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: head_mohawk_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3206,7 +3188,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9019235463565741479}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Bolt_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
