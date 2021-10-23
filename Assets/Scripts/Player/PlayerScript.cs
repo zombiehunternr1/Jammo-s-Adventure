@@ -685,6 +685,10 @@ public class PlayerScript : MonoBehaviour
     {
         if (GameManager.Booleans.CanMove && !IsSlideAttackPerforming)
         {
+            if (!IsRunPressed)
+            {
+                playerAnimator.SetBool("IsRunning", false);
+            }
             CurrentMovementInput = context.ReadValue<Vector2>();
             CurrentMovement = new Vector3(CurrentMovementInput.x, 0, CurrentMovementInput.y);
         }
