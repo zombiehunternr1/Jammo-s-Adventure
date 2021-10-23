@@ -124,7 +124,7 @@ public class PlayerScript : MonoBehaviour
         PlayerSpawnPosition = transform.position;
         PlayerOriginalRotation = transform.rotation;
         AnimatorStateMachine RootStateMachine = AnimController.layers[0].stateMachine;
-        AnimatorState StateWithBlendTree = RootStateMachine.states[RootStateMachine.states.Length -1].state;
+        AnimatorState StateWithBlendTree = RootStateMachine.states[RootStateMachine.states.Length - 2].state;
         LongIdleTree = (BlendTree)StateWithBlendTree.motion;
     }
 
@@ -446,7 +446,9 @@ public class PlayerScript : MonoBehaviour
             if (Physics.Raycast(point, Vector3.down, out hit, GroundLength))
             {
                 if (hit.transform)
+                {
                     return hit;
+                }
             }
         }
         return null;

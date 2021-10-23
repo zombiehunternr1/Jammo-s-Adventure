@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5170aad0553bcb429ee37e878e0ce6f, type: 3}
   m_Name: Artifacts Collected
   m_EditorClassIdentifier: 
-  Artifacts:
-  - {fileID: 11400000, guid: e513c7d26efd62f46b33c908caf5337c, type: 2}
+  Artifacts: []

@@ -70,13 +70,6 @@ ModelImporter:
       curves: []
       events:
       - time: 0
-        functionName: DisableMovementEvent
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 204ec8d6448a01c4991bf9a7bbb6eb7f, type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0
         functionName: VictoryEvent
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: bbb6cae19ece4b848b976432ca8b3cfb, type: 3}

@@ -36,6 +36,7 @@ public class CharacterSkinController : MonoBehaviour
     {
         ChangeMaterialSettings(Happy);
         ChangeEyeOffset(EyePosition.Happy);
+        EventManager.EnablePlayerMovement();
     }
 
     void HappyIdleDancingEvent()
