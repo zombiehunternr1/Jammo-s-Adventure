@@ -1,13 +1,62 @@
 fileFormatVersion: 2
-guid: 38ad3c78c737dc04eb18a332b632fe8d
+guid: e8593114fd2c4c644bf9b860d308f022
 ModelImporter:
   serializedVersion: 20200
-  internalIDToNameTable: []
-  externalObjects: {}
+  internalIDToNameTable:
+  - first:
+      74: 5069991368595516352
+    second: sphere body|sphere body|sphere body|sphere bodyAction|sphere body|sphere
+      bo
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: black matte
+    second: {fileID: 2100000, guid: 89f985b6be937e44982d3cf4f5e6877e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: black matter blender
+    second: {fileID: 2100000, guid: 606e2a54b4b84f94caaa12ca28edd982, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: blender glass
+    second: {fileID: 2100000, guid: 709b1ded5577ccb449564f031f7f84f9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: dark glass
+    second: {fileID: 2100000, guid: 24242c6ab2961b247a2d7a8679bf6081, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: eyes light
+    second: {fileID: 2100000, guid: 4c93597f6eb8fe2458785fa35710846c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: eyes.004
+    second: {fileID: 2100000, guid: 05c6a85a9f23dfa429bc3fe99fd059ca, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: glossy paint white
+    second: {fileID: 2100000, guid: 6ac5f576c2f847048b2ad4b5fedd9b4d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: metal
+    second: {fileID: 2100000, guid: 9e5894122db1af14a9d523c8db1df59c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: thruster light
+    second: {fileID: 2100000, guid: 9be5a4d96f684e64c9dcdb9b98b5cfe6, type: 2}
   materials:
     materialImportMode: 2
-    materialName: 0
-    materialSearch: 1
+    materialName: 2
+    materialSearch: 2
     materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
@@ -73,7 +122,7 @@ ModelImporter:
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
   referencedClips: []
-  importAnimation: 1
+  importAnimation: 0
   humanDescription:
     serializedVersion: 3
     human: []
