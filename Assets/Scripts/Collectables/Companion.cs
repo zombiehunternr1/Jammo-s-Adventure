@@ -11,11 +11,13 @@ public class Companion : MonoBehaviour
     public float RotationDamping = 3.5f;
     public float Speed;
 
+    private Animator Anim;
     private List<ParticleSystem> Engines = new List<ParticleSystem>();
     float MovingDistanceToTarget;
 
     private void OnEnable()
     {
+        Anim = GetComponent<Animator>();
         ParticleSystem[] FoundEngines = GetComponentsInChildren<ParticleSystem>();
         foreach(ParticleSystem Engine in FoundEngines)
         {
@@ -33,6 +35,7 @@ public class Companion : MonoBehaviour
             if(GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit == 0)
             {
                 Destroy(gameObject.GetComponent<BoxCollider>());
+                Anim.Play("Follow");
                 transform.SetParent(Player.CompanionPosition);
                 Target = Player.CompanionPosition;
                 GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit++;
