@@ -684,7 +684,7 @@ public class PlayerScriptOld : MonoBehaviour
     private void PlayerDiedEvent()
     {
         ResetPlayerMovement();
-        EventManager.PlayerDied();
+        EventManager.PlayerGotHit();
     }
     
     private void RebindAnimationsEvent()

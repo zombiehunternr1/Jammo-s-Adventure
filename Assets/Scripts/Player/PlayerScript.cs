@@ -84,6 +84,7 @@ public class PlayerScript : MonoBehaviour
     public Animator HUDAnimator;
     public AnimatorController AnimController;
     public Transform MainCamera;
+    public Transform CompanionPosition;
     public GameObject GroundPoundDust;
     [HideInInspector]
     public GameObject PlayerModel;

@@ -29,14 +29,22 @@ public class Explosion : MonoBehaviour
             if (Hit.gameObject.GetComponent<PlayerScript>())
             {
                 PlayerScript Player = Hit.GetComponent<PlayerScript>();
-                if (!Player.HasExploded)
+                if (!Player.HasExploded && !GameManager.Booleans.Invulnerable)
                 {
-                    Player.HasExploded = true;
-                    Player.RB.constraints = RigidbodyConstraints.FreezeAll;
-                    Instantiate(Player.ExplosionModel, Player.transform.position, Player.transform.rotation);
-                    EventManager.EnablePlayerMovement();
-                    Player.PlayerModel.SetActive(false);
-                    StartCoroutine(HoldTransition());
+                    if(GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit <= 0)
+                    {
+                        Player.HasExploded = true;
+                        GameManager.Booleans.Invulnerable = true;
+                        Player.RB.constraints = RigidbodyConstraints.FreezeAll;
+                        Instantiate(Player.ExplosionModel, Player.transform.position, Player.transform.rotation);
+                        EventManager.EnablePlayerMovement();
+                        Player.PlayerModel.SetActive(false);
+                        StartCoroutine(HoldTransition());
+                    }
+                    else
+                    {
+                        EventManager.PlayerGotHit();
+                    }
                 }
             }
         }
@@ -52,6 +60,6 @@ public class Explosion : MonoBehaviour
     {
         GameManager.Booleans.CameraMove = false;
         yield return new WaitForSeconds(3f);
-        EventManager.PlayerDied();
+        EventManager.PlayerGotHit();
     }
 }

@@ -19,8 +19,8 @@ public class EventManager : MonoBehaviour
     public delegate void CollectedShardUpdate();
     public static event CollectedShardUpdate OnCollectedShardUpdate;
 
-    public delegate void PlayerHasDied();
-    public static event PlayerHasDied OnPlayerDied;
+    public delegate void PlayerHit();
+    public static event PlayerHit OnPlayerHit;
 
     public delegate void EnablePlayersMovement();
     public static event EnablePlayersMovement OnEnablePlayerMovement;
@@ -46,8 +46,8 @@ public class EventManager : MonoBehaviour
     public static void CollectShardUpdate()
     { if(OnCollectedShardUpdate != null) { OnCollectedShardUpdate(); } }
 
-    public static void PlayerDied()
-    { if (OnPlayerDied != null) OnPlayerDied(); }
+    public static void PlayerGotHit()
+    { if (OnPlayerHit != null) OnPlayerHit(); }
 
     public static void EnablePlayerMovement()
     { if (OnEnablePlayerMovement != null) OnEnablePlayerMovement(); }

@@ -37,10 +37,9 @@ public class GameManager : MonoBehaviour
     {
         public static bool GameOver { get; set; }
         public static bool IsResetGame { get; set; }
-
         public static bool CanMove { get; set; }
-
         public static bool CameraMove { get; set; }
+        public static bool Invulnerable { get; set; }
     }
 
     private void OnEnable()

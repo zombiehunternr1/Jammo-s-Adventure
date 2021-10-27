@@ -14,6 +14,10 @@ public class EventListener : MonoBehaviour
     public GameObject Life;
     public GameObject ArtifactShards;
 
+    private float StartTime = 0;
+    private float CurrentTime = 0;
+    public float EndInvulnerabiltyAfter = 5;
+
     private List<Transform> Shards;
     private GameObject SpawnedLife;
     [SerializeField] private PlayerScript Player;
@@ -36,7 +40,7 @@ public class EventListener : MonoBehaviour
         EventManager.OnCollectedShardUpdate += HandleCollectedShardDisplay;
         EventManager.OnCollectedLifeUpdate += HandleCollectedLifeUpdate;
         EventManager.OnCollectedBoltUpdate += HandleCollectedBoltUpdate;
-        EventManager.OnPlayerDied += HandlePlayerDied;
+        EventManager.OnPlayerHit += HandlePlayerHit;
         EventManager.OnEnablePlayerMovement += HandlePlayerMovement;
         EventManager.OnClearItemsContainer += HandleClearItemContainer;
         EventManager.OnResetGameOverPlayer += HandleResetGameOverPlayer;
@@ -49,7 +53,7 @@ public class EventListener : MonoBehaviour
         EventManager.OnCollectedShardUpdate -= HandleCollectedShardDisplay;
         EventManager.OnCollectedLifeUpdate -= HandleCollectedLifeUpdate;
         EventManager.OnCollectedBoltUpdate -= HandleCollectedBoltUpdate;
-        EventManager.OnPlayerDied -= HandlePlayerDied;
+        EventManager.OnPlayerHit -= HandlePlayerHit;
         EventManager.OnEnablePlayerMovement -= HandlePlayerMovement;
         EventManager.OnClearItemsContainer -= HandleClearItemContainer;
         EventManager.OnResetGameOverPlayer -= HandleResetGameOverPlayer;
@@ -157,10 +161,30 @@ public class EventListener : MonoBehaviour
         LifeText.text = PlayerInfo.Lives.ToString();
         GameManager.Instance.PlayerDied();
     }
-
-    private void HandlePlayerDied()
+    
+    private void CheckExtraHit()
     {
-        CheckWithdrawLife();
+        PlayerInfo.ExtraHit--;
+        if(PlayerInfo.ExtraHit < 0)
+        {
+            PlayerInfo.ExtraHit = 0;
+            CheckWithdrawLife();
+        }
+        else
+        {
+            GameManager.Booleans.Invulnerable = true;
+            if(PlayerInfo.ExtraHit == 0)
+            {
+                //Play companion model shaking animation + exploding
+                Destroy(Player.GetComponentInChildren<Companion>().gameObject);
+            }
+            StartCoroutine(Invulnerability());
+        }
+    }
+
+    private void HandlePlayerHit()
+    {
+        CheckExtraHit();
     }
 
     private void HandlePlayerMovement()
@@ -171,5 +195,23 @@ public class EventListener : MonoBehaviour
     private void HandleClearItemContainer()
     {
         GameManager.Instance.ClearItemsContainer();
+    }
+
+    IEnumerator Invulnerability()
+    {
+        while(CurrentTime < EndInvulnerabiltyAfter)
+        {
+            CurrentTime += Time.deltaTime;
+            //Add in companion model shaking animation
+            if(CurrentTime >= EndInvulnerabiltyAfter)
+            {
+                //Add in companion model exploding
+                CurrentTime = StartTime;
+                GameManager.Booleans.Invulnerable = false;
+                StopAllCoroutines();
+            }
+            yield return CurrentTime;
+        }
+        yield return null;
     }
 }
