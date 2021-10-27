@@ -11,7 +11,18 @@ public class Companion : MonoBehaviour
     public float RotationDamping = 3.5f;
     public float Speed;
 
+    private List<ParticleSystem> Engines = new List<ParticleSystem>();
     float MovingDistanceToTarget;
+
+    private void OnEnable()
+    {
+        ParticleSystem[] FoundEngines = GetComponentsInChildren<ParticleSystem>();
+        foreach(ParticleSystem Engine in FoundEngines)
+        {
+            Engines.Add(Engine);
+            Engine.Stop();
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -25,6 +36,10 @@ public class Companion : MonoBehaviour
                 transform.SetParent(Player.CompanionPosition);
                 Target = Player.CompanionPosition;
                 GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit++;
+                foreach(ParticleSystem Engine in Engines)
+                {
+                    Engine.Play();
+                }
                 StartCoroutine(MoveToPlayer());
             }
             else if(GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit != 3)

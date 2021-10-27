@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Bolts: 0
   Lives: 78
-  ExtraHit: 0
+  ExtraHit: 1
