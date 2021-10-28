@@ -176,7 +176,7 @@ public class EventListener : MonoBehaviour
             if(PlayerInfo.ExtraHit == 0)
             {
                 //Play companion model shaking animation + exploding
-                Destroy(Player.GetComponentInChildren<Companion>().gameObject);
+                Destroy(Player.GetComponentInChildren<CompanionRobot>().gameObject);
             }
             StartCoroutine(Invulnerability());
         }

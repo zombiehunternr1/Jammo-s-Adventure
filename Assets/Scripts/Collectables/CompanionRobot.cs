@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Companion : MonoBehaviour
+public class CompanionRobot : MonoBehaviour, ICollectable
 {
     public Transform Target;
     public float DistanceToTarget = 0.5f;
@@ -25,38 +25,6 @@ public class Companion : MonoBehaviour
             Engine.Stop();
         }
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.GetComponent<PlayerScript>())
-        {
-            PlayerScript Player = other.GetComponent<PlayerScript>();
-
-            if(GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit == 0)
-            {
-                Destroy(gameObject.GetComponent<BoxCollider>());
-                Anim.Play("Follow");
-                transform.SetParent(Player.CompanionPosition);
-                Target = Player.CompanionPosition;
-                GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit++;
-                foreach(ParticleSystem Engine in Engines)
-                {
-                    Engine.Play();
-                }
-                StartCoroutine(MoveToPlayer());
-            }
-            else if(GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit != 3)
-            {
-                GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit++;
-                Destroy(gameObject);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-        }
-    }
-
     IEnumerator MoveToPlayer()
     {
         while(transform.position != Target.position)
@@ -94,5 +62,36 @@ public class Companion : MonoBehaviour
             transform.LookAt(Target);
             yield return transform.position;
         }
+    }
+
+    public void Collect()
+    {
+        if (GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit == 0)
+        {
+            Destroy(gameObject.GetComponent<BoxCollider>());
+            Anim.Play("Follow");
+            transform.SetParent(GameManager.Instance.Player.CompanionPosition);
+            Target = GameManager.Instance.Player.CompanionPosition;
+            GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit++;
+            foreach (ParticleSystem Engine in Engines)
+            {
+                Engine.Play();
+            }
+            StartCoroutine(MoveToPlayer());
+        }
+        else if (GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit != 3)
+        {
+            GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit++;
+            DestroyObject();
+        }
+        else
+        {
+            DestroyObject();
+        }
+    }
+
+    public void DestroyObject()
+    {
+        Destroy(gameObject);
     }
 }

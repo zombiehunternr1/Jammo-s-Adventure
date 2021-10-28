@@ -2,15 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Regular : MonoBehaviour, ICrateBase
+public class Companion : MonoBehaviour, ICrateBase
 {
     public GameObject BrokenCrate;
-    public List<GameObject> Bolts;
+    public GameObject CompanionRobot;
 
-    private Checkpoint CheckPointCrate;
-    private int RandomDropRange = 1;
-    private int DropAmount = 1;
     private float YOffset = 0.5f;
+    private Checkpoint CheckPointCrate;
     private Collider[] HitColliders;
     private bool IsBroken;
 
@@ -34,7 +32,7 @@ public class Regular : MonoBehaviour, ICrateBase
                 break;
             //Attack
             case 7:
-                SpawnBoltTypes();
+                SpawnCompanion();
                 break;
             //Bodyslam
             case 8:
@@ -42,7 +40,7 @@ public class Regular : MonoBehaviour, ICrateBase
                 break;
             //Slide
             case 9:
-                SpawnBoltTypes();
+                SpawnCompanion();
                 break;
             //Explosion
             case 10:
@@ -50,16 +48,17 @@ public class Regular : MonoBehaviour, ICrateBase
                 break;
         }
     }
-    public void ResetCrate()
+
+    private void SpawnCompanion()
     {
-        IsBroken = false;
-        gameObject.SetActive(true);
+        Instantiate(CompanionRobot, new Vector3(transform.position.x, transform.position.y + YOffset, transform.position.z), Quaternion.identity);
+        DisableCrate();
     }
+
     private void Top()
     {
         HitColliders = Physics.OverlapBox(new Vector3(transform.position.x, transform.position.y + 0.8f, transform.position.z), new Vector3(1.25f, 1, 1.25f));
 
- 
         foreach (Collider Collider in HitColliders)
         {
             PlayerScript Player = Collider.GetComponent<PlayerScript>();
@@ -68,12 +67,12 @@ public class Regular : MonoBehaviour, ICrateBase
                 if (Player.IsBodyslamPerforming)
                 {
                     Player.StartCoroutine(Player.DownwardsForce());
-                    SpawnBoltTypes();
+                    SpawnCompanion();
                     break;
                 }
                 else
                 {
-                    SpawnBoltTypes();
+                    SpawnCompanion();
                     Bounce(Player);
                     break;
                 }
@@ -90,17 +89,10 @@ public class Regular : MonoBehaviour, ICrateBase
             if (Player != null)
             {
                 Player.StartCoroutine(Player.DownwardsForce());
-                SpawnBoltTypes();
+                SpawnCompanion();
                 break;
             }
         }
-    }
-
-    private void SpawnBoltTypes()
-    {
-        int SelectedItemDrop = Random.Range(0, Bolts.Count);
-        Instantiate(Bolts[SelectedItemDrop], new Vector3(transform.position.x, transform.position.y + YOffset, transform.position.z), Quaternion.identity);
-        DisableCrate();
     }
 
     private void Bounce(PlayerScript Player)
@@ -108,10 +100,9 @@ public class Regular : MonoBehaviour, ICrateBase
         if (Player.Grounded)
         {
             Player.IsBounce = true;
-            SpawnBoltTypes();
+            SpawnCompanion();
         }
     }
-
     public void DisableCrate()
     {
         if (!IsBroken)
@@ -121,5 +112,11 @@ public class Regular : MonoBehaviour, ICrateBase
             gameObject.SetActive(false);
             Instantiate(BrokenCrate, transform.position, Quaternion.identity);
         }
+    }
+
+    public void ResetCrate()
+    {
+        IsBroken = false;
+        gameObject.SetActive(true);
     }
 }
