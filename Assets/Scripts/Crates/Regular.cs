@@ -58,7 +58,6 @@ public class Regular : MonoBehaviour, ICrateBase
     private void Top()
     {
         HitColliders = Physics.OverlapBox(new Vector3(transform.position.x, transform.position.y + 0.8f, transform.position.z), new Vector3(1.25f, 1, 1.25f));
-
  
         foreach (Collider Collider in HitColliders)
         {
@@ -73,7 +72,6 @@ public class Regular : MonoBehaviour, ICrateBase
                 }
                 else
                 {
-                    SpawnBoltTypes();
                     Bounce(Player);
                     break;
                 }

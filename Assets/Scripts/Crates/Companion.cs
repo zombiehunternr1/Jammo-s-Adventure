@@ -72,7 +72,6 @@ public class Companion : MonoBehaviour, ICrateBase
                 }
                 else
                 {
-                    SpawnCompanion();
                     Bounce(Player);
                     break;
                 }

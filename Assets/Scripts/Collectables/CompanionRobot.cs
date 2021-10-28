@@ -11,6 +11,7 @@ public class CompanionRobot : MonoBehaviour, ICollectable
     public float RotationDamping = 3.5f;
     public float Speed;
 
+    bool HasCollided;
     float SpawnHeight = 1.2f;
     private Rigidbody RB;
     private Animator Anim;
@@ -91,27 +92,31 @@ public class CompanionRobot : MonoBehaviour, ICollectable
 
     public void Collect()
     {
-        if (GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit == 0)
+        if (!HasCollided)
         {
-            Destroy(gameObject.GetComponent<BoxCollider>());
-            Anim.Play("Follow");
-            transform.SetParent(GameManager.Instance.Player.CompanionPosition);
-            Target = GameManager.Instance.Player.CompanionPosition;
-            GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit++;
-            foreach (ParticleSystem Engine in Engines)
+            HasCollided = true;
+            if (GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit == 0)
             {
-                Engine.Play();
+                Destroy(gameObject.GetComponent<BoxCollider>());
+                Anim.Play("Follow");
+                transform.SetParent(GameManager.Instance.Player.CompanionPosition);
+                Target = GameManager.Instance.Player.CompanionPosition;
+                GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit++;
+                foreach (ParticleSystem Engine in Engines)
+                {
+                    Engine.Play();
+                }
+                StartCoroutine(MoveToPlayer());
             }
-            StartCoroutine(MoveToPlayer());
-        }
-        else if (GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit != 3)
-        {
-            GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit++;
-            DestroyObject();
-        }
-        else
-        {
-            DestroyObject();
+            else if (GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit != 3)
+            {
+                GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit++;
+                DestroyObject();
+            }
+            else
+            {
+                DestroyObject();
+            }
         }
     }
 
