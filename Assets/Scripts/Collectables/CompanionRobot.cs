@@ -11,6 +11,7 @@ public class CompanionRobot : MonoBehaviour, ICollectable
     public float RotationDamping = 3.5f;
     public float Speed;
 
+    float SpawnHeight = 1.2f;
     private Rigidbody RB;
     private Animator Anim;
     private List<ParticleSystem> Engines = new List<ParticleSystem>();
@@ -26,7 +27,14 @@ public class CompanionRobot : MonoBehaviour, ICollectable
             Engines.Add(Engine);
             Engine.Stop();
         }
-        StartCoroutine(MoveToGround());
+        if (transform.position.y > SpawnHeight)
+        {
+            StartCoroutine(MoveToGround());
+        }
+        else
+        {
+            Destroy(RB);
+        }
     }
     IEnumerator MoveToPlayer()
     {

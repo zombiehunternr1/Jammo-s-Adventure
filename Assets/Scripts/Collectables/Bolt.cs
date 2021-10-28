@@ -22,7 +22,6 @@ public class Bolt : MonoBehaviour, ICollectable
         {
             GameManager.Instance.UpdateItemContainerList(gameObject);
         }
-
         if(transform.position.y > SpawnHeight)
         {
             StartCoroutine(MoveToGround());
