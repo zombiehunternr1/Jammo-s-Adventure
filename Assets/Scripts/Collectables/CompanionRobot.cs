@@ -115,7 +115,7 @@ public class CompanionRobot : MonoBehaviour, ICollectable
             }
             else if (GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit != 3)
             {
-                if(Target == null)
+                if (GameManager.Instance.Player.CompanionPosition.GetComponentInChildren<CompanionRobot>() == null)
                 {
                     PositionRobot();
                     return;
