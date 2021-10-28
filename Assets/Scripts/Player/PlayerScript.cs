@@ -80,6 +80,7 @@ public class PlayerScript : MonoBehaviour
 
     [Header("Components")]
     public GameObject ExplosionModel;
+    public GameObject CompanionRobot;
     public Mesh PlayerGroundMesh;
     public Animator HUDAnimator;
     public AnimatorController AnimController;
@@ -116,6 +117,10 @@ public class PlayerScript : MonoBehaviour
 
     private void Start()
     {
+        if(GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit != 0)
+        {
+            Instantiate(CompanionRobot, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+        }
         PlayerModel = GetComponentInChildren<Transform>().GetChild(0).gameObject;
         playerAnimator = GetComponent<Animator>();
         RB = GetComponent<Rigidbody>();

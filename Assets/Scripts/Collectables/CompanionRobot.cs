@@ -90,6 +90,19 @@ public class CompanionRobot : MonoBehaviour, ICollectable
         StopCoroutine(MoveToGround());
     }
 
+    private void PositionRobot()
+    {
+        Destroy(gameObject.GetComponent<BoxCollider>());
+        Anim.Play("Follow");
+        transform.SetParent(GameManager.Instance.Player.CompanionPosition);
+        Target = GameManager.Instance.Player.CompanionPosition;
+        foreach (ParticleSystem Engine in Engines)
+        {
+            Engine.Play();
+        }
+        StartCoroutine(MoveToPlayer());
+    }
+
     public void Collect()
     {
         if (!HasCollided)
@@ -97,19 +110,16 @@ public class CompanionRobot : MonoBehaviour, ICollectable
             HasCollided = true;
             if (GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit == 0)
             {
-                Destroy(gameObject.GetComponent<BoxCollider>());
-                Anim.Play("Follow");
-                transform.SetParent(GameManager.Instance.Player.CompanionPosition);
-                Target = GameManager.Instance.Player.CompanionPosition;
                 GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit++;
-                foreach (ParticleSystem Engine in Engines)
-                {
-                    Engine.Play();
-                }
-                StartCoroutine(MoveToPlayer());
+                PositionRobot();
             }
             else if (GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit != 3)
             {
+                if(Target == null)
+                {
+                    PositionRobot();
+                    return;
+                }
                 GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit++;
                 DestroyObject();
             }
