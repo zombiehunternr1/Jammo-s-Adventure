@@ -173,10 +173,22 @@ public class EventListener : MonoBehaviour
         else
         {
             GameManager.Booleans.Invulnerable = true;
-            if(PlayerInfo.ExtraHit == 0)
+            if (PlayerInfo.ExtraHit == 0)
             {
                 //Play companion model shaking animation + exploding
                 Destroy(Player.GetComponentInChildren<CompanionRobot>().gameObject);
+            }
+            else
+            {
+                //Play companion model taking damage animation + change visual color
+                if (PlayerInfo.ExtraHit == 1)
+                {
+                    Player.GetComponentInChildren<CompanionRobot>().ShellColor.color = Color.red;
+                }
+                else if (PlayerInfo.ExtraHit == 2)
+                {
+                    Player.GetComponentInChildren<CompanionRobot>().ShellColor.color = Color.yellow;
+                }
             }
             StartCoroutine(Invulnerability());
         }

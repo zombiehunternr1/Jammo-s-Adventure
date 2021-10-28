@@ -10,6 +10,8 @@ public class CompanionRobot : MonoBehaviour, ICollectable
     public float HeightDamping = 2;
     public float RotationDamping = 3.5f;
     public float Speed;
+    [HideInInspector]
+    public Material ShellColor;
 
     bool HasCollided;
     float SpawnHeight = 1.2f;
@@ -20,6 +22,7 @@ public class CompanionRobot : MonoBehaviour, ICollectable
 
     private void OnEnable()
     {
+        ShellColor = GetComponentInChildren<MeshRenderer>().materials[0];
         RB = GetComponent<Rigidbody>();
         Anim = GetComponent<Animator>();
         ParticleSystem[] FoundEngines = GetComponentsInChildren<ParticleSystem>();
@@ -47,6 +50,7 @@ public class CompanionRobot : MonoBehaviour, ICollectable
             {
                 StartCoroutine(FollowPlayer());
                 StopCoroutine(MoveToPlayer());
+                CheckColorStatus();
             }
             yield return transform.position;
         }
@@ -103,30 +107,52 @@ public class CompanionRobot : MonoBehaviour, ICollectable
         StartCoroutine(MoveToPlayer());
     }
 
+    private void CheckColorStatus()
+    {
+        if(GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit == 1)
+        {
+            GameManager.Instance.Player.GetComponentInChildren<CompanionRobot>().ShellColor.color = Color.red;
+        }
+        if (GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit == 2)
+        {
+            GameManager.Instance.Player.GetComponentInChildren<CompanionRobot>().ShellColor.color = Color.yellow;
+        }
+        if (GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit == 3)
+        {
+            GameManager.Instance.Player.GetComponentInChildren<CompanionRobot>().ShellColor.color = Color.white;
+        }
+    }
+
+    private void CheckHitStatus()
+    {
+        if (GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit == 0)
+        {
+            GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit++;
+            PositionRobot();
+        }
+        else if (GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit != 3)
+        {
+            if (GameManager.Instance.Player.CompanionPosition.GetComponentInChildren<CompanionRobot>() == null)
+            {
+                PositionRobot();
+                return;
+            }
+            GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit++;
+            DestroyObject();
+        }
+        else
+        {
+            DestroyObject();
+        }
+    }
+
     public void Collect()
     {
         if (!HasCollided)
         {
             HasCollided = true;
-            if (GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit == 0)
-            {
-                GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit++;
-                PositionRobot();
-            }
-            else if (GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit != 3)
-            {
-                if (GameManager.Instance.Player.CompanionPosition.GetComponentInChildren<CompanionRobot>() == null)
-                {
-                    PositionRobot();
-                    return;
-                }
-                GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit++;
-                DestroyObject();
-            }
-            else
-            {
-                DestroyObject();
-            }
+            CheckHitStatus();
+            CheckColorStatus();
         }
     }
 

@@ -9752,6 +9752,7 @@ MonoBehaviour:
   HeightDamping: 2
   RotationDamping: 3.5
   Speed: 10
+  ShellColor: {fileID: 0}
 --- !u!65 &6954908361867427476
 BoxCollider:
   m_ObjectHideFlags: 0
