@@ -11,12 +11,14 @@ public class CompanionRobot : MonoBehaviour, ICollectable
     public float RotationDamping = 3.5f;
     public float Speed;
 
+    private Rigidbody RB;
     private Animator Anim;
     private List<ParticleSystem> Engines = new List<ParticleSystem>();
     float MovingDistanceToTarget;
 
     private void OnEnable()
     {
+        RB = GetComponent<Rigidbody>();
         Anim = GetComponent<Animator>();
         ParticleSystem[] FoundEngines = GetComponentsInChildren<ParticleSystem>();
         foreach(ParticleSystem Engine in FoundEngines)
@@ -24,6 +26,7 @@ public class CompanionRobot : MonoBehaviour, ICollectable
             Engines.Add(Engine);
             Engine.Stop();
         }
+        StartCoroutine(MoveToGround());
     }
     IEnumerator MoveToPlayer()
     {
@@ -62,6 +65,20 @@ public class CompanionRobot : MonoBehaviour, ICollectable
             transform.LookAt(Target);
             yield return transform.position;
         }
+    }
+
+    private IEnumerator MoveToGround()
+    {
+        while (transform.position.y != 0.5f)
+        {
+            if (transform.position.y <= 0.5f)
+            {
+                transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
+                Destroy(RB);
+            }
+            yield return null;
+        }
+        StopCoroutine(MoveToGround());
     }
 
     public void Collect()
