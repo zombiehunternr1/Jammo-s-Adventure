@@ -4,17 +4,21 @@ using UnityEngine;
 
 public class Bolt : MonoBehaviour, ICollectable
 {
+    public List<AudioClip> BoltCollectVariants;
+
     Transform BoltUI;
     Rigidbody RB;
     float Speed = 2.5f;
     float SpawnHeight = 1.2f;
     float DistanceToTarget;
     bool HasCollided;
+    AudioSource AudioSource;
     [HideInInspector]
     public bool IsStatic;
 
     private void Start()
     {
+        AudioSource = GetComponent<AudioSource>();
         Physics.IgnoreLayerCollision(7, 7);
         RB = GetComponent<Rigidbody>();
         BoltUI = (Transform)GameObject.Find("BoltModelPosition").gameObject.GetComponent(typeof(Transform));
@@ -36,6 +40,9 @@ public class Bolt : MonoBehaviour, ICollectable
     {
         if (!HasCollided)
         {
+            int Selected = Random.Range(0, BoltCollectVariants.Count);
+            AudioSource.clip = BoltCollectVariants[Selected];
+            AudioSource.Play();
             HasCollided = true;
             gameObject.GetComponent<Animator>().Play("Disable");
             EventManager.CollectBoltDisplay();
