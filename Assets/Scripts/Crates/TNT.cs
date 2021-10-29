@@ -6,12 +6,14 @@ public class TNT : MonoBehaviour, ICrateBase
 {
     public GameObject BrokenCrate;
     public ParticleSystem ExplosionEffect;
+    public AudioClip CountdownSFX;
 
     [HideInInspector]
     public bool HasBounced;
     private Checkpoint CheckPointCrate;
     private bool HasExploded;
     private Animator TNTAnim;
+    private AudioSource AudioSource;
     private Collider[] HitColliders;
     private bool IsBroken;
 
@@ -19,6 +21,8 @@ public class TNT : MonoBehaviour, ICrateBase
 
     private void Start()
     {
+        AudioSource = GetComponent<AudioSource>();
+        AudioSource.clip = CountdownSFX;
         transform.parent = GameManager.Instance.BreakableCrateContainer.transform;
         TNTAnim = GetComponent<Animator>();
     }
@@ -114,6 +118,7 @@ public class TNT : MonoBehaviour, ICrateBase
 
     private void Countdown()
     {
+        AudioSource.Play();
         TNTAnim.Play("Countdown");
     }
 
@@ -121,6 +126,7 @@ public class TNT : MonoBehaviour, ICrateBase
     {
         if (!HasExploded)
         {
+            AudioSource.Stop();
             HasExploded = true;
             Instantiate(ExplosionEffect, transform.position, Quaternion.identity);
             DisableCrate();

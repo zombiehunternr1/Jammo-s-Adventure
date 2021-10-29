@@ -1324,7 +1324,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 470a73e5f9d432d45a4cef4da408fcd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CrateBreaking:
+  CrateBreakingSFX:
   - {fileID: 8300000, guid: 21db34aa154d28943969681db537a634, type: 3}
   - {fileID: 8300000, guid: 174831904b1e58444bb919c4057eaa37, type: 3}
 --- !u!82 &5170216928215546917

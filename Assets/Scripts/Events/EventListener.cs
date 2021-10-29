@@ -168,6 +168,7 @@ public class EventListener : MonoBehaviour
         if(PlayerInfo.ExtraHit < 0)
         {
             PlayerInfo.ExtraHit = 0;
+            GameManager.Booleans.Invulnerable = false;
             CheckWithdrawLife();
         }
         else

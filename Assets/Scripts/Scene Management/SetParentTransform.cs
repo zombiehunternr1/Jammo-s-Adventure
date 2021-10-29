@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SetParentTransform : MonoBehaviour
 {
-    public List<AudioClip> CrateBreaking;
+    public List<AudioClip> CrateBreakingSFX;
 
     Transform SpawnItemsHolder;
     AudioSource AudioSource;
@@ -12,8 +12,8 @@ public class SetParentTransform : MonoBehaviour
     {
         AudioSource = GetComponent<AudioSource>();
         GameManager.Instance.UpdateItemContainerList(gameObject);
-        int ChosenSFX = Random.Range(0, CrateBreaking.Count);
-        AudioSource.clip = CrateBreaking[ChosenSFX];
+        int ChosenSFX = Random.Range(0, CrateBreakingSFX.Count);
+        AudioSource.clip = CrateBreakingSFX[ChosenSFX];
         AudioSource.Play();
     }
 }
