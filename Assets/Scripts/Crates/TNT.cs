@@ -109,12 +109,12 @@ public class TNT : MonoBehaviour, ICrateBase
         HasExploded = false;
         IsBroken = false;
         gameObject.SetActive(true);
-        TNTAnim.ResetTrigger("Countdown");
+        TNTAnim.Play("Idle");
     }
 
     private void Countdown()
     {
-        TNTAnim.SetTrigger("Countdown");
+        TNTAnim.Play("Countdown");
     }
 
     private void Explosion()

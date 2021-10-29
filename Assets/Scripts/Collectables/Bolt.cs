@@ -37,7 +37,7 @@ public class Bolt : MonoBehaviour, ICollectable
         if (!HasCollided)
         {
             HasCollided = true;
-            gameObject.GetComponent<Animator>().SetTrigger("Disable");
+            gameObject.GetComponent<Animator>().Play("Disable");
             EventManager.CollectBoltDisplay();
             DestroyObject();
         }
