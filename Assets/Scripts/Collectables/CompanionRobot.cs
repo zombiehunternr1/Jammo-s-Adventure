@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class CompanionRobot : MonoBehaviour, ICollectable
 {
-    public Transform Target;
+    public AudioClip GotHit;
+    public AudioClip ChargingUp;
+    public AudioClip PoweringUp;
+    public AudioClip PoweringDown;
+    public ParticleSystem Explosion;
     public float DistanceToTarget = 0.5f;
     public float HeightAboutTarget = 0;
     public float HeightDamping = 2;
@@ -13,6 +17,8 @@ public class CompanionRobot : MonoBehaviour, ICollectable
     [HideInInspector]
     public Material ShellColor;
 
+    AudioSource AudioSource;
+    Transform Target;
     bool HasCollided;
     float SpawnHeight = 1.2f;
     private Rigidbody RB;
@@ -22,11 +28,12 @@ public class CompanionRobot : MonoBehaviour, ICollectable
 
     private void OnEnable()
     {
+        AudioSource = GetComponent<AudioSource>();
         ShellColor = GetComponentInChildren<MeshRenderer>().materials[0];
         RB = GetComponent<Rigidbody>();
         Anim = GetComponent<Animator>();
         ParticleSystem[] FoundEngines = GetComponentsInChildren<ParticleSystem>();
-        foreach(ParticleSystem Engine in FoundEngines)
+        foreach (ParticleSystem Engine in FoundEngines)
         {
             Engines.Add(Engine);
             Engine.Stop();
@@ -42,11 +49,11 @@ public class CompanionRobot : MonoBehaviour, ICollectable
     }
     IEnumerator MoveToPlayer()
     {
-        while(transform.position != Target.position)
+        while (transform.position != Target.position)
         {
             transform.position = Vector3.Lerp(transform.position, Target.position, Speed * Time.deltaTime);
             MovingDistanceToTarget = Vector3.Distance(Target.position, transform.position);
-            if(MovingDistanceToTarget < DistanceToTarget)
+            if (MovingDistanceToTarget < DistanceToTarget)
             {
                 StartCoroutine(FollowPlayer());
                 StopCoroutine(MoveToPlayer());
@@ -59,6 +66,10 @@ public class CompanionRobot : MonoBehaviour, ICollectable
 
     IEnumerator FollowPlayer()
     {
+        if (!Anim.GetCurrentAnimatorStateInfo(0).IsName("Explode") && !Anim.GetCurrentAnimatorStateInfo(0).IsName("Damage"))
+        {
+            Anim.Play("Follow");
+        }
         while (true)
         {
             float WantedRotationAngle = Target.eulerAngles.y;
@@ -97,7 +108,6 @@ public class CompanionRobot : MonoBehaviour, ICollectable
     private void PositionRobot()
     {
         Destroy(gameObject.GetComponent<BoxCollider>());
-        Anim.Play("Follow");
         transform.SetParent(GameManager.Instance.Player.CompanionPosition);
         Target = GameManager.Instance.Player.CompanionPosition;
         foreach (ParticleSystem Engine in Engines)
@@ -128,6 +138,7 @@ public class CompanionRobot : MonoBehaviour, ICollectable
         if (GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit == 0)
         {
             GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit++;
+            Upgrade();
             PositionRobot();
         }
         else if (GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit != 3)
@@ -137,6 +148,7 @@ public class CompanionRobot : MonoBehaviour, ICollectable
                 PositionRobot();
                 return;
             }
+            GameManager.Instance.Player.CompanionPosition.GetComponentInChildren<CompanionRobot>().Upgrade();
             GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit++;
             DestroyObject();
         }
@@ -159,5 +171,40 @@ public class CompanionRobot : MonoBehaviour, ICollectable
     public void DestroyObject()
     {
         Destroy(gameObject);
+    }
+
+    public void TookDamage()
+    {
+        AudioSource.Stop();
+        AudioSource.clip = GotHit;
+        AudioSource.Play();
+    }
+
+    public void GotDestroyed()
+    {
+        GetComponentInChildren<MeshRenderer>().gameObject.SetActive(false);
+        Instantiate(Explosion, transform.position, Quaternion.identity);
+        DestroyObject();
+    }
+
+    public void ChargeUp()
+    {
+        AudioSource.Stop();
+        AudioSource.clip = ChargingUp;
+        AudioSource.Play();
+    }
+
+    public void Upgrade()
+    {
+        AudioSource.Stop();
+        AudioSource.clip = PoweringUp;
+        AudioSource.Play();
+    }
+
+    public void Downgrade()
+    {
+        AudioSource.Stop();
+        AudioSource.clip = PoweringDown;
+        AudioSource.Play();
     }
 }

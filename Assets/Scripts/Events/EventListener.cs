@@ -176,19 +176,19 @@ public class EventListener : MonoBehaviour
             GameManager.Booleans.Invulnerable = true;
             if (PlayerInfo.ExtraHit == 0)
             {
-                //Play companion model shaking animation + exploding
-                Destroy(Player.GetComponentInChildren<CompanionRobot>().gameObject);
+                Player.GetComponentInChildren<CompanionRobot>().GetComponent<Animator>().Play("Explode");
             }
             else
             {
-                //Play companion model taking damage animation + change visual color
                 if (PlayerInfo.ExtraHit == 1)
                 {
                     Player.GetComponentInChildren<CompanionRobot>().ShellColor.color = Color.red;
+                    Player.GetComponentInChildren<CompanionRobot>().GetComponent<Animator>().Play("Damage");
                 }
                 else if (PlayerInfo.ExtraHit == 2)
                 {
                     Player.GetComponentInChildren<CompanionRobot>().ShellColor.color = Color.yellow;
+                    Player.GetComponentInChildren<CompanionRobot>().GetComponent<Animator>().Play("Damage");
                 }
             }
             StartCoroutine(Invulnerability());
@@ -214,14 +214,22 @@ public class EventListener : MonoBehaviour
     {
         while(CurrentTime < EndInvulnerabiltyAfter)
         {
-            CurrentTime += Time.deltaTime;
-            //Add in companion model shaking animation
+            if (Player.PlayerModel.gameObject.activeSelf)
+            {
+                Player.PlayerModel.gameObject.SetActive(false);
+            }
+            else
+            {
+                Player.PlayerModel.gameObject.SetActive(true);
+            }
+            new WaitForSeconds(0.1f);
+            CurrentTime += Time.deltaTime;         
             if(CurrentTime >= EndInvulnerabiltyAfter)
             {
-                //Add in companion model exploding
+                StopAllCoroutines();
                 CurrentTime = StartTime;
                 GameManager.Booleans.Invulnerable = false;
-                StopAllCoroutines();
+                Player.PlayerModel.gameObject.SetActive(true);
             }
             yield return CurrentTime;
         }
