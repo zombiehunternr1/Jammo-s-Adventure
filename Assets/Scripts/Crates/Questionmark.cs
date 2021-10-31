@@ -16,6 +16,7 @@ public class Questionmark : MonoBehaviour, ICrateBase
     private Collider[] HitColliders;
     private bool IsBroken;
     private bool HasCollided;
+    private bool HasBodySlammed;
 
     public Checkpoint Checkpoint { get => CheckPointCrate; set => CheckPointCrate = value; }
 
@@ -57,6 +58,7 @@ public class Questionmark : MonoBehaviour, ICrateBase
 
     public void ResetCrate()
     {
+        HasBodySlammed = false;
         IsBroken = false;
         gameObject.SetActive(true);
     }
@@ -71,8 +73,9 @@ public class Questionmark : MonoBehaviour, ICrateBase
             if (Player != null && !HasCollided)
             {
                 HasCollided = true;
-                if (Player.IsBodyslamPerforming)
+                if (Player.IsBodyslamPerforming && !HasBodySlammed)
                 {
+                    HasBodySlammed = true;
                     Player.StartCoroutine(Player.DownwardsForce());
                     SpawnBoltTypes();
                     break;

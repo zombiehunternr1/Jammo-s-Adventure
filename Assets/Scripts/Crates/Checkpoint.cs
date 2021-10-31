@@ -8,6 +8,7 @@ public class Checkpoint : MonoBehaviour, ICrateBase
     public enum CheckPointCrateTypes { Breakable, Interactable }
     public CheckPointCrateTypes CheckPointCrateType;
 
+    private bool HasBodySlammed;
     private Collider[] HitColliders;
 
     Checkpoint ICrateBase.Checkpoint { get => this; set => value = this; }
@@ -49,8 +50,9 @@ public class Checkpoint : MonoBehaviour, ICrateBase
             PlayerScript Player = Collider.GetComponent<PlayerScript>();
             if (Player != null)
             {
-                if (Player.IsBodyslamPerforming)
+                if (Player.IsBodyslamPerforming && !HasBodySlammed)
                 {
+                    HasBodySlammed = true;
                     Player.StartCoroutine(Player.DownwardsForce());
                     SetCheckPoint();
                     break;
@@ -91,6 +93,7 @@ public class Checkpoint : MonoBehaviour, ICrateBase
 
     public void ResetCrate()
     {
+        HasBodySlammed = false;
         gameObject.SetActive(true);
     }
 }

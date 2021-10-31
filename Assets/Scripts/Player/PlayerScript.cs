@@ -123,6 +123,10 @@ public class PlayerScript : MonoBehaviour
     {
         if(GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit != 0)
         {
+            if(GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit == 3)
+            {
+                GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit = 2;
+            }
             Instantiate(CompanionRobot, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
         }
         Audiosource = GetComponent<AudioSource>();

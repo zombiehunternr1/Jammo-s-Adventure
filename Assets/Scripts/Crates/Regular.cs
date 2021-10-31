@@ -13,6 +13,7 @@ public class Regular : MonoBehaviour, ICrateBase
     private float YOffset = 0.5f;
     private Collider[] HitColliders;
     private bool IsBroken;
+    private bool HasBodySlammed;
 
     public Checkpoint Checkpoint { get => CheckPointCrate; set => CheckPointCrate = value; }
 
@@ -52,6 +53,7 @@ public class Regular : MonoBehaviour, ICrateBase
     }
     public void ResetCrate()
     {
+        HasBodySlammed = false;
         IsBroken = false;
         gameObject.SetActive(true);
     }
@@ -64,8 +66,9 @@ public class Regular : MonoBehaviour, ICrateBase
             PlayerScript Player = Collider.GetComponent<PlayerScript>();
             if (Player != null)
             {
-                if (Player.IsBodyslamPerforming)
+                if (Player.IsBodyslamPerforming && !HasBodySlammed)
                 {
+                    HasBodySlammed = true;
                     Player.StartCoroutine(Player.DownwardsForce());
                     SpawnBoltTypes();
                     break;

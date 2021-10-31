@@ -16,6 +16,7 @@ public class TNT : MonoBehaviour, ICrateBase
     private AudioSource AudioSource;
     private Collider[] HitColliders;
     private bool IsBroken;
+    private bool HasBodySlammed;
 
     public Checkpoint Checkpoint { get => CheckPointCrate; set => CheckPointCrate = value; }
 
@@ -67,8 +68,9 @@ public class TNT : MonoBehaviour, ICrateBase
             PlayerScript Player = Collider.GetComponent<PlayerScript>();
             if (Player != null)
             {
-                if (Player.IsBodyslamPerforming)
+                if (Player.IsBodyslamPerforming && !HasBodySlammed)
                 {
+                    HasBodySlammed = true;
                     Player.StartCoroutine(Player.DownwardsForce());
                     Explosion();
                     break;
@@ -109,6 +111,7 @@ public class TNT : MonoBehaviour, ICrateBase
 
     public void ResetCrate()
     {
+        HasBodySlammed = false;
         HasBounced = false;
         HasExploded = false;
         IsBroken = false;

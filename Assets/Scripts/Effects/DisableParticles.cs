@@ -24,7 +24,7 @@ public class DisableParticles : MonoBehaviour
                 }
                 else
                 {
-                    GameObject.Destroy(transform.root.gameObject);
+                    Destroy(transform.root.gameObject);
                 }
                 break;
             }
