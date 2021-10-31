@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    public AudioClip Ambient;
     public TextMeshPro CrateCountProText;
     public Text CrateCountText;
     public Text GameoverText;
@@ -32,6 +33,7 @@ public class GameManager : MonoBehaviour
     private bool IsFadingToBlack = true;
     private bool FirstTime = true;
     private SpawnStaticItem StaticItems;
+    private AudioSource AudioSource;
 
     public static class Booleans
     {
@@ -53,6 +55,12 @@ public class GameManager : MonoBehaviour
         {
             StaticItems = StaticItemsContainer.GetComponent<SpawnStaticItem>();
         }
+        if(AudioSource == null)
+        {
+            AudioSource = GetComponent<AudioSource>();
+        }
+        AudioSource.clip = Ambient;
+        AudioSource.Play();
         StartCoroutine(FadeEffect());
     }
 

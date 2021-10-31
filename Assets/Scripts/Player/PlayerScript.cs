@@ -79,6 +79,9 @@ public class PlayerScript : MonoBehaviour
     private Quaternion PlayerOriginalRotation;
 
     [Header("Components")]
+    public List<AudioClip> FootstepsSFX;
+    public AudioClip BodyslamSFX;
+    public AudioClip SlideSFX;
     public GameObject ExplosionModel;
     public GameObject CompanionRobot;
     public Mesh PlayerGroundMesh;
@@ -99,6 +102,7 @@ public class PlayerScript : MonoBehaviour
     public Animator playerAnimator;
     private Collider Cap;
     private BlendTree LongIdleTree;
+    private AudioSource Audiosource;
 
     //Player movement
     Vector2 CurrentMovementInput;
@@ -121,6 +125,7 @@ public class PlayerScript : MonoBehaviour
         {
             Instantiate(CompanionRobot, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
         }
+        Audiosource = GetComponent<AudioSource>();
         PlayerModel = GetComponentInChildren<Transform>().GetChild(0).gameObject;
         playerAnimator = GetComponent<Animator>();
         RB = GetComponent<Rigidbody>();
@@ -249,6 +254,8 @@ public class PlayerScript : MonoBehaviour
         {
             if (IsBodyslamPerforming)
             {
+                Audiosource.clip = BodyslamSFX;
+                Audiosource.Play();
                 Instantiate(GroundPoundDust, new Vector3(transform.position.x, Hit.Value.point.y, transform.position.z), transform.rotation);
                 hitColliders = Physics.OverlapBox(Hit.Value.point, GroundPoundHitBox);
                 foreach(Collider Col in hitColliders)
@@ -264,6 +271,14 @@ public class PlayerScript : MonoBehaviour
         }
         return Hit != null;
     }
+
+    public void FootstepSound()
+    {
+        int Selected = UnityEngine.Random.Range(0, FootstepsSFX.Count);
+        Audiosource.clip = FootstepsSFX[Selected];
+        Audiosource.Play();
+    }
+
     public void ResetPlayerMovement()
     {
         RB.velocity = Vector3.zero;
@@ -586,6 +601,8 @@ public class PlayerScript : MonoBehaviour
 
     private void SlideAttackEvent()
     {
+        Audiosource.clip = SlideSFX;
+        Audiosource.Play();
         Cap.GetComponent<CapsuleCollider>().center = new Vector3(0, 0.5f, 0);
         Cap.GetComponent<CapsuleCollider>().height = 0.9f;
     }
