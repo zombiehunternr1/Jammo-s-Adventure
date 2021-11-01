@@ -5,6 +5,7 @@ using UnityEngine;
 public class Checkpoint : MonoBehaviour, ICrateBase
 {
     public GameObject BrokenCrate;
+    public GameObject CheckpointDrone;
     public enum CheckPointCrateTypes { Breakable, Interactable }
     public CheckPointCrateTypes CheckPointCrateType;
 
@@ -88,6 +89,7 @@ public class Checkpoint : MonoBehaviour, ICrateBase
     public void DisableCrate()
     {
         Instantiate(BrokenCrate, transform.position, Quaternion.identity);
+        Instantiate(CheckpointDrone, transform.position, Quaternion.identity);
         gameObject.SetActive(false);
     }
 

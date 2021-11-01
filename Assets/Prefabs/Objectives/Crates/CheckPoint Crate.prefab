@@ -528,4 +528,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BrokenCrate: {fileID: 8698941274540792420, guid: 6a9704c866aed634f87f3893fde20c3d, type: 3}
+  CheckpointDrone: {fileID: 5736082974603936413, guid: 5c1163ca96071fa45b9329bb49bc3a80, type: 3}
   CheckPointCrateType: 0
