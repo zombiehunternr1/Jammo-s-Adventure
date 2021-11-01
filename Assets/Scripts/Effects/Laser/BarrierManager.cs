@@ -5,8 +5,11 @@ using UnityEngine;
 public class BarrierManager : MonoBehaviour
 {
     private List<VolumetricLines.VolumetricLineBehavior> LasterBeams;
+    private AudioSource AudioSource;
+
     private void Awake()
     {
+        AudioSource = GetComponent<AudioSource>();
         LasterBeams = new List<VolumetricLines.VolumetricLineBehavior>();
         VolumetricLines.VolumetricLineBehavior[] Beams = GetComponentsInChildren<VolumetricLines.VolumetricLineBehavior>();
         foreach (VolumetricLines.VolumetricLineBehavior Beam in Beams)
@@ -24,6 +27,7 @@ public class BarrierManager : MonoBehaviour
 
     public void DisableLasers()
     {
+        AudioSource.Play();
         foreach (VolumetricLines.VolumetricLineBehavior Beam in LasterBeams)
         {
             Beam.StartCoroutine(Beam.DisableLaser());
