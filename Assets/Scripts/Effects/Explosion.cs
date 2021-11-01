@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
-    public float ExplosionRadus = 2f;
+    public float ExplosionRadus;
 
     private SphereCollider HitBox;
     private int Side = 10;

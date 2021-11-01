@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class NitroDetonator : MonoBehaviour, IInteractable
 {
-    public List<Nitro> AllNitros;
-
     [HideInInspector]
     public bool HasBounced;
     private bool HasDetonated;
     private Collider[] HitColliders;
     private bool HasBodySlammed;
+    private List<Nitro> AllNitros;
 
     private void Start()
     {

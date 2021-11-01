@@ -111,7 +111,7 @@ public class PlayerScript : MonoBehaviour
     //Attack settings
     Vector3 SmallHitBox = new Vector3(2, 0.25f, 2);
     Vector3 BigHitBox = new Vector3(2, 2f, 2);
-    Vector3 GroundPoundHitBox = new Vector3(2.5f, 0.1f, 2.5f);
+    Vector3 GroundPoundHitBox = new Vector3(1.2f, 0.5f, 1.2f);
     Vector3 SlideAttackHitBox = new Vector3(1f, 0.5f, 1f);
 
     //Hit detection
@@ -261,7 +261,7 @@ public class PlayerScript : MonoBehaviour
                 Audiosource.clip = BodyslamSFX;
                 Audiosource.Play();
                 Instantiate(GroundPoundDust, new Vector3(transform.position.x, Hit.Value.point.y, transform.position.z), transform.rotation);
-                hitColliders = Physics.OverlapBox(Hit.Value.point, GroundPoundHitBox);
+                hitColliders = Physics.OverlapBox(transform.position, GroundPoundHitBox);
                 foreach(Collider Col in hitColliders)
                 {
                     ICrateBase CrateType = (ICrateBase)Col.gameObject.transform.GetComponent(typeof(ICrateBase));
@@ -500,7 +500,6 @@ public class PlayerScript : MonoBehaviour
         {
             RaycastHit hit;
             var point = transform.TransformPoint(x);
-            Debug.DrawRay(point, Vector3.down * GroundLength, Color.blue);
             if (Physics.Raycast(point, Vector3.down, out hit, GroundLength))
             {
                 if (hit.transform)

@@ -4863,6 +4863,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OnlyDeactivate: 0
+  WaitTime: 3
 --- !u!135 &-4691374759068701998
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -4874,7 +4875,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6408067444816397984
 MonoBehaviour:
@@ -4888,7 +4889,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b7a4e27abea82b4fb44cc638818767d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ExplosionRadus: 2
+  ExplosionRadus: 2.2
 --- !u!1 &7381641708263062837
 GameObject:
   m_ObjectHideFlags: 0
