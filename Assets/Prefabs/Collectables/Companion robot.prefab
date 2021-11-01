@@ -9747,11 +9747,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1295c0ed0ed7ec4480e87c484fb52a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GotHit: {fileID: 8300000, guid: bf343733908ff904bbe0b74aa592195b, type: 3}
-  ChargingUp: {fileID: 8300000, guid: dc23dc590eee59342ae9481980dd7dec, type: 3}
-  Expode: {fileID: 8300000, guid: f259c0282392bc9418ebea687a4c96f9, type: 3}
-  PoweringUp: {fileID: 8300000, guid: 006224263a96c3b498abc0e88bedb386, type: 3}
-  PoweringDown: {fileID: 8300000, guid: 030703ea9262dae44865172d673d12ca, type: 3}
+  GotHitSFX: {fileID: 8300000, guid: bf343733908ff904bbe0b74aa592195b, type: 3}
+  ChargingUpSFX: {fileID: 8300000, guid: dc23dc590eee59342ae9481980dd7dec, type: 3}
+  PoweringUpSFX: {fileID: 8300000, guid: 006224263a96c3b498abc0e88bedb386, type: 3}
+  PoweringDownSFX: {fileID: 8300000, guid: 030703ea9262dae44865172d673d12ca, type: 3}
+  InvincibleSFX: {fileID: 8300000, guid: a66e2cbd59d18c2439f7fe096063ae10, type: 3}
   Explosion: {fileID: 6524155594409052382, guid: 24ddf2da9fbfc9a499533f0e6e835f20, type: 3}
   DistanceToTarget: 0.4
   HeightAboutTarget: 0

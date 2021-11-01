@@ -1152,6 +1152,7 @@ MonoBehaviour:
   Life: {fileID: 7064968393602707068, guid: d4ef73622637db14780b68aa2722cd58, type: 3}
   ArtifactShards: {fileID: 7323158421820742220}
   EndInvulnerabiltyAfter: 5
+  EndInvincibilityAfter: 22
   Player: {fileID: 0}
 --- !u!114 &1899063718324467854
 MonoBehaviour:

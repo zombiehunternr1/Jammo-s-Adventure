@@ -50,6 +50,11 @@ public class CharacterSkinController : MonoBehaviour
         ChangeEyeOffset(EyePosition.Nomal);
     }
 
+    public void InvincibleEvent()
+    {
+        ChangeMaterialSettings(Happy);
+    }
+
     void ChangeMaterialSettings(int index)
     {
         for (int i = 0; i < characterMaterials.Length; i++)

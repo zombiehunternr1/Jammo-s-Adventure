@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class CompanionRobot : MonoBehaviour, ICollectable
 {
-    public AudioClip GotHit;
-    public AudioClip ChargingUp;
-    public AudioClip PoweringUp;
-    public AudioClip PoweringDown;
+    public AudioClip GotHitSFX;
+    public AudioClip ChargingUpSFX;
+    public AudioClip PoweringUpSFX;
+    public AudioClip PoweringDownSFX;
+    public AudioClip InvincibleSFX;
     public ParticleSystem Explosion;
     public float DistanceToTarget = 0.5f;
     public float HeightAboutTarget = 0;
@@ -148,10 +149,18 @@ public class CompanionRobot : MonoBehaviour, ICollectable
                 PositionRobot();
                 return;
             }
-            GameManager.Instance.Player.CompanionPosition.GetComponentInChildren<CompanionRobot>().Upgrade();
             GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit++;
+            if (GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit == 3)
+            {
+                GameManager.Instance.GetComponent<EventListener>().StartCoroutine(GameManager.Instance.GetComponent<EventListener>().Invincible());
+                GameManager.Instance.Player.CompanionPosition.GetComponentInChildren<CompanionRobot>().Invincible();
+            }
+            else
+            {
+                GameManager.Instance.Player.CompanionPosition.GetComponentInChildren<CompanionRobot>().Upgrade();
+            }
             DestroyObject();
-        }
+        } 
         else
         {
             DestroyObject();
@@ -176,7 +185,7 @@ public class CompanionRobot : MonoBehaviour, ICollectable
     public void TookDamage()
     {
         AudioSource.Stop();
-        AudioSource.clip = GotHit;
+        AudioSource.clip = GotHitSFX;
         AudioSource.Play();
     }
 
@@ -190,21 +199,28 @@ public class CompanionRobot : MonoBehaviour, ICollectable
     public void ChargeUp()
     {
         AudioSource.Stop();
-        AudioSource.clip = ChargingUp;
+        AudioSource.clip = ChargingUpSFX;
         AudioSource.Play();
     }
 
     public void Upgrade()
     {
         AudioSource.Stop();
-        AudioSource.clip = PoweringUp;
+        AudioSource.clip = PoweringUpSFX;
         AudioSource.Play();
     }
 
     public void Downgrade()
     {
         AudioSource.Stop();
-        AudioSource.clip = PoweringDown;
+        AudioSource.clip = PoweringDownSFX;
+        AudioSource.Play();
+    }
+
+    public void Invincible()
+    {
+        AudioSource.Stop();
+        AudioSource.clip = InvincibleSFX;
         AudioSource.Play();
     }
 }

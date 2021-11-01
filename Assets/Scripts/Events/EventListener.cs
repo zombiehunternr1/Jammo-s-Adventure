@@ -19,6 +19,7 @@ public class EventListener : MonoBehaviour
     private float StartTime = 0;
     private float CurrentTime = 0;
     public float EndInvulnerabiltyAfter = 5;
+    public float EndInvincibilityAfter = 10;
 
     private List<Transform> Shards;
     private GameObject SpawnedLife;
@@ -123,6 +124,7 @@ public class EventListener : MonoBehaviour
     {
         PlayerInfo.Lives = 5;
         PlayerInfo.Bolts = 0;
+        PlayerInfo.ExtraHit = 0;
         GameManager.Booleans.GameOver = false;
         GameManager.Booleans.IsResetGame = true;
         GameManager.Instance.ResetGame();
@@ -234,6 +236,28 @@ public class EventListener : MonoBehaviour
                 CurrentTime = StartTime;
                 GameManager.Booleans.Invulnerable = false;
                 Player.PlayerModel.gameObject.SetActive(true);
+            }
+            yield return CurrentTime;
+        }
+        yield return null;
+    }
+
+    public IEnumerator Invincible()
+    {
+        Player.GetComponent<CharacterSkinController>().InvincibleEvent();
+        GameManager.Booleans.Invulnerable = true;
+        while(CurrentTime < EndInvincibilityAfter)
+        {
+            CurrentTime += Time.deltaTime;
+            if(CurrentTime >= EndInvincibilityAfter)
+            {
+                StopAllCoroutines();
+                CurrentTime = StartTime;
+                GameManager.Booleans.Invulnerable = false;
+                Player.GetComponent<CharacterSkinController>().ReturnToNormalEvent();
+                Player.GetComponentInChildren<CompanionRobot>().ShellColor.color = Color.yellow;
+                Player.GetComponentInChildren<CompanionRobot>().GetComponent<Animator>().Play("Damage");
+                PlayerInfo.ExtraHit--;
             }
             yield return CurrentTime;
         }
