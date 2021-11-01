@@ -50,13 +50,15 @@ public class NitroDetonator : MonoBehaviour, IInteractable
     }
     public void DisableCrate()
     {
-        Debug.Log(gameObject.GetComponent<Renderer>().name);
+        gameObject.transform.GetChild(0).GetComponent<Renderer>().enabled = true;
+        gameObject.GetComponent<Renderer>().enabled = false;
     }
 
     public void ResetCrate()
     {
         HasDetonated = false;
-        //GetComponentInChildren<MeshRenderer>().enabled = false;
+        gameObject.transform.GetChild(0).GetComponent<Renderer>().enabled = false;
+        gameObject.GetComponent<Renderer>().enabled = true;
         GetAllNitros();
     }
 
