@@ -109,7 +109,7 @@ public class PlayerScript : MonoBehaviour
     Vector3 CurrentMovement;
 
     //Attack settings
-    Vector3 SmallHitBox = new Vector3(2, 0.5f, 2);
+    Vector3 SmallHitBox = new Vector3(2, 0.25f, 2);
     Vector3 BigHitBox = new Vector3(2, 2f, 2);
     Vector3 GroundPoundHitBox = new Vector3(2.5f, 0.1f, 2.5f);
     Vector3 SlideAttackHitBox = new Vector3(1f, 0.5f, 1f);
@@ -189,7 +189,7 @@ public class PlayerScript : MonoBehaviour
         }
         if (IsSlideAttackPerforming)
         {
-            hitColliders = Physics.OverlapBox(Cap.bounds.center / 2, SlideAttackHitBox);
+            hitColliders = Physics.OverlapBox(transform.position, SlideAttackHitBox);
             CheckAttackHit();
         }
         MoveDirection = transform.position + Direction;
@@ -265,10 +265,16 @@ public class PlayerScript : MonoBehaviour
                 foreach(Collider Col in hitColliders)
                 {
                     ICrateBase CrateType = (ICrateBase)Col.gameObject.transform.GetComponent(typeof(ICrateBase));
+                    IInteractable InteractType = (IInteractable)Col.gameObject.transform.GetComponent(typeof(IInteractable));
                     if (CrateType != null)
                     {
                         CrateType.Break((int)ReturnDirection(gameObject, Col.gameObject));
                     }
+                    else if(InteractType != null)
+                    {
+                        InteractType.Interact((int)ReturnDirection(gameObject, Col.gameObject));
+                    }
+
                 }
                 GroundPoundEnd();
             }
@@ -278,9 +284,12 @@ public class PlayerScript : MonoBehaviour
 
     public void FootstepSound()
     {
-        int Selected = UnityEngine.Random.Range(0, FootstepsSFX.Count);
-        Audiosource.clip = FootstepsSFX[Selected];
-        Audiosource.Play();
+        if (GameManager.Booleans.CanMove)
+        {
+            int Selected = UnityEngine.Random.Range(0, FootstepsSFX.Count);
+            Audiosource.clip = FootstepsSFX[Selected];
+            Audiosource.Play();
+        }
     }
 
     public void ResetPlayerMovement()
@@ -425,6 +434,25 @@ public class PlayerScript : MonoBehaviour
                 }
             }
         }
+        IInteractable InteractType = (IInteractable)collision.gameObject.GetComponent(typeof(IInteractable));
+        if(InteractType != null)
+        {
+            int Direction = (int)ReturnDirection(gameObject, collision.collider.gameObject);
+            InteractType.Interact(Direction);
+            if(Direction == 1)
+            {
+                if(InteractType is NitroDetonator)
+                {
+                    NitroDetonator Detonator = collision.gameObject.GetComponent<NitroDetonator>();
+                    if(!Detonator.HasBounced && !IsBodyslamPerforming)
+                    {
+                        float Bounceforce = IsHoldJump ? BigBounce : SmallBounce;
+                        Jump(Bounceforce);
+                        Detonator.HasBounced = true;
+                    }
+                }
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider collider)
@@ -447,9 +475,14 @@ public class PlayerScript : MonoBehaviour
                 if (Vector3.Dot(forward, transform.forward) > 0.7f)
                 {
                     ICrateBase CrateType = (ICrateBase)hitCollider.gameObject.GetComponent(typeof(ICrateBase));
+                    IInteractable InteractType = (IInteractable)hitCollider.gameObject.GetComponent(typeof(IInteractable));
                     if (CrateType != null)
                     {
                         CrateType.Break((int)ReturnDirection(gameObject, hitCollider.gameObject));
+                    }
+                    if (InteractType != null)
+                    {
+                        InteractType.Interact((int)ReturnDirection(gameObject, hitCollider.gameObject));
                     }
                 }
             }
@@ -487,7 +520,6 @@ public class PlayerScript : MonoBehaviour
         {
             return HitPlayerDirection.Bodyslam;
         }
-
         else if (!CanPunch)
         {
             return HitPlayerDirection.Attack;
@@ -587,13 +619,13 @@ public class PlayerScript : MonoBehaviour
     #region Animation Events
     private void SmallAttackEvent()
     {
-        hitColliders = Physics.OverlapBox(Cap.bounds.center / 2, SmallHitBox);
+        hitColliders = Physics.OverlapBox(transform.position, SmallHitBox);
         CheckAttackHit();
     }
 
     private void BigAttackEvent()
     {
-        hitColliders = Physics.OverlapBox(Cap.bounds.center, BigHitBox);
+        hitColliders = Physics.OverlapBox(transform.position, BigHitBox);
         CheckAttackHit();
     }
 
@@ -764,6 +796,7 @@ public class PlayerScript : MonoBehaviour
                 {
                     if (DistanceToTarget == 0)
                     {
+                        CanPunch = false;
                         playerAnimator.Play("Small attack");
                     }
                     else

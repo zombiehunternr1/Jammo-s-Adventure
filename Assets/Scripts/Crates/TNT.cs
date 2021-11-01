@@ -24,7 +24,7 @@ public class TNT : MonoBehaviour, ICrateBase
     {
         AudioSource = GetComponent<AudioSource>();
         AudioSource.clip = CountdownSFX;
-        transform.parent = GameManager.Instance.BreakableCrateContainer.transform;
+        transform.parent = GameManager.Instance.AllCrateTypes.transform;
         TNTAnim = GetComponent<Animator>();
     }
 

@@ -19,7 +19,7 @@ public class Regular : MonoBehaviour, ICrateBase
 
     private void Start()
     {
-        transform.parent = GameManager.Instance.BreakableCrateContainer.transform;
+        transform.parent = GameManager.Instance.AllCrateTypes.transform;
     }
     public void Break(int Side)
     {

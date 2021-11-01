@@ -19,13 +19,14 @@ public class GameManager : MonoBehaviour
     public Text QuitText;
     public PlayerScript Player;
     public BarrierManager BarrierManager;
-    public GameObject BreakableCrateContainer;
+    public GameObject AllCrateTypes;
     public GameObject SpawnedItemsContainer;
     public GameObject StaticItemsContainer;
     public GameObject FadeOutPanel;
 
     private List<ICrateBase> TotalBrokenCrates = new List<ICrateBase>();
     private List<ICrateBase> CurrentlyBrokenCrates = new List<ICrateBase>();
+    private List<IInteractable> InteractableCrates = new List<IInteractable>();
     private Vector2 HorizontalNavigate;
     private Vector2 VerticalNavigate;
     private float HoldNextFade = 1.5f;
@@ -83,7 +84,7 @@ public class GameManager : MonoBehaviour
 
     private void GetTotalCrateCount()
     {
-        ICrateBase[] TempCrates = BreakableCrateContainer.GetComponentsInChildren<ICrateBase>(true);
+        ICrateBase[] TempCrates = AllCrateTypes.GetComponentsInChildren<ICrateBase>(true);
         foreach (ICrateBase Crate in TempCrates)
         {
             if (!TotalBrokenCrates.Contains(Crate))
@@ -116,6 +117,22 @@ public class GameManager : MonoBehaviour
         }
         CrateCountText.text = CurrentlyBrokenCrates.Count + "/" + TotalBrokenCrates.Count;
         CrateCountProText.text = CurrentlyBrokenCrates.Count + " / " + TotalBrokenCrates.Count;
+    }
+
+    private void GetTotalInteractables()
+    {
+        IInteractable[] TempCrates = AllCrateTypes.GetComponentsInChildren<IInteractable>();
+        foreach(IInteractable Crate in TempCrates)
+        {
+            if (!InteractableCrates.Contains(Crate))
+            {
+                InteractableCrates.Add(Crate);
+            }
+            if(Crate is NitroDetonator)
+            {
+                Crate.gameObject.GetComponent<NitroDetonator>().GetAllNitros();
+            }
+        }
     }
 
     private void ResetTillCheckpoint()
@@ -160,6 +177,10 @@ public class GameManager : MonoBehaviour
             {
                 Crate.ResetCrate();
             }
+            foreach(IInteractable Crate in InteractableCrates)
+            {
+                Crate.ResetCrate();
+            }
         }
         else
         {
@@ -174,6 +195,10 @@ public class GameManager : MonoBehaviour
             CurrentlyBrokenCrates = TempList;
 
             foreach (ICrateBase Crate in CurrentlyBrokenCrates)
+            {
+                Crate.ResetCrate();
+            }
+            foreach(IInteractable Crate in InteractableCrates)
             {
                 Crate.ResetCrate();
             }
@@ -220,6 +245,7 @@ public class GameManager : MonoBehaviour
                 IsFadingToBlack = false;
                 yield return new WaitForSeconds(HoldNextFade);
                 GetTotalCrateCount();
+                GetTotalInteractables();
                 StartCoroutine(FadeEffect());
             }
             while (PanelImage.color.a < 1)

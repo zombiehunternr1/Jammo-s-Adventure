@@ -2,24 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Checkpoint : MonoBehaviour, ICrateBase
+public class NitroDetonator : MonoBehaviour, IInteractable
 {
-    public GameObject BrokenCrate;
-    public GameObject CheckpointDrone;
-    public enum CheckPointCrateTypes { Breakable, Interactable }
-    public CheckPointCrateTypes CheckPointCrateType;
+    public List<Nitro> AllNitros;
 
-    private bool HasBodySlammed;
+    [HideInInspector]
+    public bool HasBounced;
+    private bool HasDetonated;
     private Collider[] HitColliders;
-
-    Checkpoint ICrateBase.Checkpoint { get => this; set => value = this; }
+    private bool HasBodySlammed;
 
     private void Start()
     {
         transform.parent = GameManager.Instance.AllCrateTypes.transform;
     }
 
-    public void Break(int Side)
+    public void GetAllNitros()
+    {
+        AllNitros = new List<Nitro>();
+        Nitro[] NitroCrates = GameManager.Instance.AllCrateTypes.GetComponentsInChildren<Nitro>();
+        foreach (Nitro NitroCrate in NitroCrates)
+        {
+            AllNitros.Add(NitroCrate);
+        }
+    }
+
+    public void Interact(int Side)
     {
         switch (Side)
         {
@@ -29,17 +37,28 @@ public class Checkpoint : MonoBehaviour, ICrateBase
                 break;
             //Attack
             case 7:
-                SetCheckPoint();
+                Detonate();
                 break;
             //Bodyslam
             case 8:
-                Top();
+                Detonate();
                 break;
             //Slide
             case 9:
-                SetCheckPoint();
+                Detonate();
                 break;
         }
+    }
+    public void DisableCrate()
+    {
+        Debug.Log(gameObject.GetComponent<Renderer>().name);
+    }
+
+    public void ResetCrate()
+    {
+        HasDetonated = false;
+        //GetComponentInChildren<MeshRenderer>().enabled = false;
+        GetAllNitros();
     }
 
     private void Top()
@@ -55,7 +74,7 @@ public class Checkpoint : MonoBehaviour, ICrateBase
                 {
                     HasBodySlammed = true;
                     Player.StartCoroutine(Player.DownwardsForce());
-                    SetCheckPoint();
+                    Detonate();
                     break;
                 }
                 else
@@ -66,36 +85,28 @@ public class Checkpoint : MonoBehaviour, ICrateBase
             }
         }
     }
-
     private void Bounce(PlayerScript Player)
     {
-        if (Player.Grounded)
+        if (Player.Grounded && !HasBounced)
         {
             Player.IsBounce = true;
-            SetCheckPoint();
+            Detonate();
         }
     }
 
-    private void SetCheckPoint()
+    private void Detonate()
     {
-        if(CheckPointCrateType == Checkpoint.CheckPointCrateTypes.Breakable)
+        if (!HasDetonated)
         {
-            GameManager.Instance.UpdateCrateCount(this);
+            HasDetonated = true;
+            foreach(Nitro NitroCrate in AllNitros)
+            {
+                if (NitroCrate.gameObject.activeSelf)
+                {
+                    NitroCrate.Explosion();
+                }
+            }
+            DisableCrate();
         }
-        GameManager.Instance.SetCheckpoint(this);
-        DisableCrate();
-    }
-
-    public void DisableCrate()
-    {
-        Instantiate(BrokenCrate, transform.position, Quaternion.identity);
-        Instantiate(CheckpointDrone, transform.position, Quaternion.identity);
-        gameObject.SetActive(false);
-    }
-
-    public void ResetCrate()
-    {
-        HasBodySlammed = false;
-        gameObject.SetActive(true);
     }
 }
