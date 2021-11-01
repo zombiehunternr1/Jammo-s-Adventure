@@ -8,6 +8,8 @@ public class EventListener : MonoBehaviour
 {
     public PlayerInfo PlayerInfo;
     public ArtifactsCollected CollectedShards, TotalShards;
+    public AudioSource AudioSource;
+    public AudioClip ShardCollected;
     public Text BoltText;
     public Text LifeText;
     public Animator HUD;
@@ -89,6 +91,8 @@ public class EventListener : MonoBehaviour
 
     private void HandleCollectedShardDisplay()
     {
+        AudioSource.clip = ShardCollected;
+        AudioSource.Play();
         HUD.IsInTransition(0);
         HUD.CrossFade("Display Shard HUD", 0.25f);
         for(int i = 0; i < CollectedShards.Artifacts.Count; i++)
