@@ -132,6 +132,10 @@ public class GameManager : MonoBehaviour
             {
                 Crate.gameObject.GetComponent<NitroDetonator>().GetAllNitros();
             }
+            if(Crate is Activator)
+            {
+                Crate.gameObject.GetComponent<Activator>().ResetCrate();
+            }
         }
     }
 
