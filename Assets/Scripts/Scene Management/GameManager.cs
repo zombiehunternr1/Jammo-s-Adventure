@@ -150,6 +150,7 @@ public class GameManager : MonoBehaviour
         ClearItemsContainer();
         ResetCrates();
         StaticItems.SpawnBoltType();
+        StaticItems.DestroyCheckpointDrones();
         Player.PlayerModel.SetActive(true);
         IsFadingToBlack = true;
         Player.SkinController.ReturnToNormalEvent();

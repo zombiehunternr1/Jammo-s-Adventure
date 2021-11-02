@@ -35,4 +35,13 @@ public class SpawnStaticItem : MonoBehaviour
             }
         }
     }
+
+    public void DestroyCheckpointDrones()
+    {
+        CheckpointDrone[] Drones = GetComponentsInChildren<CheckpointDrone>();
+        foreach(CheckpointDrone Drone in Drones)
+        {
+            Destroy(Drone.gameObject);
+        }
+    }
 }

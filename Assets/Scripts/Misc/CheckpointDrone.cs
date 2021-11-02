@@ -9,6 +9,7 @@ public class CheckpointDrone : MonoBehaviour
 
     private void Start()
     {
+        transform.parent = GameManager.Instance.StaticItemsContainer.transform;
         StartCoroutine(GoToSetHeight());
     }
 
