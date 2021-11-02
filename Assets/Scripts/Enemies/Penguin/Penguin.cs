@@ -16,12 +16,13 @@ public class Penguin : MonoBehaviour, IEnemyBase
     private Collider[] HitColliders;
     private bool HasBodySlammed;
     private Animator Anim;
-
+    private AudioSource AudioSource;
     private void Start()
     {
         Agent = GetComponent<NavMeshAgent>();
         Agent.stoppingDistance = StoppingDistance;
         Anim = GetComponent<Animator>();
+        AudioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -145,6 +146,7 @@ public class Penguin : MonoBehaviour, IEnemyBase
 
     public void DisableEnemy()
     {
+        AudioSource.Play();
         Anim.Play("Destroy");
     }
 }

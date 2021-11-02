@@ -82,6 +82,7 @@ public class PlayerScript : MonoBehaviour
     public List<AudioClip> FootstepsSFX;
     public AudioClip BodyslamSFX;
     public AudioClip SlideSFX;
+    public AudioClip ShutdownSFX;
     public GameObject ExplosionModel;
     public GameObject CompanionRobot;
     public Mesh PlayerGroundMesh;
@@ -664,6 +665,12 @@ public class PlayerScript : MonoBehaviour
         IsSlideAttackPerforming = false;
         Cap.GetComponent<CapsuleCollider>().center = new Vector3(0, 0.9f, 0);
         Cap.GetComponent<CapsuleCollider>().height = 1.8f;
+    }
+
+    private void PlayDiedSFX()
+    {
+        Audiosource.clip = ShutdownSFX;
+        Audiosource.Play();
     }
 
     private void PlayerDiedEvent()
