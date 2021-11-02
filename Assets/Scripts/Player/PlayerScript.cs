@@ -266,13 +266,18 @@ public class PlayerScript : MonoBehaviour
                 {
                     ICrateBase CrateType = (ICrateBase)Col.gameObject.transform.GetComponent(typeof(ICrateBase));
                     IInteractable InteractType = (IInteractable)Col.gameObject.transform.GetComponent(typeof(IInteractable));
+                    IEnemyBase EnemeyType = (IEnemyBase)Col.gameObject.transform.GetComponent(typeof(IEnemyBase));
                     if (CrateType != null)
                     {
                         CrateType.Break((int)ReturnDirection(gameObject, Col.gameObject));
                     }
-                    else if(InteractType != null)
+                    else if (InteractType != null)
                     {
                         InteractType.Interact((int)ReturnDirection(gameObject, Col.gameObject));
+                    }
+                    else if(EnemeyType != null)
+                    {
+                        EnemeyType.Collision((int)ReturnDirection(gameObject, Col.gameObject));
                     }
 
                 }
@@ -453,6 +458,12 @@ public class PlayerScript : MonoBehaviour
                 }
             }
         }
+        IEnemyBase EnemyType = (IEnemyBase)collision.gameObject.GetComponent(typeof(IEnemyBase));
+        if(EnemyType != null)
+        {
+            int Direction = (int)ReturnDirection(gameObject, collision.collider.gameObject);
+            EnemyType.Collision(Direction);
+        }
     }
 
     private void OnTriggerEnter(Collider collider)
@@ -476,6 +487,7 @@ public class PlayerScript : MonoBehaviour
                 {
                     ICrateBase CrateType = (ICrateBase)hitCollider.gameObject.GetComponent(typeof(ICrateBase));
                     IInteractable InteractType = (IInteractable)hitCollider.gameObject.GetComponent(typeof(IInteractable));
+                    IEnemyBase EnemyType = (IEnemyBase)hitCollider.gameObject.GetComponent(typeof(IEnemyBase));
                     if (CrateType != null)
                     {
                         CrateType.Break((int)ReturnDirection(gameObject, hitCollider.gameObject));
@@ -483,6 +495,10 @@ public class PlayerScript : MonoBehaviour
                     if (InteractType != null)
                     {
                         InteractType.Interact((int)ReturnDirection(gameObject, hitCollider.gameObject));
+                    }
+                    if (EnemyType != null)
+                    {
+                        EnemyType.Collision((int)ReturnDirection(gameObject, hitCollider.gameObject));
                     }
                 }
             }
@@ -517,6 +533,7 @@ public class PlayerScript : MonoBehaviour
         HitPlayerDirection HitDirection = HitPlayerDirection.None;
         if (IsBodyslamPerforming)
         {
+            Debug.Log("Slam");
             return HitPlayerDirection.Bodyslam;
         }
         else if (!CanPunch)

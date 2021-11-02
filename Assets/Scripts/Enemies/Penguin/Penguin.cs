@@ -1,62 +1,137 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class Penguin : MonoBehaviour
+public class Penguin : MonoBehaviour, IEnemyBase
 {
-    public List<Transform> Checkpoints;
-    public float MoveSpeed;
+    public Transform[] Checkpoints;
+    public bool Waiting;
+    public float WaitTime;
     public float RotationSpeed;
 
-    private float MinDistanceToCheckpoint = 0.1f;
+    private float StoppingDistance = 0.1f;
     private int CheckpointIndex = 0;
-    private float Distance;
-    private bool IsRotating;
+    NavMeshAgent Agent;
+    private Collider[] HitColliders;
+    private bool HasBodySlammed;
 
-    void Start()
+    private void Start()
     {
-        transform.LookAt(Checkpoints[CheckpointIndex].position);
+        Agent = GetComponent<NavMeshAgent>();
+        Agent.stoppingDistance = StoppingDistance;
     }
 
-    void Update()
+    private void Update()
     {
-        Distance = Vector3.Distance(transform.position, Checkpoints[CheckpointIndex].position);
-        if(Distance < MinDistanceToCheckpoint)
+        if(Checkpoint != null)
         {
-            transform.position = Checkpoints[CheckpointIndex].position;
-            IncreaseIndex();
-            IsRotating = true;
-        }
-        if (!IsRotating)
-        {
-            Patrol();
-        }
-        else
-        {
-            Vector3 Dir = Checkpoints[CheckpointIndex].position - transform.position;
-            Quaternion LookRotation = Quaternion.LookRotation(Dir);
-            Vector3 Rotation = Quaternion.Slerp(transform.rotation, LookRotation, Time.deltaTime * RotationSpeed).eulerAngles;
-            transform.rotation = Quaternion.Euler(0, Rotation.y, 0);
-            float Angle = Quaternion.Angle(transform.rotation, LookRotation);
-            if (transform.rotation == LookRotation || Angle < 0.6f)
+            if (!Waiting)
             {
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, LookRotation, RotationSpeed);
-                IsRotating = false;
+                Agent.SetDestination(Checkpoint.position);
+                if (Agent.stoppingDistance >= Distance)
+                {
+                    StartCoroutine(SetNextCheckpoint());
+                }
             }
+            Rotate();
         }
     }
 
-    void Patrol()
-    {
-        transform.Translate(Vector3.forward * MoveSpeed * Time.deltaTime);
-    }
-
-    void IncreaseIndex()
+    private void GetNextCheckpoint()
     {
         CheckpointIndex++;
-        if(CheckpointIndex >= Checkpoints.Count)
+        if (CheckpointIndex >= Checkpoints.Length)
         {
             CheckpointIndex = 0;
         }
+    }
+
+    private void Rotate()
+    {
+        Vector3 Dir = Checkpoints[CheckpointIndex].position - transform.position;
+        Quaternion LookRotation = Quaternion.LookRotation(Dir);
+        Vector3 Rotation = Quaternion.Slerp(transform.rotation, LookRotation, Time.deltaTime * RotationSpeed).eulerAngles;
+        transform.rotation = Quaternion.Euler(0, Rotation.y, 0);
+    }
+
+    private Transform Checkpoint 
+    {
+        get { return Checkpoints[CheckpointIndex]; }
+    }
+
+    private float Distance
+    {
+        get { return Vector3.Distance(Checkpoints[CheckpointIndex].position, transform.position); }
+    }
+
+    private IEnumerator SetNextCheckpoint()
+    {
+        Waiting = true;
+        GetNextCheckpoint();
+        yield return new WaitForSeconds(WaitTime);
+        Waiting = false;
+    }
+
+    public void Collision(int Side)
+    {
+        Debug.Log(Side);
+        if (Side == 1)
+            Top();
+        else if (Side <= 6 && Side >= 3)
+            HurtPlayer();
+        else if (Side == 7)
+            DisableEnemy();
+        else if (Side == 8)
+            Top();
+        else if (Side == 9)
+            DisableEnemy();
+    }
+    private void Top()
+    {
+        HitColliders = Physics.OverlapBox(new Vector3(transform.position.x, transform.position.y + 0.8f, transform.position.z), new Vector3(1.25f, 1, 1.25f));
+
+        foreach (Collider Collider in HitColliders)
+        {
+            PlayerScript Player = Collider.GetComponent<PlayerScript>();
+            if (Player != null)
+            {
+                if (Player.IsBodyslamPerforming && !HasBodySlammed)
+                {
+                    HasBodySlammed = true;
+                    Player.StartCoroutine(Player.DownwardsForce());
+                    DisableEnemy();
+                    break;
+                }
+                else
+                {
+                    Bounce(Player);
+                    break;
+                }
+            }
+        }
+    }
+    private void Bounce(PlayerScript Player)
+    {
+        if (Player.Grounded)
+        {
+            Player.IsBounce = true;
+            DisableEnemy();
+        }
+    }
+
+    public void HurtPlayer()
+    {
+        Debug.Log("Player got hit");
+    }
+
+    public void ResetEnemy()
+    {
+        Debug.Log("Reset");
+    }
+
+    public void DisableEnemy()
+    {
+        Debug.Log("Kill enemy");
     }
 }
