@@ -22,7 +22,13 @@ public class SpawnStaticItem : MonoBehaviour
         SpawnBoltType();
     }
 
-    public void SpawnBoltType()
+    public void CheckStaticStatus()
+    {
+        SpawnBoltType();
+        DestroyCheckpointDrones();
+    }
+
+    private void SpawnBoltType()
     {
         foreach (Transform Spawn in SpawnBoltPosition)
         {
@@ -36,7 +42,7 @@ public class SpawnStaticItem : MonoBehaviour
         }
     }
 
-    public void DestroyCheckpointDrones()
+    private void DestroyCheckpointDrones()
     {
         CheckpointDrone[] Drones = GetComponentsInChildren<CheckpointDrone>();
         foreach(CheckpointDrone Drone in Drones)
@@ -44,4 +50,5 @@ public class SpawnStaticItem : MonoBehaviour
             Destroy(Drone.gameObject);
         }
     }
+    
 }

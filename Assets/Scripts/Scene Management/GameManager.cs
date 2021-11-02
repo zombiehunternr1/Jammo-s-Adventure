@@ -149,8 +149,7 @@ public class GameManager : MonoBehaviour
         Player.ResetPlayerMovement();
         ClearItemsContainer();
         ResetCrates();
-        StaticItems.SpawnBoltType();
-        StaticItems.DestroyCheckpointDrones();
+        StaticItems.CheckStaticStatus();
         Player.PlayerModel.SetActive(true);
         IsFadingToBlack = true;
         Player.SkinController.ReturnToNormalEvent();
