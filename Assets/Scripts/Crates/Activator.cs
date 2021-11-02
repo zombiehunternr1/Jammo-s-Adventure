@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Activator : MonoBehaviour, IInteractable
 {
-    public float ActivationSpeed = 1;
+    public float ActivationSpeed;
     public GameObject GhostCrate;
+    public AudioClip ActivatorCrateActivatedSFX;
+    public AudioClip ActivateGhostCratesSFX;
     public List<GameObject> Crates;
 
     [HideInInspector]
@@ -14,10 +16,12 @@ public class Activator : MonoBehaviour, IInteractable
     private Collider[] HitColliders;
     private bool HasBodySlammed;
     private List<GameObject> TempList;
+    private AudioSource AudioSource;
 
     private void Start()
     {
         transform.parent = GameManager.Instance.AllCrateTypes.transform;
+        AudioSource = GetComponent<AudioSource>();
     }
 
     public void DisableCrate()
@@ -128,9 +132,13 @@ public class Activator : MonoBehaviour, IInteractable
     {
         if (!HasActivated)
         {
+            AudioSource.clip = ActivatorCrateActivatedSFX;
+            AudioSource.Play();
             GetComponent<Renderer>().enabled = false;
             HasActivated = true;
-            foreach(GameObject Crate in Crates)
+            yield return new WaitForSeconds(0.7f);
+            AudioSource.clip = ActivateGhostCratesSFX;
+            foreach (GameObject Crate in Crates)
             {
                 int LastChild = Crate.transform.childCount - 1;
                 if (Crate.transform.GetChild(LastChild).gameObject.CompareTag("GhostCrate"))
@@ -138,6 +146,7 @@ public class Activator : MonoBehaviour, IInteractable
                     Crate.transform.GetChild(LastChild).GetComponent<Renderer>().enabled = false;
                     Crate.GetComponent<BoxCollider>().enabled = true;
                     Crate.GetComponentInChildren<Renderer>().enabled = true;
+                    AudioSource.Play();
                     yield return new WaitForSeconds(ActivationSpeed);
                 }
             }
