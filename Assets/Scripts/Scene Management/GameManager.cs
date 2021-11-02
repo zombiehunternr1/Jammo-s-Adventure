@@ -146,6 +146,8 @@ public class GameManager : MonoBehaviour
     private void ResetToStartLevel()
     {
         Booleans.CameraMove = true;
+        Player.GetComponent<Animator>().Play("Movement");
+        Player.GetComponent<CharacterSkinController>().ReturnToNormalEvent();
         Player.ResetPlayerMovement();
         ClearItemsContainer();
         ResetCrates();
@@ -344,6 +346,8 @@ public class GameManager : MonoBehaviour
                 FirstTime = false;
                 IsFadingToBlack = true;
                 EventManager.EnablePlayerMovement();
+                Player.GetComponent<Animator>().Play("Movement");
+                Player.GetComponent<CharacterSkinController>().ReturnToNormalEvent();
                 Player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
                 Player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
                 StopAllCoroutines();

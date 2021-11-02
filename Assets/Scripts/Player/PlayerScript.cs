@@ -139,7 +139,7 @@ public class PlayerScript : MonoBehaviour
         PlayerSpawnPosition = transform.position;
         PlayerOriginalRotation = transform.rotation;
         AnimatorStateMachine RootStateMachine = AnimController.layers[0].stateMachine;
-        AnimatorState StateWithBlendTree = RootStateMachine.states[RootStateMachine.states.Length - 2].state;
+        AnimatorState StateWithBlendTree = RootStateMachine.states[RootStateMachine.states.Length - 3].state;
         LongIdleTree = (BlendTree)StateWithBlendTree.motion;
     }
 
