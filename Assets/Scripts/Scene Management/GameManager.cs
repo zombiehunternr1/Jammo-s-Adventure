@@ -145,6 +145,7 @@ public class GameManager : MonoBehaviour
     }
     private void ResetToStartLevel()
     {
+        Booleans.CameraMove = true;
         Player.ResetPlayerMovement();
         ClearItemsContainer();
         ResetCrates();
@@ -169,7 +170,6 @@ public class GameManager : MonoBehaviour
 
         if (Booleans.IsResetGame)
         {
-            Booleans.IsResetGame = false;
             foreach(ICrateBase Crate in TotalBrokenCrates)
             {
                 Crate.ResetCrate();
@@ -178,6 +178,7 @@ public class GameManager : MonoBehaviour
             {
                 Crate.ResetCrate();
             }
+            Booleans.IsResetGame = false;
         }
         else
         {
@@ -314,7 +315,9 @@ public class GameManager : MonoBehaviour
                     Player.HasExploded = false;
                 }
                 Player.playerInput.SwitchCurrentActionMap("CharacterControls");
-                EventManager.EnablePlayerMovement();
+                Player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+                Player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+                Booleans.CanMove = true;
             }
             else
             {

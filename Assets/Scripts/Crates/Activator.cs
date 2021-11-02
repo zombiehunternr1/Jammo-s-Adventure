@@ -16,10 +16,12 @@ public class Activator : MonoBehaviour, IInteractable
     private Collider[] HitColliders;
     private bool HasBodySlammed;
     private List<GameObject> TempList;
+    private List<GameObject> Original;
     private AudioSource AudioSource;
 
     private void Start()
     {
+        Original = Crates;
         transform.parent = GameManager.Instance.AllCrateTypes.transform;
         AudioSource = GetComponent<AudioSource>();
     }
@@ -87,6 +89,10 @@ public class Activator : MonoBehaviour, IInteractable
 
     public void ResetCrate()
     {
+        if (GameManager.Booleans.IsResetGame)
+        {
+            Crates = Original;
+        }
         DisableCrates();
     }
 
