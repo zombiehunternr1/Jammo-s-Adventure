@@ -665,6 +665,11 @@ public class PlayerScript : MonoBehaviour
         Cap.GetComponent<CapsuleCollider>().center = new Vector3(0, 0.9f, 0);
         Cap.GetComponent<CapsuleCollider>().height = 1.8f;
     }
+
+    private void PlayerDiedEvent()
+    {
+        EventManager.PlayerGotHit();
+    }
     #endregion
 
     #region RigidBody Controls

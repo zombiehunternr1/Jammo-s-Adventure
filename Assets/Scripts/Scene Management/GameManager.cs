@@ -327,6 +327,7 @@ public class GameManager : MonoBehaviour
                 {
                     ResetTillCheckpoint();
                 }
+                Player.GetComponent<CharacterSkinController>().ReturnToNormalEvent();
                 Booleans.CameraMove = true;
                 Player.PlayerModel.SetActive(true);
                 yield return new WaitForSeconds(HoldNextFade);
@@ -347,7 +348,6 @@ public class GameManager : MonoBehaviour
                 IsFadingToBlack = true;
                 EventManager.EnablePlayerMovement();
                 Player.GetComponent<Animator>().Play("Movement");
-                Player.GetComponent<CharacterSkinController>().ReturnToNormalEvent();
                 Player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
                 Player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
                 StopAllCoroutines();

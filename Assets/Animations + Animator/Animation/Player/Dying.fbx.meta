@@ -70,13 +70,6 @@ ModelImporter:
       curves: []
       events:
       - time: 0
-        functionName: DisableMovementEvent
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0
         functionName: DeathEvent
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: bbb6cae19ece4b848b976432ca8b3cfb, type: 3}
@@ -86,7 +79,7 @@ ModelImporter:
       - time: 0.9203354
         functionName: PlayerDiedEvent
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 60ffcd3ff43ce224c9862c292bd227cc, type: 3}
+        objectReferenceParameter: {fileID: 11500000, guid: 91b89b69e6ced744da1632da7d60b90e, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0

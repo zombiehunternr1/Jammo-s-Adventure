@@ -15,11 +15,13 @@ public class Penguin : MonoBehaviour, IEnemyBase
     NavMeshAgent Agent;
     private Collider[] HitColliders;
     private bool HasBodySlammed;
+    private Animator Anim;
 
     private void Start()
     {
         Agent = GetComponent<NavMeshAgent>();
         Agent.stoppingDistance = StoppingDistance;
+        Anim = GetComponent<Animator>();
     }
 
     private void Update()
@@ -75,9 +77,10 @@ public class Penguin : MonoBehaviour, IEnemyBase
 
     public void Collision(int Side)
     {
-        Debug.Log(Side);
         if (Side == 1)
             Top();
+        else if (Side == 0 || Side == 2)
+            HurtPlayer();
         else if (Side <= 6 && Side >= 3)
             HurtPlayer();
         else if (Side == 7)
@@ -122,7 +125,17 @@ public class Penguin : MonoBehaviour, IEnemyBase
 
     public void HurtPlayer()
     {
-        Debug.Log("Player got hit");
+        if(GameManager.Instance.GetComponent<EventListener>().PlayerInfo.ExtraHit != 0)
+        {
+            EventManager.PlayerGotHit();
+            DisableEnemy();
+        }
+        else
+        {
+            GameManager.Booleans.CanMove = false;
+            GameManager.Instance.Player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            GameManager.Instance.Player.GetComponent<Animator>().Play("Dying");
+        }
     }
 
     public void ResetEnemy()
@@ -132,6 +145,6 @@ public class Penguin : MonoBehaviour, IEnemyBase
 
     public void DisableEnemy()
     {
-        Debug.Log("Kill enemy");
+        Anim.Play("Destroy");
     }
 }
