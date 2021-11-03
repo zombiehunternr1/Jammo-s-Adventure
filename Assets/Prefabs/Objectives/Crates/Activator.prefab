@@ -114,9 +114,7 @@ MonoBehaviour:
   GhostCrate: {fileID: 8411811519428083853, guid: 5b3b1d360f1f536448abd5788dfa056a, type: 3}
   ActivatorCrateActivatedSFX: {fileID: 8300000, guid: 1ff017608becee34880daea02edc0f14, type: 3}
   ActivateGhostCratesSFX: {fileID: 8300000, guid: 50f4122eace94f1498b3f121b81440ff, type: 3}
-  Crates:
-  - {fileID: 0}
-  - {fileID: 0}
+  Crates: []
   HasBounced: 0
 --- !u!82 &243002333740294163
 AudioSource:

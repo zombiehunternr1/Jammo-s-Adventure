@@ -90,6 +90,8 @@ public class Penguin : MonoBehaviour, IEnemyBase
             Top();
         else if (Side == 9)
             DisableEnemy();
+        else if (Side == 10)
+            DisableEnemy();
     }
     private void Top()
     {

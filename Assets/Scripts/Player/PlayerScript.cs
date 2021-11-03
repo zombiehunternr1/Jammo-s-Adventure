@@ -280,7 +280,6 @@ public class PlayerScript : MonoBehaviour
                     {
                         EnemeyType.Collision((int)ReturnDirection(gameObject, Col.gameObject));
                     }
-
                 }
                 GroundPoundEnd();
             }

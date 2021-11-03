@@ -47,6 +47,11 @@ public class Explosion : MonoBehaviour
                     }
                 }
             }
+            IEnemyBase Enemy = (IEnemyBase)Hit.gameObject.GetComponent(typeof(IEnemyBase));
+            if(Enemy != null)
+            {
+                Enemy.Collision(Side);
+            }
         }
     }
 
