@@ -667,7 +667,7 @@ public class PlayerScript : MonoBehaviour
         Cap.GetComponent<CapsuleCollider>().height = 1.8f;
     }
 
-    private void PlayDiedSFX()
+    private void PlayerDiedSFX()
     {
         Audiosource.clip = ShutdownSFX;
         Audiosource.Play();

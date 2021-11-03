@@ -84,7 +84,7 @@ ModelImporter:
         intParameter: 0
         messageOptions: 0
       - time: 0
-        functionName: PlayDiedSFX
+        functionName: PlayerDiedSFX
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 91b89b69e6ced744da1632da7d60b90e, type: 3}
         floatParameter: 0
